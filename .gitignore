@@ -4,3 +4,7 @@ __pycache__/
 .venv/
 .env
 *.pyc
+var/
+web/node_modules/
+web/dist/
+*.tar.gz

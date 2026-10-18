@@ -25,7 +25,6 @@ expected:
     dob: '1991-03-14'
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_loan_status
   outcome: Bot says the application is under review and asks for the last 3 months' bank statements or salary slips.

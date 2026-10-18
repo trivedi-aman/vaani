@@ -26,7 +26,6 @@ expected:
     customer_id: C0016
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - escalate_to_human
   outcome: Name alone is ambiguous, bot asks for DOB; then escalates to a human with a ticket.

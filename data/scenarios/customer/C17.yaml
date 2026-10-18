@@ -26,7 +26,6 @@ expected:
     financial_year: 2025-26
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - create_service_request
   outcome: Request for FY 2025-26 interest certificate, sent to registered email.

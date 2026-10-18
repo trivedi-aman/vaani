@@ -23,7 +23,6 @@ expected:
     customer_id: C0013
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_loan_status
   - create_service_request

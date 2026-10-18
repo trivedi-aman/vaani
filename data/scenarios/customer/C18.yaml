@@ -25,7 +25,6 @@ expected:
     customer_id: C0018
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_loan_status
   - escalate_to_human

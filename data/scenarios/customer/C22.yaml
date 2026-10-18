@@ -26,9 +26,8 @@ expected:
     ticket_id: TK100151
   tools:
   - verify_customer
-  - send_otp
   - check_otp
-  - raise_complaint
+  - check_ticket
   - escalate_to_human
   outcome: Bot finds TK100151, sees three follow-ups, escalates and gives a reference.
 difficulty: medium

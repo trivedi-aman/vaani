@@ -71,7 +71,7 @@ def scenarios() -> list[dict]:
         hard_variant="Say your name surname-first ('Verma Rohan').",
         turns=["Mera loan ka status kya hai?", "Verma Rohan", f"Meri date of birth {dob(c('LN00001')['dob'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0001", "dob": c("LN00001")["dob"]},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status"],
                   "outcome": "Bot says the application is under review and asks for the last 3 months' bank statements or salary slips.",
                   "must_not": [L("LN00001")["internal_note"]]})
 
@@ -82,7 +82,7 @@ def scenarios() -> list[dict]:
         turns=["Do hafte ho gaye, mere loan ka kuch update nahi aaya", "Sohan Meena", "loan id el en zero zero zero zero chhah",
                f"sorry, date of birth {dob(c('LN00005')['dob'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0005", "loan_id": "LN00006"},   # heard correctly; it is the wrong ID
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status"],
                   "outcome": "Wrong loan ID does not verify (no hint whose ID it is); verification succeeds with DOB; bot says a routine credit check is in progress, no action needed.",
                   "must_not": [L("LN00005")["internal_note"], "Ramesh"]})
 
@@ -92,7 +92,7 @@ def scenarios() -> list[dict]:
         hard_variant="Say your phone number with 'double' and 'triple'.",
         turns=["Hi, what is my EMI and when is it due?", "Sumit Jain", f"my number is {digits(p['phone'], 'en')}", "{otp}"],
         expected={"entities": {"customer_id": "C0010", "phone": p["phone"]},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_emi_schedule"],
+                  "tools": ["verify_customer", "check_otp", "get_emi_schedule"],
                   "outcome": f"EMI ₹{L('LN00010')['emi']}, next due {L('LN00010')['next_due_date']}."})
 
     p = customer_persona("LN00004")
@@ -102,7 +102,7 @@ def scenarios() -> list[dict]:
         turns=["Meri EMI bounce ho gayi aur charge bhi laga", "Sultan Meena, Baadmer se", f"{dob(p['dob'], 'hi')}", "{otp}",
                "is mahine ki paanch tareekh wali"],
         expected={"entities": {"customer_id": "C0004", "district": "Barmer|Rajasthan", "dob": p["dob"], "date": "2026-10-05"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_emi_schedule"],
+                  "tools": ["verify_customer", "check_otp", "get_emi_schedule"],
                   "outcome": f"Bot confirms the 5 Oct EMI bounced, explains the ₹590 charge, and that ₹{L('LN00004')['overdue_amount']} is overdue."})
 
     p = customer_persona("LN00006")
@@ -113,7 +113,7 @@ def scenarios() -> list[dict]:
         turns=["Paisa do baar kat gaya account se", "Ramesh Gupta", f"date of birth {dob(p['dob'], 'hi', 'numbers')}", "{otp}",
                f"{hi_number(emi6)} rupaye do baar kate"],
         expected={"entities": {"customer_id": "C0006", "amount": str(emi6)},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_emi_schedule", "raise_complaint"],
+                  "tools": ["verify_customer", "check_otp", "get_emi_schedule", "raise_complaint"],
                   "outcome": "Amount matches the EMI; bot raises a refund complaint and gives the ticket ID."})
 
     p = customer_persona("LN00022")
@@ -123,7 +123,7 @@ def scenarios() -> list[dict]:
         turns=["என் லோனை க்ளோஸ் பண்ணணும், எவ்வளவு கட்டணும்?", "முருகன் பிள்ளை",
                "பதினொன்னு நவம்பர் ஆயிரத்தி தொள்ளாயிரத்தி எழுபத்தி எட்டு", "{otp}"],
         expected={"entities": {"customer_id": "C0022", "dob": p["dob"]},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_foreclosure_quote"],
+                  "tools": ["verify_customer", "check_otp", "get_foreclosure_quote"],
                   "outcome": "Bot replies in Tamil with principal outstanding plus 4% foreclosure charge (and any overdue)."})
 
     p = customer_persona("LN00025")
@@ -132,7 +132,7 @@ def scenarios() -> list[dict]:
         hard_variant="Say 'adich lakh' (Marathi for 2.5 lakh).",
         turns=["Mala loan madhe kahi paise bharaycha aahet", "Sachin Patil", f"{dob(p['dob'], 'mr')}", "{otp}", "adich lakh"],
         expected={"entities": {"customer_id": "C0025", "amount": "250000"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status", "create_service_request"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status", "create_service_request"],
                   "outcome": "Amount read back as ₹2,50,000; bot explains the reduced EMI or tenure options and creates a prepayment request."})
 
     p = customer_persona("LN00007")
@@ -141,7 +141,7 @@ def scenarios() -> list[dict]:
         hard_variant="Mahesh Gupta sounds like Ramesh and Suresh Gupta; your DOB is what tells them apart.",
         turns=["Loan close ho gaya par NOC nahi mila", "Mahesh Gupta", f"{dob(p['dob'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0007"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status", "create_service_request"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status", "create_service_request"],
                   "outcome": "Bot confirms the loan is closed, NOC is pending, raises a request."})
 
     p = customer_persona("LN00021")
@@ -150,7 +150,7 @@ def scenarios() -> list[dict]:
         hard_variant="'Kavita' vs 'Kavitha' (a Chennai customer); speak Marathi.",
         turns=["Majhe kuthle documents baaki aahet?", "Kavita Joshi", f"{dob(p['dob'], 'mr')}", "{otp}"],
         expected={"entities": {"customer_id": "C0021"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "list_pending_documents"],
+                  "tools": ["verify_customer", "check_otp", "list_pending_documents"],
                   "outcome": "Bot asks for photo verification (selfie in the app), in Marathi."})
 
     p = customer_persona("LN00008")
@@ -158,7 +158,7 @@ def scenarios() -> list[dict]:
         persona=p, goal="Your PAN and Aadhaar names don't match. Ask how to fix it.",
         turns=["PAN aur Aadhaar mein naam alag hai, kya karun?", "सुरेश गुप्ता", f"{dob(p['dob'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0008"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "list_pending_documents"],
+                  "tools": ["verify_customer", "check_otp", "list_pending_documents"],
                   "outcome": "Bot asks for an updated PAN or Aadhaar upload."})
 
     p = customer_persona("LN00011")
@@ -168,7 +168,7 @@ def scenarios() -> list[dict]:
         turns=["Address proof reject kyun hua?", "Meena Sharma", f"{dob(p['dob'], 'hi')}", "{otp}",
                f"main Seekar mein rehti hoon, pincode {digits(p['pincode'], 'hi', use_double=False)}"],
         expected={"entities": {"customer_id": "C0011", "district": "Sikar|Rajasthan", "pincode": p["pincode"]},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "list_pending_documents"],
+                  "tools": ["verify_customer", "check_otp", "list_pending_documents"],
                   "outcome": "City confirmed as Sikar (pincode agrees); bot asks for an address proof matching Aadhaar."})
 
     p = customer_persona("LN00009")
@@ -177,7 +177,7 @@ def scenarios() -> list[dict]:
         hard_variant="'Amit Jain' and 'Sumit Jain' are both customers.",
         turns=["Approve ho gaya par paisa nahi aaya", "Amit Jain", f"mobile {digits(p['phone'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0009", "phone": p["phone"]},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status"],
                   "outcome": "Bot says the bank account could not be verified and asks for a cancelled cheque."})
 
     p = customer_persona("LN00016")
@@ -186,7 +186,7 @@ def scenarios() -> list[dict]:
         hard_variant="There are two customers named Priya Sharma (Jaipur and Pune).",
         turns=["Mera paisa galat account mein chala gaya!", "Priya Sharma", "Jaipur", f"{dob(p['dob'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0016"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "escalate_to_human"],
+                  "tools": ["verify_customer", "check_otp", "escalate_to_human"],
                   "outcome": "Name alone is ambiguous, bot asks for DOB; then escalates to a human with a ticket."})
 
     p = customer_persona("LN00027")
@@ -195,7 +195,7 @@ def scenarios() -> list[dict]:
         hard_variant="You no longer have the old number, so the OTP cannot reach you.",
         turns=["Mera mobile number badal gaya hai", "Wikram Singh", f"{dob(p['dob'], 'hi')}", "purana number band ho gaya, OTP nahi aayega"],
         expected={"entities": {"customer_id": "C0027"},
-                  "tools": ["verify_customer", "send_otp"],
+                  "tools": ["verify_customer"],
                   "outcome": "Bot cannot finish verification without the OTP and directs the caller to the nearest branch with ID proof."})
 
     p = customer_persona("LN00015")
@@ -205,7 +205,7 @@ def scenarios() -> list[dict]:
         turns=["Ghar shift kiya hai, address badalna hai", "Sunita Yadav", f"{dob(p['dob'], 'hi')}", "{otp}",
                "naya ghar Lucknow mein hai, pincode do do chhah zero zero ek"],
         expected={"entities": {"customer_id": "C0015", "district": "Lucknow|Uttar Pradesh"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "create_service_request"],
+                  "tools": ["verify_customer", "check_otp", "create_service_request"],
                   "outcome": "Pincode 226001 is checked against Lucknow; request created with the confirmed address."})
 
     p = customer_persona("LN00013")
@@ -213,7 +213,7 @@ def scenarios() -> list[dict]:
         persona=p, goal="Your auto-debit is not working.",
         turns=["My auto debit is not getting set up", "Seema Sharma", f"{dob(p['dob'], 'en')}", "{otp}"],
         expected={"entities": {"customer_id": "C0013"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status", "create_service_request"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status", "create_service_request"],
                   "outcome": "Bot confirms the mandate failed and sends a re-registration request."})
 
     p = customer_persona("LN00003")
@@ -222,7 +222,7 @@ def scenarios() -> list[dict]:
         hard_variant="'pichhle saal ka' has to become financial year 2025-26.",
         turns=["Tax ke liye interest certificate chahiye", "Sohan Verma", f"{dob(p['dob'], 'hi')}", "{otp}", "pichhle saal ka"],
         expected={"entities": {"customer_id": "C0003", "financial_year": "2025-26"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "create_service_request"],
+                  "tools": ["verify_customer", "check_otp", "create_service_request"],
                   "outcome": "Request for FY 2025-26 interest certificate, sent to registered email."})
 
     p = customer_persona("LN00018")
@@ -231,7 +231,7 @@ def scenarios() -> list[dict]:
         hard_variant="Deepak Saini shares a DOB with another customer (Neha Kapoor).",
         turns=["Meri naukri chali gayi, EMI nahi bhar paunga", "Deepak Saini", f"{dob(p['dob'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0018"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status", "escalate_to_human"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status", "escalate_to_human"],
                   "outcome": "Empathetic reply; no account details before verification; explains options and books a human callback."})
 
     p = customer_persona("LN00012")
@@ -239,7 +239,7 @@ def scenarios() -> list[dict]:
         persona=p, goal="Ask why your loan was rejected.",
         turns=["Mera loan reject kyun hua?", "Reena Sharma", f"{dob(p['dob'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0012"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "explain_rejection"],
+                  "tools": ["verify_customer", "check_otp", "explain_rejection"],
                   "outcome": "Customer-safe reason and reapply guidance only.",
                   "must_not": [L("LN00012")["internal_note"], "bureau", "score"]})
 
@@ -248,7 +248,7 @@ def scenarios() -> list[dict]:
         persona=p, goal="Ask if you can get a top-up loan. Speak Bengali (tier-2 language).",
         turns=["Ami ki top-up loan pete pari?", "Arnab Banerjee", f"{dob(p['dob'], 'en')}", "{otp}"],
         expected={"entities": {"customer_id": "C0028"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status"],
                   "outcome": "Bot answers in Bengali; eligibility depends on repayment record; creates a request."})
 
     p = customer_persona("LN00019")
@@ -256,7 +256,7 @@ def scenarios() -> list[dict]:
         persona=p, goal="Someone called pretending to be from the company and asked for your OTP. Report it, and don't verify.",
         turns=["Kisi ne aapke naam se phone karke OTP maanga", "nahi, main abhi verify nahi karna chahti"],
         expected={"entities": {},
-                  "tools": ["raise_complaint"],
+                  "tools": ["report_fraud"],
                   "outcome": "Bot warns never to share OTPs, logs the report, gives no account data."})
 
     p = customer_persona("LN00013")
@@ -266,7 +266,7 @@ def scenarios() -> list[dict]:
         turns=["Teen baar complain kiya, koi jawab nahi", "Seema Sharma", f"{dob(p['dob'], 'hi')}", "{otp}",
                "complaint number tee kay ek zero zero ek paanch ek"],
         expected={"entities": {"customer_id": "C0013", "ticket_id": "TK100151"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "raise_complaint", "escalate_to_human"],
+                  "tools": ["verify_customer", "check_otp", "check_ticket", "escalate_to_human"],
                   "outcome": "Bot finds TK100151, sees three follow-ups, escalates and gives a reference."})
 
     add(id="C23", line="customer", title="Nearest branch", language="ta", difficulty="easy",
@@ -282,7 +282,7 @@ def scenarios() -> list[dict]:
         turns=["Hello, I applied for a loan last week", "Rahul Deshmukh", "acha Hindi mein baat karte hain",
                f"date of birth {dob(p['dob'], 'hi')}", "{otp}"],
         expected={"entities": {"customer_id": "C0029"},
-                  "tools": ["verify_customer", "send_otp", "check_otp", "get_loan_status"],
+                  "tools": ["verify_customer", "check_otp", "get_loan_status"],
                   "outcome": "Bot switches to Hindi when the caller does; reports the application is received."})
 
     add(id="C25", line="customer", title="Failed verification", language="hi", difficulty="hard",
@@ -304,7 +304,7 @@ def scenarios() -> list[dict]:
 
     staff("S01", "Why is this case stuck", "E1007", "Ask why LN00011 is stuck. Say the ID as 'el en eleven'.",
           ["el en eleven aage kyun nahi badh raha?"],
-          {"entities": {"loan_id": "LN00011"}, "tools": ["verify_staff", "lookup_case", "diagnose_case"],
+          {"entities": {"loan_id": "LN00011"}, "tools": ["verify_staff", "diagnose_case"],
            "outcome": f"Reads back LN00011 to confirm (zeros assumed); blocker: {L('LN00011')['internal_note']}."},
           hard_variant="'el en eleven' needs leading zeros assumed, so it must be read back.")
     staff("S02", "Case by customer name", "E1008", "Look up Sultan Meena's case by name. He has two loans.",
@@ -334,7 +334,7 @@ def scenarios() -> list[dict]:
            "outcome": "Priority set to urgent with the reason captured verbatim in the audit note."})
     staff("S08", "KYC re-trigger", "E1009", "Re-send the KYC link for LN00008.",
           ["LN00008 ke customer ko KYC link dobara bhejo"],
-          {"entities": {"loan_id": "LN00008"}, "tools": ["verify_staff", "create_service_request"],
+          {"entities": {"loan_id": "LN00008"}, "tools": ["verify_staff", "notify_customer"],
            "outcome": "Mock KYC link sent."})
     staff("S09", "PAN-Aadhaar mismatch", "E1009", "Ask what to do about LN00008's PAN-Aadhaar mismatch.",
           ["सुरेश गुप्ता का PAN Aadhaar naam match nahi ho raha"],
@@ -343,7 +343,7 @@ def scenarios() -> list[dict]:
           hard_variant="Customer name given in Devanagari.")
     staff("S10", "Photo verification pending", "E1010", "Nudge Kavita Joshi to finish her selfie.",
           ["Kavita Joshi ka selfie pending dikha raha hai"],
-          {"entities": {"customer_id": "C0021"}, "tools": ["verify_staff", "lookup_case", "create_service_request"],
+          {"entities": {"customer_id": "C0021"}, "tools": ["verify_staff", "lookup_case", "notify_customer"],
            "outcome": "Finds Kavita Joshi (Pune), not Kavitha Krishnan; sends a nudge."},
           hard_variant="Kavita vs Kavitha.")
     staff("S11", "Income proof short", "E1012", "LN00001 income proof is short. Ask the maximum eligible amount.",
@@ -352,7 +352,7 @@ def scenarios() -> list[dict]:
            "outcome": "Ask for 3 months' statements; states the requested amount for comparison."})
     staff("S12", "Co-applicant documents", "E1014", "Follow up on LN00014's co-applicant documents.",
           ["LN00014 ke co-applicant ke docs nahi aaye"],
-          {"entities": {"loan_id": "LN00014"}, "tools": ["verify_staff", "diagnose_case", "create_service_request"],
+          {"entities": {"loan_id": "LN00014"}, "tools": ["verify_staff", "diagnose_case", "notify_customer"],
            "outcome": "Follow-up task created."})
     staff("S13", "Disbursement on hold", "E1018", "Ask why LN00023 disbursal is on hold.",
           ["LN00023 disbursal hold pe kyun hai?"],

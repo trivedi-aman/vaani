@@ -26,7 +26,6 @@ expected:
     phone: '9297738467'
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_loan_status
   outcome: Bot says the bank account could not be verified and asks for a cancelled cheque.

@@ -1,0 +1,28 @@
+{
+	# no admin API on a public box
+	admin off
+}
+
+{$DOMAIN} {
+	encode zstd gzip
+
+	request_body {
+		max_size 64KB
+	}
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		-Server
+	}
+
+	# Caddy appends the real client IP to X-Forwarded-For; the app reads the
+	# right-most entry, so a spoofed header from the client is ignored.
+	reverse_proxy 127.0.0.1:7860 {
+		header_up -X-Real-IP
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

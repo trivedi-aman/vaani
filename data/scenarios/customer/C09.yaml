@@ -24,7 +24,6 @@ expected:
     customer_id: C0021
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - list_pending_documents
   outcome: Bot asks for photo verification (selfie in the app), in Marathi.

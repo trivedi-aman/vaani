@@ -19,6 +19,5 @@ expected:
     loan_id: LN00011
   tools:
   - verify_staff
-  - lookup_case
   - diagnose_case
   outcome: 'Reads back LN00011 to confirm (zeros assumed); blocker: Address proof does not match Aadhaar address.'

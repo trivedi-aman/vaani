@@ -26,7 +26,6 @@ expected:
     amount: '14060'
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_emi_schedule
   - raise_complaint

@@ -20,5 +20,5 @@ expected:
   tools:
   - verify_staff
   - lookup_case
-  - create_service_request
+  - notify_customer
   outcome: Finds Kavita Joshi (Pune), not Kavitha Krishnan; sends a nudge.

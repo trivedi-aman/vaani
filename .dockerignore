@@ -1,0 +1,13 @@
+.git
+.venv
+.env
+**/__pycache__
+.pytest_cache
+.ruff_cache
+var
+web/node_modules
+web/dist
+eval
+tests
+scripts
+*.tar.gz

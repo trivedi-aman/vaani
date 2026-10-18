@@ -26,7 +26,6 @@ expected:
     district: Lucknow|Uttar Pradesh
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - create_service_request
   outcome: Pincode 226001 is checked against Lucknow; request created with the confirmed address.

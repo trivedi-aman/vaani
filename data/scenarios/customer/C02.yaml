@@ -27,7 +27,6 @@ expected:
     loan_id: LN00006
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_loan_status
   outcome: Wrong loan ID does not verify (no hint whose ID it is); verification succeeds with DOB; bot says a routine

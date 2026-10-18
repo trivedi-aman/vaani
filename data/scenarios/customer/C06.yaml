@@ -25,7 +25,6 @@ expected:
     dob: '1978-11-11'
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_foreclosure_quote
   outcome: Bot replies in Tamil with principal outstanding plus 4% foreclosure charge (and any overdue).

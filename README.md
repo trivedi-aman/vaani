@@ -6,77 +6,141 @@ Hinglish, Indian English, Marathi, Tamil and other Indian languages. The
 focus is getting the facts right: names, dates, numbers, loan IDs and
 places, heard through noisy speech-to-text.
 
-**Status: step 1 of 7 done** — data, scenarios and the identification core,
-all testable offline with no API keys. The agent (LangGraph + Amazon Nova on
-Bedrock), voice (Sarvam STT/TTS via Pipecat) and the phone-simulator
-frontend come next. The full design is in the project spec.
+Testers use a simulated phone in the browser (no real telephony, so the TRAI
+rules on automated calling don't apply), pick one of 50 scenarios, get a
+made-up identity, and call. A panel beside the phone shows every value as it
+is heard, normalised, matched and scored.
 
-## Run it
-
-```
-pip install -r requirements.txt
-python -m pytest                  # 139 tests, ~15 s
-python -m eval.matchers           # matcher comparison -> eval/results/matchers.md
-python -m eval.scenario_entities  # can every scenario's facts be recovered?
-```
-
-## The core idea
-
-The LLM only *finds* an entity in what the caller said. Deterministic code
-normalises it, matches it and scores it, and returns one of three actions:
-**accept**, **read back** ("Maine suna 23 April 1987, sahi hai?") or **ask
-again**. The LLM never decides that a DOB matched or a name is close enough.
-
-```
-heard ──► normalised ──► matched ──► confidence ──► accept / read back / ask again
-"teis April unnees      1987-04-23   exact      high
- sau sattaasi"
-"Baadmer"               baadmer      Barmer 0.60 high
-"el en eleven"          LN00011      exact      medium  (zeros assumed)
-"Bangalore"             bangalore    Bengaluru 0.00, Mangalore 0.45   medium
-```
-
-## What's in `identify/`
-
-| Module | Does |
+| Part | Built with |
 | --- | --- |
-| `translit.py` | Devanagari and Tamil script → phonetic Roman, with Hindi schwa deletion (मोहन → mohan, बाड़मेर → baaṛmer) and Tamil voicing rules (முருகன் → murugan) |
-| `phonetic.py` | Sound-weighted edit distance. Each sound has articulatory features; swapping similar sounds is cheap (Barmer/Baadmer 0.6), different ones expensive (Mohan/Rohan 1.7). Indian-specific confusions live in `data/reference/confusions.csv` |
-| `numbers.py` | Spoken numbers in English, Hindi, Marathi and Tamil, Roman or native script. Digit strings ("nine eight double six"), values ("do lakh pachaas hazaar", "dhai lakh", "adich lakh") and years ("unnees sau sattaasi", "aayiratti tollaayiratti enbatti ezhu") |
-| `dates.py` | DOBs in any spoken form; relative dates ("pichhle mahine ki paanch tareekh", "nethu", "3 din pehle"); financial years ("pichhle saal ka" → 2025-26). Hindi "kal" (yesterday *or* tomorrow) is reported as ambiguous unless the tense is known |
-| `ids.py` | Phone, pincode, OTP, PIN, loan ID (LN + 5), employee ID (E + 4), ticket ID (TK + 6). Leading zeros are assumed but flagged; a near-miss loan ID is offered back, never accepted |
-| `resolve.py` | Name and district matching with confidence levels; pincode cross-checks the district; city aliases (Trichy, Bangalore, Bombay) |
+| Speech-to-text, text-to-speech | Sarvam (Saaras v4, Bulbul v3), 10 Indian languages + English, code-mixing |
+| Agent | LangGraph tool-calling loop on Amazon Nova 2 Lite (Bedrock) |
+| Real-time voice | Pipecat over WebRTC: voice activity detection, turn-taking, barge-in |
+| Identification core | Our own: transliteration, phonetic matching, spoken numbers and dates (`identify/`) |
+| Frontend | React + Vite phone simulator and live panel (`web/`) |
 
-## Data
+## Run it locally
 
-All records are synthetic; no real customer data exists anywhere in the
-project. The parts that matter for matching are real:
+You need Python 3.12+, Node 20+, and AWS credentials with Bedrock access to
+Nova 2 Lite (`aws configure`, or `AWS_*` variables in your shell).
 
-- **Reference** (`data/reference/`): 19,486 India Post pincodes across 745
-  districts (from India Post's directory via the `indiapins` package, built
-  by `scripts/build_reference.py`); 241 Indian names with Devanagari and
-  Tamil spellings; city aliases.
-- **Generated** (`data/generated/`, `scripts/generate_data.py`, seeded and
-  reproducible): 300 customers, 341 loans across nine stages, 3,978 EMI rows,
-  151 tickets, 20 staff, 202 branches. Pincode, district and state always
-  agree.
-- **Planted traps**: Rohan/Mohan/Sohan Verma; Ramesh/Mahesh/Suresh Gupta;
-  Amit/Sumit Jain; two Priya Sharmas in different cities; two customers
-  sharing a DOB; Kavita (Pune) and Kavitha (Chennai); customers in Barmer,
-  Sikar and Sagar.
-- **Scenarios** (`data/scenarios/`): 25 customer and 25 staff scenarios,
-  each tied to a real record, with caller lines as STT returns them (Roman
-  Hinglish, Devanagari, Tamil script, numbers as words) and expected values,
-  tools and outcome.
+```bash
+python -m venv .venv && . .venv/bin/activate
+pip install -r requirements-dev.txt
+cp .env.example .env              # add SARVAM_API_KEY for voice; leave it empty for typing-only
+cd web && npm ci && npm run build && cd ..
+python -m server                  # http://localhost:7860
+```
 
-Every customer's DOB and phone number is spoken in English, Hindi, Marathi
-and Tamil and parsed back in the tests: 1,500 DOB and 1,200 phone round
-trips, all passing.
+Without `SARVAM_API_KEY` the app runs in typing mode: same agent, same tools,
+same panel. For frontend work, run `npm run dev` in `web/` (port 5173,
+forwards `/api` to the Python server).
 
-## Results
+To host it for an interviewer, see [deploy/EC2.md](deploy/EC2.md): one EC2
+instance, Docker, Caddy for HTTPS on a free `sslip.io` hostname.
 
-Matcher comparison (`eval/results/matchers.md`), names against all 300
-customers and places against all 745 districts:
+## How it works
+
+```
+browser mic ─WebRTC─► Sarvam STT ─► turn detection (Silero VAD) ─► LangGraph agent ─► Sarvam TTS ─WebRTC─► speaker
+                                                                     │
+                                         gate ─► Nova ─► tools ─► gate ─► ... ─► reply
+                                                           │
+                                     identification core (code, not the LLM) + data store
+```
+
+**The LLM finds; code decides.** Nova picks out what the caller said
+("teis April unnees sau sattaasi") and passes those exact words to a tool.
+The tool normalises, matches and scores it, and tells the agent to accept,
+read back ("Maine suna 23 April 1987, sahi hai?") or ask again. Nova never
+decides that a DOB matched or a name is close enough.
+
+```
+heard                         normalised    matched                                  confidence
+"teis April unnees sau sattaasi" 1987-04-23 exact                                    high
+"Baadmer"                     baadmer       Barmer 0.60 (Bidar 2.75)                 high
+"el en eleven"                LN00011       exact, zeros assumed                     medium → read back
+"Bangalore"                   bangalore     Bengaluru 0.00, Mangalore 0.45           medium → read back
+```
+
+**Who may see what is decided in code.** Each call has a session holding
+who the caller is proven to be. Before verification a customer can only
+verify, find a branch, report fraud or ask for a callback. Account tools
+appear only after name + DOB/mobile/loan ID **and** an OTP to the registered
+mobile (shown on the simulated phone as an SMS). Staff log in with employee
+ID + PIN, and their role decides their tools. Tools read identity from the
+session, never from the model's arguments, so nothing a caller says to the
+model can make it act for someone else. A final check stops internal notes
+from ever being spoken to a customer.
+
+## What's where
+
+| Folder | Contents |
+| --- | --- |
+| `identify/` | Transliteration (Devanagari, Tamil → phonetic Roman), phoneme-weighted matching, spoken numbers (en/hi/mr/ta), dates and relative dates, IDs, confidence |
+| `agent/` | LangGraph graph, 25 tools with access rules, prompts, Bedrock model |
+| `voice/` | Pipecat pipeline: Sarvam STT/TTS, VAD, agent bridge, reply-language switching, call limits |
+| `server/` | FastAPI: calls, WebRTC signalling, typing mode, live events, rate limits, security headers |
+| `core/` | Settings, data store, call sessions and OTPs, PII masking, audit log |
+| `web/` | The phone simulator, scenario drawer and "under the hood" panel |
+| `data/` | India Post reference data, synthetic NBFC data, 50 scenarios |
+| `eval/` | Matcher comparison, scenario checks, live scenario runner |
+| `deploy/` | EC2 guide, Caddyfile |
+
+## Security and cost controls
+
+All on by default. Settings are in `.env.example`.
+
+- **Access:** an access code is needed to start calls. Production refuses to
+  start without one (8+ characters) and without real host names.
+- **Per-call tokens:** each call gets a random bearer token. The WebRTC
+  connection, its ICE updates and the event stream are bound to the call
+  that created them.
+- **Verification:** OTPs are random, stored only as salted hashes, expire in
+  5 minutes, and allow 3 tries. Three failed verifications lock the call.
+  At most 3 OTPs are sent per call. Failure messages never say which detail
+  was wrong.
+- **Rate limits:** requests per IP, new calls per IP per hour, open calls per
+  IP, access-code attempts, typed messages per call, WebRTC offers. There
+  is also a daily call budget for everyone.
+- **Cost caps:** concurrent voice calls (also keeps within Sarvam limits),
+  call length, silence timeout, turns per call, agent steps per turn,
+  records created per call. Bedrock calls retry with adaptive back-off and
+  time out.
+- **Hardening:** strict CSP and security headers, trusted hosts, request
+  size limits, no stack traces in responses, no API docs in production.
+  The container runs non-root on a read-only filesystem with all
+  capabilities dropped.
+- **Data:** logs and the audit trail mask phone numbers, dates of birth,
+  OTPs and PINs. AWS credentials are never in the app's config: an IAM role
+  on EC2, or your local AWS profile. All customer data is synthetic.
+
+What a demo still trusts: the OTP is shown in the browser (there is no real
+SMS), and data written during calls lives in memory until restart.
+
+## Testing
+
+```bash
+python -m pytest                     # 175 tests, ~20 s, no API keys needed
+python -m eval.matchers              # matcher comparison -> eval/results/matchers.md
+python -m eval.scenario_entities     # every expected value recoverable from the caller's words?
+python -m eval.run_scenarios         # all 50 scenarios against live Nova (needs AWS)
+```
+
+The tests cover:
+- the identification core
+- data consistency, and every customer's DOB and phone spoken in four
+  languages and parsed back
+- access rules (tools refused before verification, roles, lockouts, OTP
+  limits, sound-alike impostors)
+- the agent loop with a scripted model, including model failure and turn
+  limits
+- the server's limits and headers
+
+## Results so far
+
+Matcher comparison: names against all 300 customers, places against all
+745 districts.
 
 | Test set | Items | Levenshtein | Metaphone | Phoneme |
 | --- | --- | --- | --- | --- |
@@ -86,38 +150,30 @@ customers and places against all 745 districts:
 | Rule-made spelling variants, names | 246 | 99.6% | 96.3% | 100% |
 | Rule-made spelling variants, places | 170 | 97.6% | 90.0% | 100% |
 
-On 200 callers who are **not** customers, the phoneme matcher asked again
-for 194, read back 5, and wrongly gave high confidence to 1 ("Raman Patil"
-matched customer "Raman Patel"). That one is why a name alone never
-verifies anyone: the caller must also match DOB or phone, then an OTP.
+For 200 callers who are not customers, the phoneme matcher asked again for
+194, read back 5, and wrongly gave high confidence to 1 ("Raman Patil" for
+customer "Raman Patel").
 
 **Read these numbers with care:**
 
-- The rule-made variants use the same confusions the phoneme matcher was
-  designed around, so that set flatters it. The hand-written and
-  native-script sets are the fairer tests.
-- After the first run I fixed two misses on the hand-written set (an
-  "aw" spelling rule that broke Tawang, and the Hindi alias Lakhnau for
-  Lucknow). Those sets are therefore not fully held out. The real test is
-  the audio evaluation in a later step, with recordings of real people.
-- The confidence thresholds are conservative on purpose: about a quarter of
-  correct name matches still get a read-back or a re-ask. In lending,
-  verifying the wrong person costs far more than one extra question.
+- The rule-made variants use the confusions the phoneme matcher was designed
+  around, so that set flatters it.
+- Two misses on the hand-written set were fixed after the first run, so it
+  is not fully held out.
+- Different people can sound almost the same (Anil Patel and Anil Patil score
+  0.35 apart), and a native-script spelling of a name can drift past 3.
+  That is why the name is only a consistency check: the exact identifier
+  plus the OTP is what verifies a caller.
+- The live scenario run (`eval/run_scenarios.py`) has not been run yet,
+  because it needs Bedrock access.
 
 ## Known gaps
 
-- The Marathi number table was written from standard references and still
-  needs checking by a native speaker.
-- Hindi "agle somvar" said on a Sunday is read as tomorrow; usage varies.
-- District matching takes about 30 ms per call against 780 names, fine for
-  a voice turn, but it is plain Python.
-
-## Layout
-
-```
-identify/   the identification core (no network, no API keys)
-data/       reference data, generated data, 50 scenarios
-scripts/    builders for reference data, data and scenarios; speak.py renders values as callers say them
-eval/       matcher comparison, scenario recoverability check
-tests/      unit tests and data-consistency tests
-```
+- Not yet tested with live Bedrock and Sarvam keys, or with real recordings
+  of callers. The voice pipeline is built and wired, but not heard end to end.
+- The Marathi number words need checking by a native speaker.
+- One server process: sessions, rate limits and call-created records live in
+  memory. More than one instance would need Redis and a database behind the
+  same interfaces.
+- Callers on networks that block UDP need a TURN relay (`TURN_URL`) or
+  typing mode.

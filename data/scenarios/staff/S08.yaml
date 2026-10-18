@@ -19,5 +19,5 @@ expected:
     loan_id: LN00008
   tools:
   - verify_staff
-  - create_service_request
+  - notify_customer
   outcome: Mock KYC link sent.

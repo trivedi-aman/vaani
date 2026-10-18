@@ -19,6 +19,6 @@ turns:
 expected:
   entities: {}
   tools:
-  - raise_complaint
+  - report_fraud
   outcome: Bot warns never to share OTPs, logs the report, gives no account data.
 difficulty: medium

@@ -23,7 +23,6 @@ expected:
     customer_id: C0028
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_loan_status
   outcome: Bot answers in Bengali; eligibility depends on repayment record; creates a request.

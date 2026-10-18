@@ -25,7 +25,6 @@ expected:
     phone: '8103308985'
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_emi_schedule
   outcome: EMI ₹18523, next due 2026-11-05.

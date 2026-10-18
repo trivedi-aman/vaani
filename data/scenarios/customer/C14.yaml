@@ -24,6 +24,5 @@ expected:
     customer_id: C0027
   tools:
   - verify_customer
-  - send_otp
   outcome: Bot cannot finish verification without the OTP and directs the caller to the nearest branch with ID proof.
 difficulty: medium

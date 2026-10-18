@@ -20,5 +20,5 @@ expected:
   tools:
   - verify_staff
   - diagnose_case
-  - create_service_request
+  - notify_customer
   outcome: Follow-up task created.

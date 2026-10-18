@@ -29,7 +29,6 @@ expected:
     date: '2026-10-05'
   tools:
   - verify_customer
-  - send_otp
   - check_otp
   - get_emi_schedule
   outcome: Bot confirms the 5 Oct EMI bounced, explains the ₹590 charge, and that ₹20089 is overdue.
