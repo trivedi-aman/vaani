@@ -54,7 +54,7 @@ project. The parts that matter for matching are real:
 
 - **Reference** (`data/reference/`): 19,486 India Post pincodes across 745
   districts (from India Post's directory via the `indiapins` package, built
-  by `scripts/build_reference.py`); ~250 Indian names with Devanagari and
+  by `scripts/build_reference.py`); 241 Indian names with Devanagari and
   Tamil spellings; city aliases.
 - **Generated** (`data/generated/`, `scripts/generate_data.py`, seeded and
   reproducible): 300 customers, 341 loans across nine stages, 3,978 EMI rows,
@@ -70,7 +70,7 @@ project. The parts that matter for matching are real:
   tools and outcome.
 
 Every customer's DOB and phone number is spoken in English, Hindi, Marathi
-and Tamil and parsed back in the tests: 2,100 DOB and 1,200 phone round
+and Tamil and parsed back in the tests: 1,500 DOB and 1,200 phone round
 trips, all passing.
 
 ## Results
