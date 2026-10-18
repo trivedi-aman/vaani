@@ -34,6 +34,9 @@ class Settings(BaseSettings):
     access_code: SecretStr | None = None
 
     # --- LLM: Amazon Nova on Bedrock -----------------------------------------
+    # A named profile from ~/.aws/credentials (local testing). Leave empty on
+    # EC2, where the instance's IAM role is used.
+    aws_profile: str | None = None
     aws_region: str = "ap-south-1"
     nova_model_id: str = "global.amazon.nova-2-lite-v1:0"
     llm_temperature: float = 0.2
@@ -75,7 +78,7 @@ class Settings(BaseSettings):
     # The demo data is consistent with this date ("next EMI", "last month"...).
     demo_today: date = date(2026, 10, 18)
 
-    @field_validator("access_code", "sarvam_api_key", "turn_url", "turn_username", "turn_password", mode="before")
+    @field_validator("access_code", "sarvam_api_key", "aws_profile", "turn_url", "turn_username", "turn_password", mode="before")
     @classmethod
     def _blank_is_unset(cls, v):
         return None if isinstance(v, str) and not v.strip() else v

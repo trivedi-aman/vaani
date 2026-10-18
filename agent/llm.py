@@ -7,12 +7,13 @@ from core.config import Settings
 
 def bedrock_model(settings: Settings) -> ChatBedrockConverse:
     """
-    Credentials come from boto3's default chain: an IAM role on EC2, or AWS_*
-    variables locally. "adaptive" retry mode backs off when Bedrock throttles.
+    Credentials come from AWS_PROFILE (a named profile in ~/.aws, for local
+    testing) or boto3's default chain (an IAM role on EC2). "adaptive" retry mode backs off when Bedrock throttles.
     """
     return ChatBedrockConverse(
         model=settings.nova_model_id,
         region_name=settings.aws_region,
+        credentials_profile_name=settings.aws_profile,
         temperature=settings.llm_temperature,
         max_tokens=settings.llm_max_tokens,
         config=Config(

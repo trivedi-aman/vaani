@@ -21,8 +21,11 @@ is heard, normalised, matched and scored.
 
 ## Run it locally
 
-You need Python 3.12+, Node 20+, and AWS credentials with Bedrock access to
-Nova 2 Lite (`aws configure`, or `AWS_*` variables in your shell).
+You need Python 3.12+, Node 20+, a Sarvam API key (optional), and an AWS
+IAM user allowed to call Nova 2 Lite on Bedrock. Store its keys with
+`aws configure --profile vaani` (they go to `~/.aws/credentials`, never into
+this project), set `AWS_PROFILE=vaani` in `.env`, then check access with
+`python -m scripts.check_bedrock`.
 
 ```bash
 python -m venv .venv && . .venv/bin/activate
