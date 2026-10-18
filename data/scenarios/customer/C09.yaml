@@ -1,0 +1,31 @@
+id: C09
+line: customer
+title: Documents pending
+language: mr
+persona:
+  customer_id: C0021
+  name: Kavita Joshi
+  name_native: कविता जोशी
+  dob: '1987-02-28'
+  phone: '8318517607'
+  loan_id: LN00021
+  city: Pune
+  state: Maharashtra
+  pincode: '413801'
+goal: Ask which documents are still pending.
+hard_variant: '''Kavita'' vs ''Kavitha'' (a Chennai customer); speak Marathi.'
+turns:
+- Majhe kuthle documents baaki aahet?
+- Kavita Joshi
+- atthavees farvari ekonis she sattyaayshi
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0021
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - list_pending_documents
+  outcome: Bot asks for photo verification (selfie in the app), in Marathi.
+difficulty: medium

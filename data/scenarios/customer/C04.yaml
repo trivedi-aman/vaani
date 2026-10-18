@@ -1,0 +1,35 @@
+id: C04
+line: customer
+title: EMI bounced, penalty charged
+language: hi
+difficulty: hard
+persona:
+  customer_id: C0004
+  name: Sultan Meena
+  name_native: सुल्तान मीणा
+  dob: '1987-04-23'
+  phone: '6219090581'
+  loan_id: LN00004
+  city: Barmer
+  state: Rajasthan
+  pincode: '344031'
+goal: Your EMI bounced this month and you were charged. Ask why and what to pay.
+hard_variant: Give your city as 'Baadmer' and your DOB fully in Hindi words.
+turns:
+- Meri EMI bounce ho gayi aur charge bhi laga
+- Sultan Meena, Baadmer se
+- teis aprail unnees sau sattaasi
+- '{otp}'
+- is mahine ki paanch tareekh wali
+expected:
+  entities:
+    customer_id: C0004
+    district: Barmer|Rajasthan
+    dob: '1987-04-23'
+    date: '2026-10-05'
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_emi_schedule
+  outcome: Bot confirms the 5 Oct EMI bounced, explains the ₹590 charge, and that ₹20089 is overdue.

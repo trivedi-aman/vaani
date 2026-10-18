@@ -1,0 +1,34 @@
+id: C11
+line: customer
+title: Address proof rejected
+language: hi
+difficulty: hard
+persona:
+  customer_id: C0011
+  name: Meena Sharma
+  name_native: मीना शर्मा
+  dob: '1986-05-19'
+  phone: '8607868668'
+  loan_id: LN00011
+  city: Sikar
+  state: Rajasthan
+  pincode: '332718'
+goal: Ask why your address proof was rejected.
+hard_variant: Say your city as 'Seekar' and give your pincode; Sikar sounds like Sagar.
+turns:
+- Address proof reject kyun hua?
+- Meena Sharma
+- unnees mai unnees sau chhiyaasi
+- '{otp}'
+- main Seekar mein rehti hoon, pincode teen teen do saat ek aath
+expected:
+  entities:
+    customer_id: C0011
+    district: Sikar|Rajasthan
+    pincode: '332718'
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - list_pending_documents
+  outcome: City confirmed as Sikar (pincode agrees); bot asks for an address proof matching Aadhaar.

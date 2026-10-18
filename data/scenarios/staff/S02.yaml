@@ -1,0 +1,23 @@
+id: S02
+line: staff
+title: Case by customer name
+language: hi
+difficulty: hard
+persona:
+  employee_id: E1008
+  name: Shalini Bose
+  role: ops
+  pin: '8472'
+goal: Look up Sultan Meena's case by name. He has two loans.
+hard_variant: STT spelling 'Sooltan Mina'; two loans.
+turns:
+- employee id 1008
+- aath chaar saat do
+- Sooltan Mina ka case dekho
+expected:
+  entities:
+    customer_id: C0004
+  tools:
+  - verify_staff
+  - lookup_case
+  outcome: Finds Sultan Meena; asks which loan (active business loan LN00004 or closed LN00031).

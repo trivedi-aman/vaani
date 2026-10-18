@@ -1,0 +1,30 @@
+id: C10
+line: customer
+title: KYC name mismatch
+language: hi
+persona:
+  customer_id: C0008
+  name: Suresh Gupta
+  name_native: सुरेश गुप्ता
+  dob: '1988-12-05'
+  phone: '7238918593'
+  loan_id: LN00008
+  city: Bhopal
+  state: Madhya Pradesh
+  pincode: '462044'
+goal: Your PAN and Aadhaar names don't match. Ask how to fix it.
+turns:
+- PAN aur Aadhaar mein naam alag hai, kya karun?
+- सुरेश गुप्ता
+- paanch disambar unnees sau athaasi
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0008
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - list_pending_documents
+  outcome: Bot asks for an updated PAN or Aadhaar upload.
+difficulty: medium

@@ -1,0 +1,37 @@
+id: C02
+line: customer
+title: Application stuck
+language: hi
+difficulty: hard
+persona:
+  customer_id: C0005
+  name: Sohan Meena
+  name_native: सोहन मीणा
+  dob: '1990-09-09'
+  phone: '6901783778'
+  loan_id: LN00005
+  city: Dausa
+  state: Rajasthan
+  pincode: '303504'
+goal: Your application has not moved in two weeks. Find out why.
+hard_variant: 'Give the loan ID with one digit wrong: LN00006 instead of LN00005. That ID belongs to someone else.'
+turns:
+- Do hafte ho gaye, mere loan ka kuch update nahi aaya
+- Sohan Meena
+- loan id el en zero zero zero zero chhah
+- sorry, date of birth nau sitambar unnees sau nabbe
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0005
+    loan_id: LN00006
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  outcome: Wrong loan ID does not verify (no hint whose ID it is); verification succeeds with DOB; bot says a routine
+    credit check is in progress, no action needed.
+  must_not:
+  - Bureau pull failed (timeout), retry needed
+  - Ramesh

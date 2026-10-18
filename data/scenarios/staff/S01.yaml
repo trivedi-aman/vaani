@@ -1,0 +1,24 @@
+id: S01
+line: staff
+title: Why is this case stuck
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1007
+  name: Vinod Rathore
+  role: ops
+  pin: '2415'
+goal: Ask why LN00011 is stuck. Say the ID as 'el en eleven'.
+hard_variant: '''el en eleven'' needs leading zeros assumed, so it must be read back.'
+turns:
+- employee id 1007
+- do chaar ek paanch
+- el en eleven aage kyun nahi badh raha?
+expected:
+  entities:
+    loan_id: LN00011
+  tools:
+  - verify_staff
+  - lookup_case
+  - diagnose_case
+  outcome: 'Reads back LN00011 to confirm (zeros assumed); blocker: Address proof does not match Aadhaar address.'

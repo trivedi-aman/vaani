@@ -1,0 +1,31 @@
+id: C16
+line: customer
+title: eMandate / auto-debit failure
+language: en
+persona:
+  customer_id: C0013
+  name: Seema Sharma
+  name_native: सीमा शर्मा
+  dob: '1992-12-24'
+  phone: '7290909624'
+  loan_id: LN00013
+  city: New Delhi
+  state: Delhi
+  pincode: '110037'
+goal: Your auto-debit is not working.
+turns:
+- My auto debit is not getting set up
+- Seema Sharma
+- twenty four December nineteen ninety two
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0013
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  - create_service_request
+  outcome: Bot confirms the mandate failed and sends a re-registration request.
+difficulty: medium

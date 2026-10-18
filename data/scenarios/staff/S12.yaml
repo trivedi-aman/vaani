@@ -1,0 +1,24 @@
+id: S12
+line: staff
+title: Co-applicant documents
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1014
+  name: Usha Pandey
+  role: credit
+  pin: '1965'
+goal: Follow up on LN00014's co-applicant documents.
+hard_variant: ''
+turns:
+- employee id 1014
+- ek nau chhah paanch
+- LN00014 ke co-applicant ke docs nahi aaye
+expected:
+  entities:
+    loan_id: LN00014
+  tools:
+  - verify_staff
+  - diagnose_case
+  - create_service_request
+  outcome: Follow-up task created.

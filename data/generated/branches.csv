@@ -1,0 +1,203 @@
+branch_code,name,district,state,pincode,phone
+BR001,Begusarai Branch,Begusarai,Bihar,851210,1800-884-2676
+BR002,Jamui Branch,Jamui,Bihar,811315,1800-910-4741
+BR003,Katihar Branch,Katihar,Bihar,854115,1800-221-7250
+BR004,Kishanganj Branch,Kishanganj,Bihar,855116,1800-481-1841
+BR005,Nalanda Branch,Nalanda,Bihar,803117,1800-357-7785
+BR006,Nawada Branch,Nawada,Bihar,805112,1800-639-3439
+BR007,Patna Branch,Patna,Bihar,801112,1800-631-6074
+BR008,Saharsa Branch,Saharsa,Bihar,852107,1800-560-9354
+BR009,Sheikhpura Branch,Sheikhpura,Bihar,811107,1800-449-6594
+BR010,Siwan Branch,Siwan,Bihar,841435,1800-812-8983
+BR011,Vaishali Branch,Vaishali,Bihar,844119,1800-545-1518
+BR012,Central Branch,Central,Delhi,110060,1800-957-8746
+BR013,East Branch,East,Delhi,110092,1800-977-2175
+BR014,New Delhi Branch,New Delhi,Delhi,110011,1800-414-2594
+BR015,North Branch,North,Delhi,110033,1800-949-3258
+BR016,North East Branch,North East,Delhi,110094,1800-536-7045
+BR017,North West Branch,North West,Delhi,110081,1800-303-2886
+BR018,Shahdara Branch,Shahdara,Delhi,110195,1800-359-7315
+BR019,South Branch,South,Delhi,110124,1800-363-5413
+BR020,South East Branch,South East,Delhi,110019,1800-650-5081
+BR021,South West Branch,South West,Delhi,110075,1800-222-7773
+BR022,Ahmadabad Branch,Ahmadabad,Gujarat,380060,1800-592-8948
+BR023,Amreli Branch,Amreli,Gujarat,365541,1800-137-7853
+BR024,Chhotaudepur Branch,Chhotaudepur,Gujarat,391135,1800-695-5795
+BR025,Devbhumi Dwarka Branch,Devbhumi Dwarka,Gujarat,361320,1800-213-6629
+BR026,Gir Somnath Branch,Gir Somnath,Gujarat,362550,1800-194-4456
+BR027,Jamnagar Branch,Jamnagar,Gujarat,361170,1800-563-7777
+BR028,Junagadh Branch,Junagadh,Gujarat,362220,1800-624-8727
+BR029,Kheda Branch,Kheda,Gujarat,387335,1800-146-2123
+BR030,Mahisagar Branch,Mahisagar,Gujarat,389230,1800-203-3115
+BR031,Narmada Branch,Narmada,Gujarat,393025,1800-743-4678
+BR032,Navsari Branch,Navsari,Gujarat,396370,1800-969-7048
+BR033,Patan Branch,Patan,Gujarat,385340,1800-870-2741
+BR034,Rajkot Branch,Rajkot,Gujarat,360035,1800-790-8511
+BR035,Surat Branch,Surat,Gujarat,395003,1800-348-9849
+BR036,Charki Dadri Branch,Charki Dadri,Haryana,127308,1800-337-2480
+BR037,Gurugram Branch,Gurugram,Haryana,122010,1800-598-8621
+BR038,Hisar Branch,Hisar,Haryana,125061,1800-412-8148
+BR039,Nuh Branch,Nuh,Haryana,122105,1800-421-4829
+BR040,Palwal Branch,Palwal,Haryana,121102,1800-258-9577
+BR041,Panchkula Branch,Panchkula,Haryana,134118,1800-778-9464
+BR042,Rewari Branch,Rewari,Haryana,123101,1800-510-6992
+BR043,Sirsa Branch,Sirsa,Haryana,125078,1800-485-4946
+BR044,Belagavi Branch,Belagavi,Karnataka,591212,1800-216-4309
+BR045,Bidar Branch,Bidar,Karnataka,585417,1800-549-4322
+BR046,Chamarajanagara Branch,Chamarajanagara,Karnataka,571316,1800-410-2330
+BR047,Gadag Branch,Gadag,Karnataka,582205,1800-983-1558
+BR048,Kalaburagi Branch,Kalaburagi,Karnataka,585103,1800-573-3538
+BR049,Kodagu Branch,Kodagu,Karnataka,571201,1800-666-6844
+BR050,Kolar Branch,Kolar,Karnataka,563114,1800-361-7713
+BR051,Mandya Branch,Mandya,Karnataka,571422,1800-871-3196
+BR052,Raichur Branch,Raichur,Karnataka,584133,1800-484-1412
+BR053,Uttara Kannada Branch,Uttara Kannada,Karnataka,581186,1800-239-5895
+BR054,Vijayapura Branch,Vijayapura,Karnataka,586162,1800-520-2445
+BR055,Vijaynagar Branch,Vijaynagar,Karnataka,583127,1800-347-5024
+BR056,Alappuzha Branch,Alappuzha,Kerala,689574,1800-902-5125
+BR057,Idukki Branch,Idukki,Kerala,685595,1800-670-9150
+BR058,Kannur Branch,Kannur,Kerala,670604,1800-737-6230
+BR059,Pathanamthitta Branch,Pathanamthitta,Kerala,689677,1800-149-9594
+BR060,Alirajpur Branch,Alirajpur,Madhya Pradesh,457887,1800-396-6242
+BR061,Bhopal Branch,Bhopal,Madhya Pradesh,462120,1800-682-8861
+BR062,Burhanpur Branch,Burhanpur,Madhya Pradesh,450331,1800-691-8838
+BR063,Chhindwara Branch,Chhindwara,Madhya Pradesh,480223,1800-850-1274
+BR064,Damoh Branch,Damoh,Madhya Pradesh,470775,1800-322-1521
+BR065,Datia Branch,Datia,Madhya Pradesh,475673,1800-366-1991
+BR066,Dhar Branch,Dhar,Madhya Pradesh,454774,1800-923-8893
+BR067,Dindori Branch,Dindori,Madhya Pradesh,481778,1800-855-9027
+BR068,Indore Branch,Indore,Madhya Pradesh,453111,1800-751-1448
+BR069,Mandla Branch,Mandla,Madhya Pradesh,481664,1800-332-6368
+BR070,Mandsaur Branch,Mandsaur,Madhya Pradesh,458553,1800-417-7141
+BR071,Morena Branch,Morena,Madhya Pradesh,476001,1800-341-8364
+BR072,Panna Branch,Panna,Madhya Pradesh,488441,1800-257-9604
+BR073,Rewa Branch,Rewa,Madhya Pradesh,486338,1800-616-4120
+BR074,Sagar Branch,Sagar,Madhya Pradesh,470337,1800-534-2407
+BR075,Shivpuri Branch,Shivpuri,Madhya Pradesh,473775,1800-602-5056
+BR076,Tikamgarh Branch,Tikamgarh,Madhya Pradesh,472005,1800-286-1274
+BR077,Vidisha Branch,Vidisha,Madhya Pradesh,464224,1800-344-3803
+BR078,Ahmednagar Branch,Ahmednagar,Maharashtra,414304,1800-803-9230
+BR079,Amravati Branch,Amravati,Maharashtra,444607,1800-685-1508
+BR080,Buldhana Branch,Buldhana,Maharashtra,443303,1800-585-6097
+BR081,Chandrapur Branch,Chandrapur,Maharashtra,442502,1800-253-5658
+BR082,Jalna Branch,Jalna,Maharashtra,431114,1800-211-6017
+BR083,Mumbai Branch,Mumbai,Maharashtra,400037,1800-880-9688
+BR084,Mumbai Suburban Branch,Mumbai Suburban,Maharashtra,400093,1800-441-9515
+BR085,Nagpur Branch,Nagpur,Maharashtra,441103,1800-160-2818
+BR086,Nanded Branch,Nanded,Maharashtra,431807,1800-330-3300
+BR087,Nandurbar Branch,Nandurbar,Maharashtra,425422,1800-486-6795
+BR088,Nashik Branch,Nashik,Maharashtra,422005,1800-330-2513
+BR089,Osmanabad Branch,Osmanabad,Maharashtra,413603,1800-284-6191
+BR090,Palghar Branch,Palghar,Maharashtra,401202,1800-169-4533
+BR091,Parbhani Branch,Parbhani,Maharashtra,431508,1800-262-2644
+BR092,Pune Branch,Pune,Maharashtra,411038,1800-962-8468
+BR093,Ratnagiri Branch,Ratnagiri,Maharashtra,415730,1800-384-6938
+BR094,Sindhudurg Branch,Sindhudurg,Maharashtra,416801,1800-495-8581
+BR095,Alwar Branch,Alwar,Rajasthan,301030,1800-440-6320
+BR096,Banswara Branch,Banswara,Rajasthan,327001,1800-529-8807
+BR097,Baran Branch,Baran,Rajasthan,325217,1800-380-7033
+BR098,Barmer Branch,Barmer,Rajasthan,344033,1800-758-8823
+BR099,Bhilwara Branch,Bhilwara,Rajasthan,311001,1800-743-6156
+BR100,Bundi Branch,Bundi,Rajasthan,323614,1800-139-4261
+BR101,Chittorgarh Branch,Chittorgarh,Rajasthan,312901,1800-157-8729
+BR102,Churu Branch,Churu,Rajasthan,331502,1800-328-3769
+BR103,Dausa Branch,Dausa,Rajasthan,303315,1800-521-4241
+BR104,Dholpur Branch,Dholpur,Rajasthan,328021,1800-794-1326
+BR105,Dungarpur Branch,Dungarpur,Rajasthan,314011,1800-781-1435
+BR106,Ganganagar Branch,Ganganagar,Rajasthan,335051,1800-378-4304
+BR107,Hanumangarh Branch,Hanumangarh,Rajasthan,335063,1800-262-8291
+BR108,Jaipur Branch,Jaipur,Rajasthan,303012,1800-814-2503
+BR109,Jaisalmer Branch,Jaisalmer,Rajasthan,345031,1800-513-7935
+BR110,Jhalawar Branch,Jhalawar,Rajasthan,326001,1800-163-7369
+BR111,Jodhpur Branch,Jodhpur,Rajasthan,342037,1800-248-8064
+BR112,Kota Branch,Kota,Rajasthan,326530,1800-184-3316
+BR113,Nagaur Branch,Nagaur,Rajasthan,341318,1800-667-9326
+BR114,Pratapgarh Branch,Pratapgarh,Rajasthan,312615,1800-275-8376
+BR115,Rajsamand Branch,Rajsamand,Rajasthan,313321,1800-904-2751
+BR116,Sikar Branch,Sikar,Rajasthan,332302,1800-130-4473
+BR117,Sirohi Branch,Sirohi,Rajasthan,307514,1800-176-6254
+BR118,Udaipur Branch,Udaipur,Rajasthan,313705,1800-679-8862
+BR119,Ariyalur Branch,Ariyalur,Tamil Nadu,621718,1800-726-3062
+BR120,Chennai Branch,Chennai,Tamil Nadu,600041,1800-898-6830
+BR121,Coimbatore Branch,Coimbatore,Tamil Nadu,641004,1800-166-3147
+BR122,Dindigul Branch,Dindigul,Tamil Nadu,624220,1800-538-8441
+BR123,Kallakurichi Branch,Kallakurichi,Tamil Nadu,605802,1800-722-7221
+BR124,Kanchipuram Branch,Kanchipuram,Tamil Nadu,600069,1800-676-3560
+BR125,Kanniyakumari Branch,Kanniyakumari,Tamil Nadu,629402,1800-702-4298
+BR126,Karur Branch,Karur,Tamil Nadu,639104,1800-519-4895
+BR127,Krishnagiri Branch,Krishnagiri,Tamil Nadu,635103,1800-595-5450
+BR128,Madurai Branch,Madurai,Tamil Nadu,625501,1800-232-2580
+BR129,Mayiladuthurai Branch,Mayiladuthurai,Tamil Nadu,609810,1800-450-9576
+BR130,Namakkal Branch,Namakkal,Tamil Nadu,636202,1800-143-6451
+BR131,Perambalur Branch,Perambalur,Tamil Nadu,621114,1800-225-4759
+BR132,Pudukkottai Branch,Pudukkottai,Tamil Nadu,622304,1800-308-4756
+BR133,Ramanathapuram Branch,Ramanathapuram,Tamil Nadu,623521,1800-208-2448
+BR134,Ranipet Branch,Ranipet,Tamil Nadu,631102,1800-266-3192
+BR135,Salem Branch,Salem,Tamil Nadu,636501,1800-917-9800
+BR136,Tenkasi Branch,Tenkasi,Tamil Nadu,627713,1800-646-7320
+BR137,Thanjavur Branch,Thanjavur,Tamil Nadu,614201,1800-101-7395
+BR138,Theni Branch,Theni,Tamil Nadu,625525,1800-746-5494
+BR139,Thiruvallur Branch,Thiruvallur,Tamil Nadu,631211,1800-304-8868
+BR140,Thiruvarur Branch,Thiruvarur,Tamil Nadu,614715,1800-202-4711
+BR141,Tiruchirappalli Branch,Tiruchirappalli,Tamil Nadu,620003,1800-570-3551
+BR142,Tiruppur Branch,Tiruppur,Tamil Nadu,638108,1800-839-2082
+BR143,Tuticorin Branch,Tuticorin,Tamil Nadu,628502,1800-461-5052
+BR144,Vellore Branch,Vellore,Tamil Nadu,632209,1800-799-6890
+BR145,Virudhunagar Branch,Virudhunagar,Tamil Nadu,626188,1800-627-1793
+BR146,Adilabad Branch,Adilabad,Telangana,504002,1800-398-2015
+BR147,Jayashankar Bhupalapally Branch,Jayashankar Bhupalapally,Telangana,506366,1800-936-2290
+BR148,Medak Branch,Medak,Telangana,502102,1800-208-7584
+BR149,Medchal Malkajgiri Branch,Medchal Malkajgiri,Telangana,500043,1800-403-1859
+BR150,Nalgonda Branch,Nalgonda,Telangana,508114,1800-907-7087
+BR151,Nizamabad Branch,Nizamabad,Telangana,503217,1800-348-9874
+BR152,Siddipet Branch,Siddipet,Telangana,502108,1800-479-6290
+BR153,Wanaparthy Branch,Wanaparthy,Telangana,509120,1800-232-9761
+BR154,Warangal Branch,Warangal,Telangana,506331,1800-438-4370
+BR155,Agra Branch,Agra,Uttar Pradesh,283101,1800-961-1365
+BR156,Ambedkar Nagar Branch,Ambedkar Nagar,Uttar Pradesh,224231,1800-720-9020
+BR157,Amethi Branch,Amethi,Uttar Pradesh,227412,1800-463-9193
+BR158,Ayodhya Branch,Ayodhya,Uttar Pradesh,224001,1800-916-5493
+BR159,Azamgarh Branch,Azamgarh,Uttar Pradesh,276128,1800-933-2572
+BR160,Ballia Branch,Ballia,Uttar Pradesh,277202,1800-114-3896
+BR161,Banda Branch,Banda,Uttar Pradesh,210203,1800-149-2395
+BR162,Bareilly Branch,Bareilly,Uttar Pradesh,243006,1800-820-9101
+BR163,Basti Branch,Basti,Uttar Pradesh,272124,1800-134-5501
+BR164,Bijnor Branch,Bijnor,Uttar Pradesh,246729,1800-545-3082
+BR165,Budaun Branch,Budaun,Uttar Pradesh,243723,1800-539-6363
+BR166,Bulandshahr Branch,Bulandshahr,Uttar Pradesh,203411,1800-962-4117
+BR167,Chandauli Branch,Chandauli,Uttar Pradesh,232108,1800-795-3304
+BR168,Etah Branch,Etah,Uttar Pradesh,207120,1800-914-6477
+BR169,Farrukhabad Branch,Farrukhabad,Uttar Pradesh,209622,1800-350-9778
+BR170,Firozabad Branch,Firozabad,Uttar Pradesh,283136,1800-706-6511
+BR171,Ghaziabad Branch,Ghaziabad,Uttar Pradesh,201018,1800-824-7974
+BR172,Gorakhpur Branch,Gorakhpur,Uttar Pradesh,273408,1800-340-3126
+BR173,Hapur Branch,Hapur,Uttar Pradesh,245205,1800-155-1964
+BR174,Hathras Branch,Hathras,Uttar Pradesh,204215,1800-271-8706
+BR175,Jalaun Branch,Jalaun,Uttar Pradesh,285204,1800-558-5155
+BR176,Kanpur Nagar Branch,Kanpur Nagar,Uttar Pradesh,209214,1800-177-9985
+BR177,Kaushambi Branch,Kaushambi,Uttar Pradesh,212214,1800-866-8251
+BR178,Lalitpur Branch,Lalitpur,Uttar Pradesh,284136,1800-810-7454
+BR179,Lucknow Branch,Lucknow,Uttar Pradesh,226401,1800-499-2337
+BR180,Mathura Branch,Mathura,Uttar Pradesh,281305,1800-896-5664
+BR181,Meerut Branch,Meerut,Uttar Pradesh,250001,1800-656-4128
+BR182,Pilibhit Branch,Pilibhit,Uttar Pradesh,262001,1800-572-5530
+BR183,Prayagraj Branch,Prayagraj,Uttar Pradesh,211020,1800-372-2900
+BR184,Sant Kabeer Nagar Branch,Sant Kabeer Nagar,Uttar Pradesh,272271,1800-683-6648
+BR185,Shahjahanpur Branch,Shahjahanpur,Uttar Pradesh,242305,1800-603-5607
+BR186,Shravasti Branch,Shravasti,Uttar Pradesh,271804,1800-746-6660
+BR187,Siddharth Nagar Branch,Siddharth Nagar,Uttar Pradesh,272203,1800-885-5566
+BR188,Sitapur Branch,Sitapur,Uttar Pradesh,261131,1800-667-8780
+BR189,Sonbhadra Branch,Sonbhadra,Uttar Pradesh,231223,1800-440-1442
+BR190,Varanasi Branch,Varanasi,Uttar Pradesh,221311,1800-733-9962
+BR191,Birbhum Branch,Birbhum,West Bengal,731201,1800-442-2590
+BR192,Dinajpur Dakshin Branch,Dinajpur Dakshin,West Bengal,733125,1800-651-4324
+BR193,Dinajpur Uttar Branch,Dinajpur Uttar,West Bengal,733209,1800-971-2249
+BR194,Hooghly Branch,Hooghly,West Bengal,712611,1800-320-6481
+BR195,Howrah Branch,Howrah,West Bengal,711411,1800-469-4408
+BR196,Jalpaiguri Branch,Jalpaiguri,West Bengal,734007,1800-839-1031
+BR197,Kalimpong Branch,Kalimpong,West Bengal,734311,1800-626-3466
+BR198,Kolkata Branch,Kolkata,West Bengal,700062,1800-537-9635
+BR199,Maldah Branch,Maldah,West Bengal,732122,1800-680-2239
+BR200,Medinipur East Branch,Medinipur East,West Bengal,721402,1800-282-1944
+BR201,Murshidabad Branch,Murshidabad,West Bengal,742168,1800-868-8609
+BR202,Paschim Bardhaman Branch,Paschim Bardhaman,West Bengal,713324,1800-421-5771

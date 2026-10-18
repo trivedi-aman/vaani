@@ -1,0 +1,32 @@
+id: C13
+line: customer
+title: Wrong bank account
+language: hi
+difficulty: hard
+persona:
+  customer_id: C0016
+  name: Priya Sharma
+  name_native: प्रिया शर्मा
+  dob: '1994-06-02'
+  phone: '7956024454'
+  loan_id: LN00016
+  city: Jaipur
+  state: Rajasthan
+  pincode: '303301'
+goal: You think the loan went to the wrong account. Be impatient; interrupt the bot.
+hard_variant: There are two customers named Priya Sharma (Jaipur and Pune).
+turns:
+- Mera paisa galat account mein chala gaya!
+- Priya Sharma
+- Jaipur
+- do joon unnees sau chauraanave
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0016
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - escalate_to_human
+  outcome: Name alone is ambiguous, bot asks for DOB; then escalates to a human with a ticket.

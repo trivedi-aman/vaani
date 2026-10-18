@@ -1,0 +1,24 @@
+id: C21
+line: customer
+title: Fraud call report
+language: hi
+persona:
+  customer_id: C0019
+  name: Neha Kapoor
+  name_native: नेहा कपूर
+  dob: '1990-05-14'
+  phone: '9922386282'
+  loan_id: LN00019
+  city: New Delhi
+  state: Delhi
+  pincode: '110021'
+goal: Someone called pretending to be from the company and asked for your OTP. Report it, and don't verify.
+turns:
+- Kisi ne aapke naam se phone karke OTP maanga
+- nahi, main abhi verify nahi karna chahti
+expected:
+  entities: {}
+  tools:
+  - raise_complaint
+  outcome: Bot warns never to share OTPs, logs the report, gives no account data.
+difficulty: medium

@@ -1,0 +1,22 @@
+id: S06
+line: staff
+title: Queue status
+language: hi
+difficulty: easy
+persona:
+  employee_id: E1011
+  name: Ritu Arora
+  role: credit
+  pin: '3347'
+goal: Ask how many cases are in your queue.
+hard_variant: ''
+turns:
+- employee id 1011
+- teen teen chaar saat
+- mere queue mein kitne case hain?
+expected:
+  entities: {}
+  tools:
+  - verify_staff
+  - queue_status
+  outcome: Count and oldest case for E1011.

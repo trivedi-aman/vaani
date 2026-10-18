@@ -1,0 +1,23 @@
+id: S22
+line: staff
+title: EMI bounce list
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1016
+  name: Lakshmi Natarajan
+  role: supervisor
+  pin: '4931'
+goal: List this month's bounced EMIs.
+hard_variant: ''
+turns:
+- employee id 1016
+- chaar nau teen ek
+- is mahine ke bounce cases batao
+expected:
+  entities:
+    month: 2026-10
+  tools:
+  - verify_staff
+  - count_cases
+  outcome: Count and the top five by overdue amount.

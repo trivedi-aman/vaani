@@ -1,0 +1,31 @@
+id: C24
+line: customer
+title: Language switch mid-call
+language: en
+persona:
+  customer_id: C0029
+  name: Rahul Deshmukh
+  name_native: राहुल देशमुख
+  dob: '1996-07-07'
+  phone: '7179869376'
+  loan_id: LN00029
+  city: Mumbai
+  state: Maharashtra
+  pincode: '400019'
+goal: Start in English, switch to Hindi halfway.
+turns:
+- Hello, I applied for a loan last week
+- Rahul Deshmukh
+- acha Hindi mein baat karte hain
+- date of birth saat julai unnees sau chhiyaanave
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0029
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  outcome: Bot switches to Hindi when the caller does; reports the application is received.
+difficulty: medium

@@ -1,0 +1,23 @@
+id: S05
+line: staff
+title: Undisclosed existing loan
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1013
+  name: Harish Desai
+  role: credit
+  pin: '3095'
+goal: LN00019 has an undisclosed loan. Ask for next steps.
+hard_variant: ''
+turns:
+- employee id 1013
+- teen shunya nau paanch
+- LN00019 mein doosre NBFC ka loan mila hai
+expected:
+  entities:
+    loan_id: LN00019
+  tools:
+  - verify_staff
+  - diagnose_case
+  outcome: Request updated bureau report; create customer outreach task.

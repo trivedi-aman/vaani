@@ -1,0 +1,23 @@
+id: S16
+line: staff
+title: Branch mapping
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1016
+  name: Lakshmi Natarajan
+  role: supervisor
+  pin: '4931'
+goal: Which branch handles LN00024?
+hard_variant: ''
+turns:
+- employee id 1016
+- chaar nau teen ek
+- LN00024 kis branch ka case hai?
+expected:
+  entities:
+    loan_id: LN00024
+  tools:
+  - verify_staff
+  - lookup_case
+  outcome: Tiruchirappalli branch.

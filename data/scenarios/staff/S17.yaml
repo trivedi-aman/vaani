@@ -1,0 +1,24 @@
+id: S17
+line: staff
+title: Add a case note
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1001
+  name: Anjali Mehta
+  role: agent
+  pin: '4918'
+goal: Add a long Hinglish note to LN00026.
+hard_variant: ''
+turns:
+- employee id 1001
+- chaar nau ek aath
+- 'LN00026 pe note daalo: customer ne bola kal tak salary slip aur bank statement dono bhej dega, uske baad underwriter
+  ko bhejna'
+expected:
+  entities:
+    loan_id: LN00026
+  tools:
+  - verify_staff
+  - add_case_note
+  outcome: Note saved exactly; bot reads a short summary back.

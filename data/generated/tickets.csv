@@ -1,0 +1,152 @@
+ticket_id,customer_id,loan_id,type,summary,status,created_on,updated_on,follow_ups
+TK100001,C0144,LN00166,complaint,Complaint about service,resolved,2026-09-02,2026-09-06,2
+TK100002,C0077,LN00085,wrong_account,Disbursed to wrong account,open,2026-10-08,2026-10-18,1
+TK100003,C0064,LN00069,address_change,Address change request,resolved,2026-09-09,2026-09-15,3
+TK100004,C0292,LN00331,interest_certificate,Interest certificate request,open,2026-08-28,2026-09-02,3
+TK100005,C0091,LN00100,address_change,Address change request,in_progress,2026-09-01,2026-09-08,3
+TK100006,C0208,LN00236,noc_pending,NOC not received after closure,open,2026-09-20,2026-09-23,1
+TK100007,C0294,LN00333,noc_pending,NOC not received after closure,open,2026-09-22,2026-09-29,0
+TK100008,C0114,LN00127,address_change,Address change request,in_progress,2026-08-30,2026-09-04,1
+TK100009,C0260,LN00294,complaint,Complaint about service,in_progress,2026-10-05,2026-10-10,2
+TK100010,C0049,LN00051,complaint,Complaint about service,in_progress,2026-09-21,2026-09-21,3
+TK100011,C0157,LN00181,complaint,Complaint about service,resolved,2026-09-03,2026-09-08,0
+TK100012,C0293,LN00332,address_change,Address change request,in_progress,2026-10-15,2026-10-15,3
+TK100013,C0283,LN00320,mobile_change,Mobile number change request,open,2026-08-23,2026-08-24,2
+TK100014,C0121,LN00135,mobile_change,Mobile number change request,resolved,2026-10-03,2026-10-11,0
+TK100015,C0003,LN00003,noc_pending,NOC not received after closure,open,2026-09-30,2026-09-30,0
+TK100016,C0066,LN00071,address_change,Address change request,resolved,2026-10-03,2026-10-12,2
+TK100017,C0094,LN00103,interest_certificate,Interest certificate request,in_progress,2026-09-17,2026-09-22,1
+TK100018,C0223,LN00252,double_debit,EMI debited twice,resolved,2026-09-11,2026-09-17,2
+TK100019,C0130,LN00146,interest_certificate,Interest certificate request,resolved,2026-10-08,2026-10-14,0
+TK100020,C0230,LN00260,double_debit,EMI debited twice,resolved,2026-09-13,2026-09-16,1
+TK100021,C0185,LN00213,complaint,Complaint about service,in_progress,2026-09-11,2026-09-14,2
+TK100022,C0146,LN00168,interest_certificate,Interest certificate request,open,2026-10-13,2026-10-13,1
+TK100023,C0254,LN00288,address_change,Address change request,open,2026-08-31,2026-09-04,2
+TK100024,C0067,LN00073,address_change,Address change request,in_progress,2026-08-30,2026-09-05,2
+TK100025,C0147,LN00169,double_debit,EMI debited twice,resolved,2026-09-04,2026-09-09,2
+TK100026,C0251,LN00285,complaint,Complaint about service,in_progress,2026-08-27,2026-08-29,1
+TK100027,C0237,LN00268,address_change,Address change request,resolved,2026-10-05,2026-10-14,2
+TK100028,C0052,LN00056,mobile_change,Mobile number change request,resolved,2026-09-01,2026-09-07,3
+TK100029,C0185,LN00213,double_debit,EMI debited twice,in_progress,2026-09-10,2026-09-14,0
+TK100030,C0299,LN00340,noc_pending,NOC not received after closure,open,2026-09-25,2026-09-29,1
+TK100031,C0295,LN00334,refund,Refund of excess payment,resolved,2026-09-24,2026-10-02,1
+TK100032,C0117,LN00131,double_debit,EMI debited twice,in_progress,2026-09-11,2026-09-15,0
+TK100033,C0191,LN00219,mobile_change,Mobile number change request,in_progress,2026-08-19,2026-08-22,3
+TK100034,C0252,LN00286,wrong_account,Disbursed to wrong account,resolved,2026-10-12,2026-10-18,1
+TK100035,C0162,LN00188,wrong_account,Disbursed to wrong account,resolved,2026-09-17,2026-09-25,2
+TK100036,C0069,LN00075,refund,Refund of excess payment,in_progress,2026-10-10,2026-10-19,1
+TK100037,C0065,LN00070,double_debit,EMI debited twice,resolved,2026-10-01,2026-10-11,1
+TK100038,C0145,LN00167,address_change,Address change request,resolved,2026-09-24,2026-10-01,2
+TK100039,C0109,LN00121,noc_pending,NOC not received after closure,open,2026-10-08,2026-10-15,1
+TK100040,C0107,LN00119,double_debit,EMI debited twice,resolved,2026-10-17,2026-10-17,0
+TK100041,C0164,LN00190,mobile_change,Mobile number change request,open,2026-09-26,2026-09-29,0
+TK100042,C0237,LN00268,noc_pending,NOC not received after closure,open,2026-10-07,2026-10-10,0
+TK100043,C0272,LN00308,refund,Refund of excess payment,in_progress,2026-10-14,2026-10-17,2
+TK100044,C0165,LN00191,interest_certificate,Interest certificate request,in_progress,2026-10-09,2026-10-11,2
+TK100045,C0219,LN00248,interest_certificate,Interest certificate request,resolved,2026-08-22,2026-08-28,3
+TK100046,C0161,LN00187,refund,Refund of excess payment,in_progress,2026-09-28,2026-10-06,2
+TK100047,C0280,LN00316,address_change,Address change request,open,2026-09-09,2026-09-16,2
+TK100048,C0064,LN00069,noc_pending,NOC not received after closure,open,2026-08-19,2026-08-24,2
+TK100049,C0146,LN00168,noc_pending,NOC not received after closure,in_progress,2026-09-30,2026-10-10,1
+TK100050,C0232,LN00262,wrong_account,Disbursed to wrong account,resolved,2026-10-09,2026-10-14,0
+TK100051,C0067,LN00073,wrong_account,Disbursed to wrong account,in_progress,2026-10-06,2026-10-06,0
+TK100052,C0287,LN00324,noc_pending,NOC not received after closure,in_progress,2026-09-30,2026-10-06,3
+TK100053,C0121,LN00135,mobile_change,Mobile number change request,open,2026-09-12,2026-09-13,3
+TK100054,C0194,LN00222,wrong_account,Disbursed to wrong account,resolved,2026-10-10,2026-10-12,3
+TK100055,C0189,LN00217,complaint,Complaint about service,in_progress,2026-10-05,2026-10-14,3
+TK100056,C0071,LN00078,double_debit,EMI debited twice,resolved,2026-08-23,2026-08-29,2
+TK100057,C0149,LN00172,interest_certificate,Interest certificate request,open,2026-10-12,2026-10-16,3
+TK100058,C0130,LN00146,refund,Refund of excess payment,resolved,2026-09-15,2026-09-24,0
+TK100059,C0055,LN00059,complaint,Complaint about service,open,2026-09-09,2026-09-14,3
+TK100060,C0044,LN00046,address_change,Address change request,open,2026-08-22,2026-08-28,3
+TK100061,C0103,LN00113,address_change,Address change request,resolved,2026-08-23,2026-08-28,3
+TK100062,C0117,LN00131,double_debit,EMI debited twice,in_progress,2026-10-14,2026-10-22,0
+TK100063,C0131,LN00148,address_change,Address change request,in_progress,2026-08-25,2026-08-29,0
+TK100064,C0057,LN00061,refund,Refund of excess payment,resolved,2026-08-25,2026-08-26,1
+TK100065,C0279,LN00315,noc_pending,NOC not received after closure,in_progress,2026-09-24,2026-09-26,1
+TK100066,C0242,LN00274,address_change,Address change request,resolved,2026-09-30,2026-10-04,1
+TK100067,C0295,LN00334,mobile_change,Mobile number change request,open,2026-09-28,2026-10-02,0
+TK100068,C0193,LN00221,address_change,Address change request,in_progress,2026-09-04,2026-09-07,1
+TK100069,C0117,LN00130,complaint,Complaint about service,in_progress,2026-09-12,2026-09-17,1
+TK100070,C0078,LN00086,interest_certificate,Interest certificate request,open,2026-08-24,2026-09-01,3
+TK100071,C0183,LN00211,refund,Refund of excess payment,open,2026-10-07,2026-10-11,1
+TK100072,C0284,LN00321,wrong_account,Disbursed to wrong account,open,2026-09-01,2026-09-05,0
+TK100073,C0249,LN00283,mobile_change,Mobile number change request,open,2026-09-10,2026-09-16,1
+TK100074,C0271,LN00306,address_change,Address change request,in_progress,2026-10-14,2026-10-16,1
+TK100075,C0092,LN00101,wrong_account,Disbursed to wrong account,in_progress,2026-09-08,2026-09-08,2
+TK100076,C0243,LN00275,double_debit,EMI debited twice,open,2026-08-31,2026-09-02,0
+TK100077,C0223,LN00252,complaint,Complaint about service,resolved,2026-09-19,2026-09-23,2
+TK100078,C0107,LN00119,mobile_change,Mobile number change request,in_progress,2026-09-26,2026-09-27,3
+TK100079,C0074,LN00082,wrong_account,Disbursed to wrong account,resolved,2026-09-02,2026-09-05,0
+TK100080,C0106,LN00118,double_debit,EMI debited twice,in_progress,2026-09-19,2026-09-25,3
+TK100081,C0069,LN00076,wrong_account,Disbursed to wrong account,resolved,2026-09-11,2026-09-13,3
+TK100082,C0285,LN00322,address_change,Address change request,in_progress,2026-08-24,2026-08-24,0
+TK100083,C0179,LN00206,wrong_account,Disbursed to wrong account,open,2026-09-17,2026-09-18,3
+TK100084,C0298,LN00339,double_debit,EMI debited twice,open,2026-09-14,2026-09-23,0
+TK100085,C0076,LN00084,wrong_account,Disbursed to wrong account,resolved,2026-10-05,2026-10-06,0
+TK100086,C0076,LN00084,mobile_change,Mobile number change request,in_progress,2026-10-15,2026-10-21,1
+TK100087,C0081,LN00089,interest_certificate,Interest certificate request,resolved,2026-08-24,2026-09-03,2
+TK100088,C0203,LN00231,mobile_change,Mobile number change request,resolved,2026-10-15,2026-10-23,0
+TK100089,C0286,LN00323,noc_pending,NOC not received after closure,open,2026-08-27,2026-09-05,3
+TK100090,C0034,LN00035,interest_certificate,Interest certificate request,resolved,2026-10-08,2026-10-08,1
+TK100091,C0282,LN00318,mobile_change,Mobile number change request,open,2026-09-04,2026-09-13,0
+TK100092,C0060,LN00065,interest_certificate,Interest certificate request,resolved,2026-09-16,2026-09-22,0
+TK100093,C0224,LN00254,interest_certificate,Interest certificate request,in_progress,2026-08-23,2026-08-31,1
+TK100094,C0083,LN00091,mobile_change,Mobile number change request,in_progress,2026-08-31,2026-09-02,3
+TK100095,C0040,LN00042,refund,Refund of excess payment,in_progress,2026-08-24,2026-09-01,3
+TK100096,C0253,LN00287,mobile_change,Mobile number change request,in_progress,2026-10-05,2026-10-09,3
+TK100097,C0053,LN00057,complaint,Complaint about service,in_progress,2026-08-20,2026-08-29,1
+TK100098,C0058,LN00062,address_change,Address change request,resolved,2026-10-14,2026-10-23,1
+TK100099,C0220,LN00249,noc_pending,NOC not received after closure,resolved,2026-08-31,2026-09-03,2
+TK100100,C0024,LN00024,refund,Refund of excess payment,resolved,2026-09-12,2026-09-21,0
+TK100101,C0275,LN00311,interest_certificate,Interest certificate request,in_progress,2026-10-03,2026-10-08,1
+TK100102,C0178,LN00205,noc_pending,NOC not received after closure,resolved,2026-09-13,2026-09-14,0
+TK100103,C0100,LN00110,interest_certificate,Interest certificate request,resolved,2026-10-16,2026-10-19,0
+TK100104,C0231,LN00261,refund,Refund of excess payment,resolved,2026-10-07,2026-10-11,0
+TK100105,C0022,LN00022,noc_pending,NOC not received after closure,resolved,2026-09-04,2026-09-04,1
+TK100106,C0294,LN00333,refund,Refund of excess payment,open,2026-09-15,2026-09-21,2
+TK100107,C0045,LN00047,wrong_account,Disbursed to wrong account,in_progress,2026-09-07,2026-09-13,1
+TK100108,C0130,LN00146,refund,Refund of excess payment,open,2026-08-26,2026-08-28,1
+TK100109,C0203,LN00231,complaint,Complaint about service,open,2026-08-31,2026-09-06,3
+TK100110,C0271,LN00306,address_change,Address change request,open,2026-10-10,2026-10-11,1
+TK100111,C0276,LN00312,complaint,Complaint about service,resolved,2026-09-15,2026-09-23,3
+TK100112,C0141,LN00162,double_debit,EMI debited twice,in_progress,2026-10-16,2026-10-24,2
+TK100113,C0205,LN00233,noc_pending,NOC not received after closure,open,2026-09-09,2026-09-18,1
+TK100114,C0079,LN00087,address_change,Address change request,open,2026-09-03,2026-09-12,1
+TK100115,C0256,LN00290,complaint,Complaint about service,resolved,2026-09-09,2026-09-17,3
+TK100116,C0034,LN00035,refund,Refund of excess payment,resolved,2026-08-29,2026-09-05,2
+TK100117,C0035,LN00036,mobile_change,Mobile number change request,resolved,2026-09-28,2026-10-08,1
+TK100118,C0171,LN00197,interest_certificate,Interest certificate request,resolved,2026-08-26,2026-08-26,1
+TK100119,C0022,LN00022,noc_pending,NOC not received after closure,resolved,2026-09-08,2026-09-15,1
+TK100120,C0007,LN00007,noc_pending,NOC not received after closure,resolved,2026-08-31,2026-09-08,2
+TK100121,C0068,LN00074,mobile_change,Mobile number change request,resolved,2026-09-04,2026-09-06,0
+TK100122,C0023,LN00023,refund,Refund of excess payment,resolved,2026-10-07,2026-10-07,3
+TK100123,C0226,LN00256,mobile_change,Mobile number change request,resolved,2026-10-07,2026-10-15,1
+TK100124,C0293,LN00332,address_change,Address change request,resolved,2026-09-28,2026-10-03,2
+TK100125,C0073,LN00081,complaint,Complaint about service,open,2026-10-08,2026-10-18,1
+TK100126,C0271,LN00306,noc_pending,NOC not received after closure,open,2026-09-08,2026-09-12,1
+TK100127,C0253,LN00287,noc_pending,NOC not received after closure,open,2026-10-17,2026-10-26,1
+TK100128,C0083,LN00091,complaint,Complaint about service,resolved,2026-09-23,2026-10-03,1
+TK100129,C0071,LN00078,refund,Refund of excess payment,resolved,2026-10-05,2026-10-07,1
+TK100130,C0242,LN00274,interest_certificate,Interest certificate request,in_progress,2026-09-15,2026-09-17,1
+TK100131,C0253,LN00287,interest_certificate,Interest certificate request,open,2026-10-07,2026-10-17,0
+TK100132,C0057,LN00061,address_change,Address change request,open,2026-09-07,2026-09-10,1
+TK100133,C0249,LN00283,wrong_account,Disbursed to wrong account,in_progress,2026-08-21,2026-08-23,3
+TK100134,C0260,LN00294,wrong_account,Disbursed to wrong account,resolved,2026-10-15,2026-10-20,2
+TK100135,C0066,LN00071,mobile_change,Mobile number change request,open,2026-09-07,2026-09-11,2
+TK100136,C0054,LN00058,double_debit,EMI debited twice,in_progress,2026-08-23,2026-09-01,1
+TK100137,C0069,LN00075,wrong_account,Disbursed to wrong account,resolved,2026-09-14,2026-09-20,3
+TK100138,C0218,LN00247,double_debit,EMI debited twice,resolved,2026-09-19,2026-09-24,2
+TK100139,C0047,LN00049,refund,Refund of excess payment,in_progress,2026-09-20,2026-09-20,3
+TK100140,C0171,LN00197,interest_certificate,Interest certificate request,resolved,2026-09-11,2026-09-21,2
+TK100141,C0094,LN00103,wrong_account,Disbursed to wrong account,in_progress,2026-09-06,2026-09-08,0
+TK100142,C0168,LN00194,complaint,Complaint about service,resolved,2026-10-05,2026-10-09,0
+TK100143,C0013,LN00013,interest_certificate,Interest certificate request,resolved,2026-10-01,2026-10-10,0
+TK100144,C0103,LN00113,mobile_change,Mobile number change request,open,2026-09-21,2026-09-21,2
+TK100145,C0161,LN00187,interest_certificate,Interest certificate request,open,2026-10-02,2026-10-04,2
+TK100146,C0256,LN00290,mobile_change,Mobile number change request,resolved,2026-10-15,2026-10-24,0
+TK100147,C0004,LN00004,double_debit,EMI debited twice,resolved,2026-10-09,2026-10-12,1
+TK100148,C0207,LN00235,complaint,Complaint about service,resolved,2026-08-21,2026-08-23,1
+TK100149,C0071,LN00079,mobile_change,Mobile number change request,open,2026-09-28,2026-10-07,3
+TK100150,C0187,LN00215,interest_certificate,Interest certificate request,open,2026-10-16,2026-10-18,2
+TK100151,C0013,LN00013,complaint,"Auto-debit failed, charged bounce fee anyway",open,2026-09-27,2026-09-28,3

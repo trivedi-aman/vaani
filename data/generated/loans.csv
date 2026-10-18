@@ -1,0 +1,342 @@
+loan_id,customer_id,product,amount,tenure_months,interest_rate,emi,stage,applied_on,internal_note,customer_message,disbursed_on,first_due,closed_on,outstanding_principal,next_due_date,nach_status,noc_status,bounces,overdue_amount,branch_code,assigned_to,priority,sla_due
+LN00001,C0001,Personal Loan,96000,24,16.26,4712,Underwriting,2026-09-14,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR108,E1014,normal,2026-09-21
+LN00002,C0002,Two-Wheeler Loan,130000,36,10.9,4250,Active,2026-02-22,,,2026-03-08,2026-04-05,,107922,2026-11-05,Registered,,0,0,BR108,,normal,2026-03-01
+LN00003,C0003,Personal Loan,577000,48,16.57,16521,Active,2025-12-23,,,2025-12-31,2026-01-05,,485949,2026-11-05,Registered,,0,0,BR179,,normal,2025-12-30
+LN00004,C0004,Business Loan,813000,60,15.37,19499,Active,2026-03-17,,,2026-03-23,2026-04-05,,746903,2026-11-05,Registered,,1,20089,BR098,,normal,2026-03-24
+LN00005,C0005,Personal Loan,334000,48,14.88,9275,Credit_Check,2026-10-10,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR103,E1014,normal,2026-10-17
+LN00006,C0006,Home Improvement Loan,638000,60,11.59,14060,Active,2026-03-14,,,2026-03-19,2026-04-05,,581086,2026-11-05,Registered,,0,0,BR176,,normal,2026-03-21
+LN00007,C0007,Two-Wheeler Loan,120000,36,13.42,4068,Closed,2025-07-14,,,2025-07-20,2025-08-05,2026-08-14,0,,Registered,Pending,0,0,BR155,,normal,2025-07-21
+LN00008,C0008,Personal Loan,144000,12,16.47,13097,KYC,2026-09-12,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR061,E1007,normal,2026-09-19
+LN00009,C0009,Business Loan,476000,24,20.61,24368,Disbursal_Hold,2026-09-10,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR068,E1009,normal,2026-09-17
+LN00010,C0010,Personal Loan,637000,48,17.43,18523,Active,2026-04-30,,,2026-05-06,2026-06-05,,589281,2026-11-05,Registered,,0,0,BR118,,normal,2026-05-07
+LN00011,C0011,Gold Loan,393000,12,12.7,35046,KYC,2026-09-25,Address proof does not match Aadhaar address,Your address proof does not match the address on your Aadhaar. Please upload a matching document in the app.,,,,,,,,0,0,BR116,E1007,normal,2026-10-02
+LN00012,C0012,Personal Loan,328000,24,17.26,16258,Rejected,2026-09-19,Bureau score below policy minimum,Your application did not meet our credit policy this time. You can apply again after 6 months.,,,,,,,,0,0,BR074,,normal,2026-09-26
+LN00013,C0013,Personal Loan,669000,48,17.06,19325,Active,2026-05-10,,,2026-05-15,2026-06-05,,618514,2026-11-05,Failed,,1,19915,BR014,,normal,2026-05-17
+LN00014,C0014,Business Loan,256000,60,17.28,6401,Underwriting,2026-10-12,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR007,E1014,normal,2026-10-19
+LN00015,C0015,Gold Loan,146000,12,11.37,12929,Active,2026-02-22,,,2026-03-01,2026-04-05,,62847,2026-11-05,Registered,,0,0,BR190,,normal,2026-03-01
+LN00016,C0016,Personal Loan,60000,48,19.58,1812,Active,2026-01-20,,,2026-01-29,2026-02-05,,51995,2026-11-05,Registered,,1,2402,BR108,,normal,2026-01-27
+LN00017,C0017,Two-Wheeler Loan,82000,18,10.86,4957,Approved,2026-10-12,,,,,,,,,,0,0,BR092,,normal,2026-10-19
+LN00018,C0018,Personal Loan,254000,48,18.31,7502,Active,2026-02-28,,,2026-03-10,2026-04-05,,227423,2026-11-05,Registered,,2,8092,BR037,,normal,2026-03-07
+LN00019,C0019,Personal Loan,643000,48,21.8,20189,Credit_Check,2026-09-08,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR014,E1012,normal,2026-09-15
+LN00020,C0020,Personal Loan,722000,48,15.18,20160,Active,2026-03-27,,,2026-04-05,2026-05-05,,653713,2026-11-05,Registered,,1,20750,BR120,,normal,2026-04-03
+LN00021,C0021,Personal Loan,372000,48,13.69,10108,KYC,2026-09-15,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR092,E1007,normal,2026-09-22
+LN00022,C0022,Gold Loan,342000,12,11.17,30254,Active,2026-02-06,,,2026-02-17,2026-03-05,,118246,2026-11-05,Registered,,1,0,BR128,,normal,2026-02-13
+LN00023,C0023,Personal Loan,403000,12,19.99,37330,Disbursal_Hold,2026-10-03,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR121,E1010,normal,2026-10-10
+LN00024,C0024,Business Loan,864000,60,20.65,23204,Active,2026-05-13,,,2026-05-19,2026-06-05,,820861,2026-11-05,Registered,,0,0,BR141,,normal,2026-05-20
+LN00025,C0025,Home Improvement Loan,473000,60,13.16,10801,Active,2026-05-18,,,2026-05-28,2026-06-05,,444309,2026-11-05,Registered,,0,0,BR092,,normal,2026-05-25
+LN00026,C0026,Personal Loan,435000,24,19.32,21995,Underwriting,2026-09-29,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR088,E1014,normal,2026-10-06
+LN00027,C0027,Two-Wheeler Loan,87000,36,14.74,3005,Active,2026-01-05,,,2026-01-13,2026-02-05,,68692,2026-11-05,Registered,,2,0,BR111,,normal,2026-01-12
+LN00028,C0028,Personal Loan,638000,48,15.06,17775,Active,2026-03-12,,,2026-03-23,2026-04-05,,566993,2026-11-05,Registered,,1,0,BR198,,normal,2026-03-19
+LN00029,C0029,Personal Loan,708000,12,14.5,63736,Applied,2026-10-13,,,,,,,,,,0,0,BR083,,normal,2026-10-20
+LN00030,C0030,Gold Loan,171000,12,12.65,15245,Credit_Check,2026-09-13,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR098,E1014,normal,2026-09-20
+LN00031,C0004,Two-Wheeler Loan,158000,36,13.89,5392,Closed,2024-09-02,,,2024-09-13,2024-10-05,2026-08-11,0,,Registered,Dispatched,0,0,BR098,,normal,2024-09-09
+LN00032,C0031,Personal Loan,578000,24,19.18,29187,Applied,2026-09-16,,,,,,,,,,0,0,BR102,,normal,2026-09-23
+LN00033,C0032,Business Loan,1381000,24,15.69,67414,Closed,2025-06-14,,,2025-06-29,2025-07-05,2026-08-19,0,,Registered,Dispatched,0,0,BR084,,normal,2025-06-21
+LN00034,C0033,Home Improvement Loan,202000,24,14.42,9739,KYC,2026-09-23,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR087,E1007,normal,2026-09-30
+LN00035,C0034,Personal Loan,598000,24,17.7,29768,Credit_Check,2026-09-10,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR137,E1012,normal,2026-09-17
+LN00036,C0035,Gold Loan,193000,6,11.96,33298,Closed,2026-03-26,,,2026-04-06,2026-05-05,2026-10-05,0,,Registered,Dispatched,0,0,BR103,,normal,2026-04-02
+LN00037,C0035,Home Improvement Loan,959000,24,14.57,46303,Closed,2025-05-25,,,2025-05-30,2025-06-05,2026-08-11,0,,Registered,Dispatched,0,0,BR103,,normal,2025-06-01
+LN00038,C0036,Two-Wheeler Loan,40000,18,12.01,2439,Credit_Check,2026-10-10,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR138,E1011,normal,2026-10-17
+LN00039,C0037,Personal Loan,571000,24,20.11,29092,Credit_Check,2026-09-28,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR053,E1012,normal,2026-10-05
+LN00040,C0038,Personal Loan,197000,48,20.93,6093,Credit_Check,2026-10-08,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR116,E1011,normal,2026-10-15
+LN00041,C0039,Personal Loan,320000,36,21.18,12086,Underwriting,2026-09-19,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR127,E1011,normal,2026-09-26
+LN00042,C0040,Gold Loan,57000,6,10.91,9805,Underwriting,2026-10-10,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR166,E1019,normal,2026-10-17
+LN00043,C0041,Gold Loan,257000,12,12.64,22911,KYC,2026-10-06,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR201,E1009,normal,2026-10-13
+LN00044,C0042,Gold Loan,360000,12,9.04,31489,Credit_Check,2026-10-10,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR068,E1012,normal,2026-10-17
+LN00045,C0043,Personal Loan,390000,24,18.56,19576,Closed,2024-06-15,,,2024-06-24,2024-07-05,2026-06-05,0,,Registered,Dispatched,0,0,BR066,,normal,2024-06-22
+LN00046,C0044,Two-Wheeler Loan,167000,18,14.03,10342,Underwriting,2026-09-15,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR059,E1014,normal,2026-09-22
+LN00047,C0045,Gold Loan,221000,6,11.77,38108,Closed,2024-05-31,,,2024-06-13,2024-07-05,2024-12-05,0,,Registered,Dispatched,0,0,BR008,,normal,2024-06-07
+LN00048,C0046,Gold Loan,263000,6,10.03,45125,KYC,2026-09-22,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR091,E1009,normal,2026-09-29
+LN00049,C0047,Business Loan,1244000,36,16.5,44043,KYC,2026-09-27,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR051,E1010,normal,2026-10-04
+LN00050,C0048,Personal Loan,130000,24,20.92,6675,Active,2024-12-28,,,2025-01-11,2025-02-05,,19348,2026-11-05,Registered,,1,0,BR172,,normal,2025-01-04
+LN00051,C0049,Personal Loan,755000,36,19.2,27752,Active,2024-05-04,,,2024-05-13,2024-06-05,,182390,2026-11-05,Registered,,0,0,BR050,,normal,2024-05-11
+LN00052,C0050,Gold Loan,304000,12,13.56,27232,KYC,2026-10-12,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR009,E1010,normal,2026-10-19
+LN00053,C0050,Personal Loan,202000,36,21.21,7632,Active,2025-10-13,,,2025-10-23,2025-11-05,,148231,2026-11-05,Registered,,1,0,BR009,,normal,2025-10-20
+LN00054,C0051,Gold Loan,303000,6,11.18,52159,Applied,2026-10-05,,,,,,,,,,0,0,BR031,,normal,2026-10-12
+LN00055,C0052,Business Loan,602000,24,20.69,30843,Closed,2024-11-11,,,2024-11-21,2024-12-05,2026-09-13,0,,Registered,Dispatched,0,0,BR081,,normal,2024-11-18
+LN00056,C0052,Home Improvement Loan,887000,24,14.51,42801,KYC,2026-09-25,Address proof does not match Aadhaar address,Your address proof does not match the address on your Aadhaar. Please upload a matching document in the app.,,,,,,,,0,0,BR081,E1010,normal,2026-10-02
+LN00057,C0053,Home Improvement Loan,658000,24,12.6,31159,KYC,2026-09-30,Address proof does not match Aadhaar address,Your address proof does not match the address on your Aadhaar. Please upload a matching document in the app.,,,,,,,,0,0,BR102,E1009,normal,2026-10-07
+LN00058,C0054,Business Loan,1075000,60,19.42,28135,Rejected,2026-10-11,Bureau score below policy minimum,Your application did not meet our credit policy this time. You can apply again after 6 months.,,,,,,,,0,0,BR189,,normal,2026-10-18
+LN00059,C0055,Business Loan,310000,60,20.65,8326,Active,2025-09-30,,,2025-10-11,2025-11-05,,270502,2026-11-05,Registered,,0,0,BR184,,normal,2025-10-07
+LN00060,C0056,Business Loan,316000,60,20.12,8393,Credit_Check,2026-10-09,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR165,E1012,normal,2026-10-16
+LN00061,C0057,Two-Wheeler Loan,147000,18,11.0,8896,Underwriting,2026-09-24,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR084,E1019,normal,2026-10-01
+LN00062,C0058,Home Improvement Loan,155000,36,14.49,5334,Active,2025-04-04,,,2025-04-10,2025-05-05,,85851,2026-11-05,Registered,,2,0,BR023,,normal,2025-04-11
+LN00063,C0058,Two-Wheeler Loan,136000,36,10.51,4421,Approved,2026-09-20,,,,,,,,,,0,0,BR023,,normal,2026-09-27
+LN00064,C0059,Business Loan,316000,24,17.44,15691,Closed,2024-09-17,,,2024-09-29,2024-10-05,2026-09-05,0,,Registered,Dispatched,0,0,BR025,,normal,2024-09-24
+LN00065,C0060,Personal Loan,280000,48,18.61,8315,Disbursal_Hold,2026-10-05,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR098,E1007,normal,2026-10-12
+LN00066,C0061,Two-Wheeler Loan,128000,24,12.78,6072,Closed,2024-09-01,,,2024-09-15,2024-10-05,2026-09-05,0,,Registered,Dispatched,0,0,BR160,,normal,2024-09-08
+LN00067,C0062,Personal Loan,651000,12,20.2,60367,Active,2026-02-08,,,2026-02-19,2026-03-05,,231643,2026-11-05,Registered,,0,0,BR002,,normal,2026-02-15
+LN00068,C0063,Gold Loan,293000,12,10.52,25830,Approved,2026-10-08,,,,,,,,,,0,0,BR018,,normal,2026-10-15
+LN00069,C0064,Home Improvement Loan,443000,24,11.02,20651,Rejected,2026-09-14,Negative pincode as per policy,We are unable to offer this loan in your area at present.,,,,,,,,0,0,BR113,,normal,2026-09-21
+LN00070,C0065,Home Improvement Loan,184000,36,13.88,6278,Closed,2025-12-10,,,2025-12-20,2026-01-05,2026-08-19,0,,Registered,Dispatched,0,0,BR153,,normal,2025-12-17
+LN00071,C0066,Business Loan,1300000,36,19.55,48015,Underwriting,2026-09-26,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR138,E1014,normal,2026-10-03
+LN00072,C0066,Business Loan,380000,60,19.6,9983,Active,2024-06-04,,,2024-06-17,2024-07-05,,247281,2026-11-05,Registered,,0,0,BR138,,normal,2024-06-11
+LN00073,C0067,Personal Loan,90000,12,16.85,8202,Closed,2024-07-16,,,2024-07-23,2024-08-05,2025-07-05,0,,Registered,Dispatched,0,0,BR133,,normal,2024-07-23
+LN00074,C0068,Home Improvement Loan,267000,36,11.87,8852,Active,2025-05-30,,,2025-06-08,2025-07-05,,159902,2026-11-05,Registered,,3,0,BR105,,normal,2025-06-06
+LN00075,C0069,Two-Wheeler Loan,93000,18,15.03,5803,Approved,2026-09-30,,,,,,,,,,0,0,BR079,,normal,2026-10-07
+LN00076,C0069,Personal Loan,326000,12,14.75,29386,Underwriting,2026-10-13,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR079,E1019,normal,2026-10-20
+LN00077,C0070,Gold Loan,220000,12,11.69,19515,Credit_Check,2026-09-24,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR183,E1014,normal,2026-10-01
+LN00078,C0071,Two-Wheeler Loan,80000,24,14.06,3843,Rejected,2026-09-21,Negative pincode as per policy,We are unable to offer this loan in your area at present.,,,,,,,,0,0,BR144,,normal,2026-09-28
+LN00079,C0071,Business Loan,888000,60,16.59,21874,KYC,2026-10-01,Address proof does not match Aadhaar address,Your address proof does not match the address on your Aadhaar. Please upload a matching document in the app.,,,,,,,,0,0,BR144,E1008,normal,2026-10-08
+LN00080,C0072,Gold Loan,254000,12,13.94,22799,Underwriting,2026-10-09,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR177,E1019,normal,2026-10-16
+LN00081,C0073,Two-Wheeler Loan,87000,18,13.09,5350,Active,2026-03-24,,,2026-03-31,2026-04-05,,55166,2026-11-05,Registered,,0,0,BR159,,normal,2026-03-31
+LN00082,C0074,Business Loan,1346000,60,17.41,33749,Applied,2026-10-11,,,,,,,,,,0,0,BR117,,normal,2026-10-18
+LN00083,C0075,Personal Loan,671000,48,15.55,18862,KYC,2026-09-17,Address proof does not match Aadhaar address,Your address proof does not match the address on your Aadhaar. Please upload a matching document in the app.,,,,,,,,0,0,BR015,E1007,normal,2026-09-24
+LN00084,C0076,Gold Loan,349000,6,13.95,60556,Closed,2026-03-17,,,2026-03-29,2026-04-05,2026-09-05,0,,Registered,Dispatched,0,0,BR112,,normal,2026-03-24
+LN00085,C0077,Two-Wheeler Loan,123000,24,11.95,5787,Closed,2024-09-12,,,2024-09-27,2024-10-05,2026-09-05,0,,Registered,Dispatched,0,0,BR144,,normal,2024-09-19
+LN00086,C0078,Gold Loan,91000,12,9.51,7980,Active,2025-12-13,,,2025-12-22,2026-01-05,,15768,2026-11-05,Registered,,1,0,BR030,,normal,2025-12-20
+LN00087,C0079,Home Improvement Loan,888000,60,11.07,19338,Active,2024-11-09,,,2024-11-17,2024-12-05,,603862,2026-11-05,Registered,,1,0,BR064,,normal,2024-11-16
+LN00088,C0080,Two-Wheeler Loan,141000,12,15.61,12767,Closed,2025-08-26,,,2025-08-31,2025-09-05,2026-08-05,0,,Registered,Dispatched,0,0,BR103,,normal,2025-09-02
+LN00089,C0081,Home Improvement Loan,454000,60,13.08,10348,Active,2025-11-24,,,2025-12-01,2026-01-05,,397279,2026-11-05,Registered,,2,0,BR085,,normal,2025-12-01
+LN00090,C0082,Business Loan,331000,24,19.15,16709,Active,2024-11-03,,,2024-11-12,2024-12-05,,16457,2026-11-05,Registered,,2,0,BR013,,normal,2024-11-10
+LN00091,C0083,Gold Loan,117000,12,10.99,10340,Closed,2025-10-31,,,2025-11-09,2025-12-05,2026-08-19,0,,Registered,Dispatched,0,0,BR001,,normal,2025-11-07
+LN00092,C0084,Home Improvement Loan,662000,36,13.71,22532,Active,2025-12-23,,,2026-01-07,2026-02-05,,520955,2026-11-05,Registered,,1,0,BR069,,normal,2025-12-30
+LN00093,C0085,Home Improvement Loan,828000,60,11.38,18160,Applied,2026-10-06,,,,,,,,,,0,0,BR175,,normal,2026-10-13
+LN00094,C0085,Home Improvement Loan,208000,24,13.1,9898,Closed,2025-09-21,,,2025-10-01,2025-11-05,2026-09-25,0,,Registered,Dispatched,0,0,BR175,,normal,2025-09-28
+LN00095,C0086,Personal Loan,707000,36,16.48,25024,Rejected,2026-09-19,FOIR above policy limit,Your current loan repayments are too high compared to your income for this amount. You can apply for a smaller amount.,,,,,,,,0,0,BR145,,normal,2026-09-26
+LN00096,C0087,Business Loan,1029000,48,19.55,31067,Active,2025-05-05,,,2025-05-15,2025-06-05,,751425,2026-11-05,Registered,,1,31657,BR039,,normal,2025-05-12
+LN00097,C0088,Business Loan,1107000,24,19.16,55888,Disbursal_Hold,2026-09-19,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR052,E1009,normal,2026-09-26
+LN00098,C0089,Home Improvement Loan,170000,36,11.87,5636,Closed,2025-01-16,,,2025-01-27,2025-02-05,2026-08-25,0,,Registered,Dispatched,0,0,BR082,,normal,2025-01-23
+LN00099,C0090,Business Loan,1164000,36,15.0,40350,Active,2024-12-17,,,2024-12-31,2025-01-05,,515308,2026-11-05,Registered,,0,0,BR115,,normal,2024-12-24
+LN00100,C0091,Business Loan,1462000,48,15.32,40926,Underwriting,2026-09-30,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR120,E1019,normal,2026-10-07
+LN00101,C0092,Personal Loan,538000,24,19.38,27219,Credit_Check,2026-10-03,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR163,E1011,normal,2026-10-10
+LN00102,C0093,Personal Loan,526000,12,14.0,47228,Closed,2025-03-15,,,2025-03-27,2025-04-05,2026-03-05,0,,Registered,Dispatched,0,0,BR109,,normal,2025-03-22
+LN00103,C0094,Home Improvement Loan,453000,24,13.81,21709,Active,2024-11-19,,,2024-11-28,2024-12-05,,21465,2026-11-05,Registered,,0,0,BR053,,normal,2024-11-26
+LN00104,C0094,Gold Loan,249000,6,13.07,43096,Closed,2025-04-12,,,2025-04-22,2025-05-05,2025-10-05,0,,Registered,Dispatched,0,0,BR053,,normal,2025-04-19
+LN00105,C0095,Gold Loan,161000,6,9.25,27562,Closed,2025-12-02,,,2025-12-09,2026-01-05,2026-06-05,0,,Registered,Dispatched,0,0,BR186,,normal,2025-12-09
+LN00106,C0096,Two-Wheeler Loan,42000,24,12.07,1978,Active,2024-11-09,,,2024-11-21,2024-12-05,,1970,2026-11-05,Registered,,1,0,BR144,,normal,2024-11-16
+LN00107,C0097,Personal Loan,698000,48,15.26,19518,Disbursal_Hold,2026-10-06,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR055,E1009,normal,2026-10-13
+LN00108,C0098,Business Loan,1122000,24,16.33,55114,Active,2025-10-07,,,2025-10-16,2025-11-05,,606393,2026-11-05,Registered,,0,0,BR092,,normal,2025-10-14
+LN00109,C0099,Gold Loan,386000,12,10.21,33973,Applied,2026-10-08,,,,,,,,,,0,0,BR117,,normal,2026-10-15
+LN00110,C0100,Home Improvement Loan,490000,60,13.7,11325,Applied,2026-10-07,,,,,,,,,,0,0,BR110,,normal,2026-10-14
+LN00111,C0101,Home Improvement Loan,786000,24,11.08,36663,Disbursal_Hold,2026-10-13,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR164,E1010,normal,2026-10-20
+LN00112,C0102,Two-Wheeler Loan,165000,24,15.73,8058,Active,2025-01-30,,,2025-02-14,2025-03-05,,31195,2026-11-05,Registered,,3,0,BR062,,normal,2025-02-06
+LN00113,C0103,Home Improvement Loan,947000,24,12.03,44592,Active,2025-12-25,,,2026-01-02,2026-02-05,,618147,2026-11-05,Registered,,1,0,BR105,,normal,2026-01-01
+LN00114,C0103,Two-Wheeler Loan,104000,12,12.23,9251,KYC,2026-10-03,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR105,E1010,normal,2026-10-10
+LN00115,C0104,Two-Wheeler Loan,79000,24,11.6,3704,Closed,2024-07-13,,,2024-07-24,2024-08-05,2026-07-05,0,,Registered,Dispatched,0,0,BR100,,normal,2024-07-20
+LN00116,C0104,Gold Loan,238000,6,10.08,40841,Applied,2026-09-11,,,,,,,,,,0,0,BR100,,normal,2026-09-18
+LN00117,C0105,Gold Loan,249000,12,10.27,21922,Active,2025-11-28,,,2025-12-11,2026-01-05,,43294,2026-11-05,Registered,,1,22512,BR143,,normal,2025-12-05
+LN00118,C0106,Personal Loan,90000,48,15.7,2537,KYC,2026-09-27,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR040,E1007,normal,2026-10-04
+LN00119,C0107,Home Improvement Loan,288000,24,12.2,13584,Underwriting,2026-09-21,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR094,E1011,normal,2026-09-28
+LN00120,C0108,Business Loan,423000,24,20.5,21632,Active,2024-12-04,,,2024-12-15,2025-01-05,,42192,2026-11-05,Registered,,1,0,BR168,,normal,2024-12-11
+LN00121,C0109,Gold Loan,74000,12,10.15,6511,Credit_Check,2026-10-12,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR097,E1013,normal,2026-10-19
+LN00122,C0110,Two-Wheeler Loan,128000,36,12.91,4307,Active,2024-10-05,,,2024-10-18,2024-11-05,,48257,2026-11-05,Registered,,0,0,BR021,,normal,2024-10-12
+LN00123,C0111,Personal Loan,240000,24,16.33,11789,Active,2025-04-22,,,2025-05-05,2025-06-05,,78206,2026-11-05,Registered,,2,0,BR076,,normal,2025-04-29
+LN00124,C0111,Business Loan,498000,48,19.06,14906,Underwriting,2026-10-08,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR076,E1012,normal,2026-10-15
+LN00125,C0112,Personal Loan,499000,12,18.18,45791,Underwriting,2026-09-29,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR056,E1011,normal,2026-10-06
+LN00126,C0113,Two-Wheeler Loan,61000,12,11.57,5408,Credit_Check,2026-10-05,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR092,E1019,normal,2026-10-12
+LN00127,C0114,Two-Wheeler Loan,139000,24,12.57,6580,Closed,2025-07-04,,,2025-07-19,2025-08-05,2026-08-17,0,,Registered,Dispatched,0,0,BR200,,normal,2025-07-11
+LN00128,C0115,Personal Loan,165000,36,15.11,5729,Closed,2024-11-20,,,2024-11-27,2024-12-05,2026-09-06,0,,Registered,Dispatched,0,0,BR077,,normal,2024-11-27
+LN00129,C0116,Personal Loan,259000,12,19.17,23890,KYC,2026-10-06,Address proof does not match Aadhaar address,Your address proof does not match the address on your Aadhaar. Please upload a matching document in the app.,,,,,,,,0,0,BR095,E1008,normal,2026-10-13
+LN00130,C0117,Home Improvement Loan,796000,24,11.91,37437,Underwriting,2026-09-18,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR078,E1019,normal,2026-09-25
+LN00131,C0117,Two-Wheeler Loan,134000,12,13.86,12023,Closed,2024-08-24,,,2024-09-03,2024-10-05,2025-09-05,0,,Registered,Dispatched,0,0,BR078,,normal,2024-08-31
+LN00132,C0118,Two-Wheeler Loan,87000,12,15.19,7860,Underwriting,2026-10-08,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR033,E1019,normal,2026-10-15
+LN00133,C0119,Home Improvement Loan,630000,60,14.37,14780,Underwriting,2026-10-01,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR138,E1011,normal,2026-10-08
+LN00134,C0120,Two-Wheeler Loan,97000,12,14.31,8724,KYC,2026-09-10,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR117,E1008,normal,2026-09-17
+LN00135,C0121,Two-Wheeler Loan,122000,18,11.46,7409,Credit_Check,2026-10-11,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR109,E1012,normal,2026-10-18
+LN00136,C0121,Home Improvement Loan,416000,60,14.8,9853,Closed,2025-06-10,,,2025-06-18,2025-07-05,2026-09-18,0,,Registered,Dispatched,0,0,BR109,,normal,2025-06-17
+LN00137,C0122,Home Improvement Loan,814000,36,14.75,28118,Rejected,2026-09-14,Negative pincode as per policy,We are unable to offer this loan in your area at present.,,,,,,,,0,0,BR196,,normal,2026-09-21
+LN00138,C0122,Personal Loan,788000,48,21.89,24780,Credit_Check,2026-09-16,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR196,E1013,normal,2026-09-23
+LN00139,C0123,Gold Loan,167000,6,10.52,28694,Disbursal_Hold,2026-09-18,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR063,E1009,normal,2026-09-25
+LN00140,C0124,Personal Loan,283000,48,13.76,7699,Underwriting,2026-09-29,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR144,E1013,normal,2026-10-06
+LN00141,C0125,Two-Wheeler Loan,153000,12,13.21,13681,Rejected,2026-09-29,Bureau score below policy minimum,Your application did not meet our credit policy this time. You can apply again after 6 months.,,,,,,,,0,0,BR171,,normal,2026-10-06
+LN00142,C0126,Personal Loan,381000,36,19.36,14035,Active,2024-06-02,,,2024-06-10,2024-07-05,,104567,2026-11-05,Registered,,2,0,BR086,,normal,2024-06-09
+LN00143,C0127,Two-Wheeler Loan,186000,12,14.69,16761,Credit_Check,2026-10-03,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR167,E1019,normal,2026-10-10
+LN00144,C0128,Personal Loan,108000,48,13.73,2937,Applied,2026-09-29,,,,,,,,,,0,0,BR174,,normal,2026-10-06
+LN00145,C0129,Business Loan,918000,48,17.81,26875,Active,2024-07-13,,,2024-07-21,2024-08-05,,481858,2026-11-05,Registered,,0,0,BR032,,normal,2024-07-20
+LN00146,C0130,Two-Wheeler Loan,80000,36,10.73,2609,Credit_Check,2026-09-27,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR005,E1013,normal,2026-10-04
+LN00147,C0130,Personal Loan,649000,12,16.0,58884,Rejected,2026-09-16,Negative pincode as per policy,We are unable to offer this loan in your area at present.,,,,,,,,0,0,BR005,,normal,2026-09-23
+LN00148,C0131,Personal Loan,51000,36,19.73,1888,Credit_Check,2026-10-03,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR153,E1013,normal,2026-10-10
+LN00149,C0132,Two-Wheeler Loan,67000,36,13.85,2285,Underwriting,2026-09-28,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR125,E1014,normal,2026-10-05
+LN00150,C0133,Business Loan,888000,60,19.14,23104,Applied,2026-09-12,,,,,,,,,,0,0,BR182,,normal,2026-09-19
+LN00151,C0134,Two-Wheeler Loan,134000,12,13.99,12031,Credit_Check,2026-10-13,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR058,E1012,normal,2026-10-20
+LN00152,C0134,Two-Wheeler Loan,137000,18,12.76,8403,Closed,2025-02-09,,,2025-02-22,2025-03-05,2026-08-05,0,,Registered,Dispatched,0,0,BR058,,normal,2025-02-16
+LN00153,C0135,Two-Wheeler Loan,136000,24,11.32,6359,Approved,2026-09-17,,,,,,,,,,0,0,BR016,,normal,2026-09-24
+LN00154,C0136,Home Improvement Loan,532000,24,11.69,24966,Active,2025-04-28,,,2025-05-10,2025-06-05,,168150,2026-11-05,Registered,,1,0,BR072,,normal,2025-05-05
+LN00155,C0136,Two-Wheeler Loan,134000,12,13.33,11989,Active,2025-12-07,,,2025-12-12,2026-01-05,,23588,2026-11-05,Registered,,1,0,BR072,,normal,2025-12-14
+LN00156,C0137,Gold Loan,286000,12,9.64,25096,Closed,2025-09-24,,,2025-10-07,2025-11-05,2026-10-05,0,,Registered,Dispatched,0,0,BR019,,normal,2025-10-01
+LN00157,C0138,Gold Loan,376000,6,13.74,65202,Closed,2024-11-07,,,2024-11-20,2024-12-05,2025-05-05,0,,Registered,Dispatched,0,0,BR103,,normal,2024-11-14
+LN00158,C0139,Home Improvement Loan,534000,24,14.31,25717,Closed,2025-10-28,,,2025-11-05,2025-12-05,2026-09-29,0,,Registered,Dispatched,0,0,BR157,,normal,2025-11-04
+LN00159,C0139,Gold Loan,299000,12,11.49,26495,Disbursal_Hold,2026-10-10,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR157,E1007,normal,2026-10-17
+LN00160,C0140,Two-Wheeler Loan,127000,18,10.51,7657,KYC,2026-09-30,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR085,E1010,normal,2026-10-07
+LN00161,C0140,Two-Wheeler Loan,96000,18,12.15,5861,Active,2025-09-24,,,2025-10-06,2025-11-05,,33951,2026-11-05,Registered,,0,0,BR085,,normal,2025-10-01
+LN00162,C0141,Business Loan,476000,36,15.38,16589,KYC,2026-10-09,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR054,E1009,normal,2026-10-16
+LN00163,C0142,Gold Loan,158000,6,10.2,27122,Approved,2026-09-30,,,,,,,,,,0,0,BR161,,normal,2026-10-07
+LN00164,C0143,Business Loan,559000,36,19.68,20683,Disbursal_Hold,2026-10-06,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR199,E1018,normal,2026-10-13
+LN00165,C0143,Business Loan,1135000,60,16.42,27855,Credit_Check,2026-09-11,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR199,E1011,normal,2026-09-18
+LN00166,C0144,Business Loan,1329000,60,20.28,35418,Approved,2026-10-06,,,,,,,,,,0,0,BR046,,normal,2026-10-13
+LN00167,C0145,Home Improvement Loan,964000,36,12.76,32370,Credit_Check,2026-09-09,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR144,E1019,normal,2026-09-16
+LN00168,C0146,Business Loan,467000,48,19.23,14020,Applied,2026-09-17,,,,,,,,,,0,0,BR201,,normal,2026-09-24
+LN00169,C0147,Home Improvement Loan,183000,36,14.26,6278,Active,2025-10-13,,,2025-10-22,2025-11-05,,130411,2026-11-05,Registered,,0,0,BR067,,normal,2025-10-20
+LN00170,C0148,Two-Wheeler Loan,91000,18,15.22,5686,KYC,2026-10-10,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR181,E1018,normal,2026-10-17
+LN00171,C0149,Two-Wheeler Loan,69000,24,12.33,3259,Closed,2026-03-19,,,2026-03-24,2026-04-05,2026-09-23,0,,Registered,Dispatched,0,0,BR012,,normal,2026-03-26
+LN00172,C0149,Home Improvement Loan,185000,60,14.5,4353,Underwriting,2026-09-26,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR012,E1013,normal,2026-10-03
+LN00173,C0150,Home Improvement Loan,316000,24,14.48,15244,Closed,2025-08-05,,,2025-08-10,2025-09-05,2026-08-08,0,,Registered,Dispatched,0,0,BR140,,normal,2025-08-12
+LN00174,C0151,Two-Wheeler Loan,108000,18,13.11,6642,Closed,2024-08-20,,,2024-08-25,2024-09-05,2026-02-05,0,,Registered,Dispatched,0,0,BR154,,normal,2024-08-27
+LN00175,C0152,Business Loan,1227000,36,15.16,42631,Active,2024-07-25,,,2024-08-02,2024-09-05,,398110,2026-11-05,Registered,,1,0,BR124,,normal,2024-08-01
+LN00176,C0153,Gold Loan,119000,6,13.04,20594,Underwriting,2026-09-28,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR134,E1011,normal,2026-10-05
+LN00177,C0154,Personal Loan,720000,48,18.5,21339,Active,2026-03-11,,,2026-03-26,2026-04-05,,644926,2026-11-05,Registered,,0,0,BR192,,normal,2026-03-18
+LN00178,C0155,Gold Loan,72000,6,12.04,12425,Rejected,2026-10-13,Negative pincode as per policy,We are unable to offer this loan in your area at present.,,,,,,,,0,0,BR189,,normal,2026-10-20
+LN00179,C0156,Home Improvement Loan,323000,36,12.67,10832,Credit_Check,2026-10-04,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR022,E1014,normal,2026-10-11
+LN00180,C0156,Home Improvement Loan,735000,36,11.25,24150,Closed,2025-12-08,,,2025-12-22,2026-01-05,2026-07-28,0,,Registered,Dispatched,0,0,BR022,,normal,2025-12-15
+LN00181,C0157,Gold Loan,376000,6,11.6,64804,Approved,2026-09-29,,,,,,,,,,0,0,BR150,,normal,2026-10-06
+LN00182,C0157,Personal Loan,356000,36,16.22,12555,Closed,2024-12-16,,,2024-12-31,2025-01-05,2026-07-22,0,,Registered,Dispatched,0,0,BR150,,normal,2024-12-23
+LN00183,C0158,Home Improvement Loan,507000,24,14.68,24506,Credit_Check,2026-09-13,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR120,E1012,normal,2026-09-20
+LN00184,C0159,Gold Loan,73000,12,13.28,6530,Rejected,2026-09-11,FOIR above policy limit,Your current loan repayments are too high compared to your income for this amount. You can apply for a smaller amount.,,,,,,,,0,0,BR135,,normal,2026-09-18
+LN00185,C0160,Two-Wheeler Loan,154000,12,12.76,13738,Closed,2025-02-27,,,2025-03-11,2025-04-05,2026-03-05,0,,Registered,Dispatched,0,0,BR108,,normal,2025-03-06
+LN00186,C0160,Personal Loan,768000,12,20.94,71489,Credit_Check,2026-10-06,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR108,E1014,normal,2026-10-13
+LN00187,C0161,Personal Loan,542000,24,19.39,27424,Active,2026-02-07,,,2026-02-20,2026-03-05,,383946,2026-11-05,Registered,,2,0,BR094,,normal,2026-02-14
+LN00188,C0162,Two-Wheeler Loan,128000,18,12.45,7832,Credit_Check,2026-10-04,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR015,E1011,normal,2026-10-11
+LN00189,C0163,Two-Wheeler Loan,45000,18,12.34,2751,Closed,2025-03-08,,,2025-03-19,2025-04-05,2026-09-05,0,,Registered,Dispatched,0,0,BR129,,normal,2025-03-15
+LN00190,C0164,Personal Loan,337000,24,20.44,17224,Closed,2024-05-08,,,2024-05-22,2024-06-05,2026-05-05,0,,Registered,Dispatched,0,0,BR020,,normal,2024-05-15
+LN00191,C0165,Business Loan,924000,48,17.07,26696,Active,2025-02-21,,,2025-02-27,2025-03-05,,613006,2026-11-05,Registered,,1,0,BR187,,normal,2025-02-28
+LN00192,C0166,Gold Loan,353000,12,13.71,31647,Closed,2024-12-01,,,2024-12-11,2025-01-05,2025-12-05,0,,Registered,Dispatched,0,0,BR197,,normal,2024-12-08
+LN00193,C0167,Home Improvement Loan,935000,60,11.39,20511,Underwriting,2026-09-12,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR197,E1013,normal,2026-09-19
+LN00194,C0168,Home Improvement Loan,727000,36,11.29,23901,KYC,2026-09-25,Address proof does not match Aadhaar address,Your address proof does not match the address on your Aadhaar. Please upload a matching document in the app.,,,,,,,,0,0,BR044,E1018,normal,2026-10-02
+LN00195,C0169,Gold Loan,220000,6,11.63,37920,KYC,2026-09-17,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR195,E1008,normal,2026-09-24
+LN00196,C0170,Home Improvement Loan,352000,60,12.03,7835,Approved,2026-09-16,,,,,,,,,,0,0,BR156,,normal,2026-09-23
+LN00197,C0171,Two-Wheeler Loan,139000,36,13.24,4700,Applied,2026-09-30,,,,,,,,,,0,0,BR114,,normal,2026-10-07
+LN00198,C0172,Home Improvement Loan,645000,36,13.36,21845,Applied,2026-09-19,,,,,,,,,,0,0,BR178,,normal,2026-09-26
+LN00199,C0173,Business Loan,1095000,48,19.0,32741,Approved,2026-09-22,,,,,,,,,,0,0,BR122,,normal,2026-09-29
+LN00200,C0174,Two-Wheeler Loan,133000,24,15.17,6459,Underwriting,2026-10-01,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR173,E1014,normal,2026-10-08
+LN00201,C0175,Home Improvement Loan,590000,60,13.08,13448,Disbursal_Hold,2026-09-20,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR140,E1018,normal,2026-09-27
+LN00202,C0176,Two-Wheeler Loan,78000,18,13.23,4801,Credit_Check,2026-10-05,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR124,E1012,normal,2026-10-12
+LN00203,C0177,Gold Loan,200000,12,9.44,17531,Active,2025-11-27,,,2025-12-11,2026-01-05,,34654,2026-11-05,Registered,,0,0,BR081,,normal,2025-12-04
+LN00204,C0178,Gold Loan,179000,6,9.42,30658,Closed,2025-03-20,,,2025-03-27,2025-04-05,2025-09-05,0,,Registered,Dispatched,0,0,BR123,,normal,2025-03-27
+LN00205,C0178,Two-Wheeler Loan,120000,36,15.45,4186,Active,2024-08-28,,,2024-09-04,2024-10-05,,42693,2026-11-05,Registered,,1,0,BR123,,normal,2024-09-04
+LN00206,C0179,Personal Loan,568000,24,15.45,27662,Closed,2025-08-25,,,2025-09-07,2025-10-05,2026-09-04,0,,Registered,Dispatched,0,0,BR073,,normal,2025-09-01
+LN00207,C0179,Two-Wheeler Loan,189000,36,11.94,6272,Disbursal_Hold,2026-09-16,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR073,E1009,normal,2026-09-23
+LN00208,C0180,Home Improvement Loan,225000,36,14.15,7706,Active,2026-03-04,,,2026-03-18,2026-04-05,,188354,2026-11-05,Registered,,0,0,BR152,,normal,2026-03-11
+LN00209,C0181,Gold Loan,291000,12,9.83,25561,Approved,2026-10-04,,,,,,,,,,0,0,BR042,,normal,2026-10-11
+LN00210,C0182,Personal Loan,595000,12,13.6,53311,Closed,2025-02-12,,,2025-02-26,2025-03-05,2026-02-05,0,,Registered,Dispatched,0,0,BR098,,normal,2025-02-19
+LN00211,C0183,Two-Wheeler Loan,45000,18,15.98,2828,Applied,2026-09-27,,,,,,,,,,0,0,BR071,,normal,2026-10-04
+LN00212,C0184,Gold Loan,298000,6,10.69,51227,Applied,2026-09-26,,,,,,,,,,0,0,BR084,,normal,2026-10-03
+LN00213,C0185,Personal Loan,128000,36,21.17,4834,Underwriting,2026-09-11,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR142,E1019,normal,2026-09-18
+LN00214,C0186,Home Improvement Loan,921000,24,11.04,42943,Applied,2026-09-25,,,,,,,,,,0,0,BR171,,normal,2026-10-02
+LN00215,C0187,Gold Loan,157000,6,13.61,27215,Underwriting,2026-09-29,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR157,E1014,normal,2026-10-06
+LN00216,C0188,Home Improvement Loan,996000,60,14.76,23569,Closed,2025-04-04,,,2025-04-15,2025-05-05,2026-08-02,0,,Registered,Dispatched,0,0,BR101,,normal,2025-04-11
+LN00217,C0189,Home Improvement Loan,783000,60,11.83,17350,Active,2025-06-29,,,2025-07-06,2025-08-05,,628127,2026-11-05,Registered,,2,0,BR115,,normal,2025-07-06
+LN00218,C0190,Two-Wheeler Loan,69000,18,11.87,4204,Credit_Check,2026-09-25,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR047,E1019,normal,2026-10-02
+LN00219,C0191,Business Loan,990000,48,17.26,28700,KYC,2026-09-30,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR124,E1018,normal,2026-10-07
+LN00220,C0192,Home Improvement Loan,486000,60,14.84,11521,Credit_Check,2026-09-13,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR089,E1019,normal,2026-09-20
+LN00221,C0193,Home Improvement Loan,910000,24,14.88,44071,Active,2025-08-31,,,2025-09-15,2025-10-05,,450569,2026-11-05,Registered,,0,0,BR151,,normal,2025-09-07
+LN00222,C0194,Personal Loan,645000,12,16.25,58598,Closed,2024-05-16,,,2024-05-24,2024-06-05,2025-05-05,0,,Registered,Dispatched,0,0,BR133,,normal,2024-05-23
+LN00223,C0195,Gold Loan,44000,6,13.12,7616,KYC,2026-10-13,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR170,E1009,normal,2026-10-20
+LN00224,C0196,Home Improvement Loan,235000,36,13.35,7958,Active,2025-12-11,,,2025-12-16,2026-01-05,,178808,2026-11-05,Registered,,1,0,BR194,,normal,2025-12-18
+LN00225,C0197,Personal Loan,195000,48,14.68,5395,Active,2024-09-28,,,2024-10-12,2024-11-05,,111636,2026-11-05,Registered,,0,0,BR087,,normal,2024-10-05
+LN00226,C0198,Personal Loan,286000,36,15.63,10003,Underwriting,2026-09-20,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR035,E1019,normal,2026-09-27
+LN00227,C0199,Business Loan,292000,48,19.44,8799,Active,2025-07-02,,,2025-07-09,2025-08-05,,223538,2026-11-05,Registered,,1,0,BR065,,normal,2025-07-09
+LN00228,C0200,Business Loan,461000,60,15.24,11025,Disbursal_Hold,2026-09-27,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR003,E1008,normal,2026-10-04
+LN00229,C0201,Two-Wheeler Loan,160000,12,15.92,14511,Active,2025-11-07,,,2025-11-12,2025-12-05,,14319,2026-11-05,Registered,,0,0,BR107,,normal,2025-11-14
+LN00230,C0202,Two-Wheeler Loan,82000,18,12.93,5036,Active,2025-11-27,,,2025-12-05,2026-01-05,,38405,2026-11-05,Registered,,1,0,BR149,,normal,2025-12-04
+LN00231,C0203,Business Loan,270000,24,16.47,13281,KYC,2026-09-19,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR145,E1007,normal,2026-09-26
+LN00232,C0204,Two-Wheeler Loan,171000,12,13.81,15338,Closed,2025-07-10,,,2025-07-21,2025-08-05,2026-07-05,0,,Registered,Dispatched,0,0,BR191,,normal,2025-07-17
+LN00233,C0205,Home Improvement Loan,771000,60,11.9,17112,Credit_Check,2026-10-07,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR131,E1011,normal,2026-10-14
+LN00234,C0206,Personal Loan,62000,36,15.29,2158,Applied,2026-09-13,,,,,,,,,,0,0,BR103,,normal,2026-09-20
+LN00235,C0207,Personal Loan,659000,12,14.23,59241,Rejected,2026-10-02,Negative pincode as per policy,We are unable to offer this loan in your area at present.,,,,,,,,0,0,BR028,,normal,2026-10-09
+LN00236,C0208,Business Loan,207000,60,16.69,5110,Closed,2026-04-01,,,2026-04-11,2026-05-05,2026-08-14,0,,Registered,Dispatched,0,0,BR066,,normal,2026-04-08
+LN00237,C0209,Home Improvement Loan,320000,24,12.79,15182,Rejected,2026-09-15,FOIR above policy limit,Your current loan repayments are too high compared to your income for this amount. You can apply for a smaller amount.,,,,,,,,0,0,BR193,,normal,2026-09-22
+LN00238,C0210,Home Improvement Loan,997000,24,14.72,48209,Active,2025-03-07,,,2025-03-15,2025-04-05,,232415,2026-11-05,Registered,,1,0,BR021,,normal,2025-03-14
+LN00239,C0211,Personal Loan,456000,36,18.63,16630,Closed,2026-03-24,,,2026-03-30,2026-04-05,2026-08-02,0,,Registered,Dispatched,0,0,BR011,,normal,2026-03-31
+LN00240,C0212,Business Loan,1105000,60,17.07,27504,Applied,2026-10-09,,,,,,,,,,0,0,BR045,,normal,2026-10-16
+LN00241,C0213,Business Loan,1296000,36,20.87,48740,Active,2024-11-19,,,2024-11-28,2024-12-05,,562766,2026-11-05,Registered,,0,0,BR038,,normal,2024-11-26
+LN00242,C0214,Two-Wheeler Loan,183000,24,15.87,8949,Credit_Check,2026-09-10,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR080,E1013,normal,2026-09-17
+LN00243,C0214,Two-Wheeler Loan,117000,36,10.9,3825,Credit_Check,2026-09-27,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR080,E1019,normal,2026-10-04
+LN00244,C0215,Two-Wheeler Loan,86000,12,14.75,7752,Approved,2026-10-07,,,,,,,,,,0,0,BR057,,normal,2026-10-14
+LN00245,C0216,Gold Loan,271000,12,9.97,23821,Rejected,2026-09-08,FOIR above policy limit,Your current loan repayments are too high compared to your income for this amount. You can apply for a smaller amount.,,,,,,,,0,0,BR084,,normal,2026-09-15
+LN00246,C0217,Business Loan,1053000,36,16.11,37078,Credit_Check,2026-09-11,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR044,E1011,normal,2026-09-18
+LN00247,C0218,Personal Loan,53000,48,14.14,1452,Active,2025-02-28,,,2025-03-14,2025-04-05,,35496,2026-11-05,Registered,,0,0,BR169,,normal,2025-03-07
+LN00248,C0219,Home Improvement Loan,945000,36,14.23,32404,Active,2025-04-07,,,2025-04-18,2025-05-05,,522433,2026-11-05,Registered,,0,0,BR032,,normal,2025-04-14
+LN00249,C0220,Gold Loan,111000,12,13.92,9962,Applied,2026-09-25,,,,,,,,,,0,0,BR108,,normal,2026-10-02
+LN00250,C0221,Home Improvement Loan,265000,60,13.61,6113,Active,2025-05-12,,,2025-05-18,2025-06-05,,207098,2026-11-05,Registered,,1,0,BR090,,normal,2025-05-19
+LN00251,C0222,Home Improvement Loan,864000,36,11.3,28409,KYC,2026-09-19,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR157,E1009,normal,2026-09-26
+LN00252,C0223,Home Improvement Loan,273000,36,14.02,9333,Disbursal_Hold,2026-09-13,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR163,E1007,normal,2026-09-20
+LN00253,C0223,Personal Loan,752000,36,20.47,28127,Active,2025-10-08,,,2025-10-18,2025-11-05,,550167,2026-11-05,Registered,,0,0,BR163,,normal,2025-10-15
+LN00254,C0224,Home Improvement Loan,980000,24,11.81,46045,Active,2025-10-29,,,2025-11-03,2025-12-05,,559304,2026-11-05,Registered,,1,0,BR006,,normal,2025-11-05
+LN00255,C0225,Home Improvement Loan,443000,36,14.01,15143,Closed,2026-01-30,,,2026-02-06,2026-03-05,2026-09-24,0,,Registered,Dispatched,0,0,BR180,,normal,2026-02-06
+LN00256,C0226,Personal Loan,111000,36,21.47,4209,Closed,2025-04-12,,,2025-04-19,2025-05-05,2026-07-29,0,,Registered,Dispatched,0,0,BR202,,normal,2025-04-19
+LN00257,C0227,Personal Loan,795000,24,21.25,40949,Credit_Check,2026-09-24,Undisclosed existing loan found in bureau report,We need a little more information about your existing loans. Our team will call you.,,,,,,,,0,0,BR122,E1014,normal,2026-10-01
+LN00258,C0228,Personal Loan,156000,36,16.74,5542,Active,2024-07-10,,,2024-07-16,2024-08-05,,46555,2026-11-05,Registered,,0,0,BR012,,normal,2024-07-17
+LN00259,C0229,Gold Loan,317000,12,9.42,27784,Closed,2024-05-01,,,2024-05-09,2024-06-05,2025-05-05,0,,Registered,Dispatched,0,0,BR028,,normal,2024-05-08
+LN00260,C0230,Gold Loan,101000,12,9.88,8874,Closed,2025-07-17,,,2025-07-25,2025-08-05,2026-07-05,0,,Registered,Dispatched,0,0,BR103,,normal,2025-07-24
+LN00261,C0231,Two-Wheeler Loan,140000,24,12.51,6624,KYC,2026-10-09,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR080,E1008,normal,2026-10-16
+LN00262,C0232,Gold Loan,351000,12,13.36,31410,Closed,2025-10-04,,,2025-10-09,2025-11-05,2026-09-15,0,,Registered,Dispatched,0,0,BR004,,normal,2025-10-11
+LN00263,C0233,Business Loan,739000,24,15.93,36159,Active,2026-03-09,,,2026-03-23,2026-04-05,,547048,2026-11-05,Registered,,0,0,BR101,,normal,2026-03-16
+LN00264,C0234,Two-Wheeler Loan,134000,24,14.64,6474,Closed,2025-06-01,,,2025-06-09,2025-07-05,2026-07-25,0,,Registered,Dispatched,0,0,BR138,,normal,2025-06-08
+LN00265,C0235,Gold Loan,342000,6,12.4,59079,Closed,2026-03-30,,,2026-04-04,2026-05-05,2026-10-05,0,,Registered,Dispatched,0,0,BR130,,normal,2026-04-06
+LN00266,C0236,Personal Loan,539000,48,15.13,15036,Active,2026-01-27,,,2026-02-10,2026-03-05,,470096,2026-11-05,Registered,,1,0,BR146,,normal,2026-02-03
+LN00267,C0237,Personal Loan,72000,24,18.19,3601,Active,2025-04-04,,,2025-04-18,2025-05-05,,20508,2026-11-05,Registered,,2,0,BR083,,normal,2025-04-11
+LN00268,C0237,Personal Loan,683000,24,17.45,33917,Credit_Check,2026-09-18,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR083,E1013,normal,2026-09-25
+LN00269,C0238,Gold Loan,300000,12,12.52,26728,Disbursal_Hold,2026-10-08,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR192,E1008,normal,2026-10-15
+LN00270,C0239,Business Loan,1262000,60,16.36,30931,Active,2025-09-09,,,2025-09-21,2025-10-05,,1068214,2026-11-05,Registered,,1,0,BR049,,normal,2025-09-16
+LN00271,C0240,Gold Loan,78000,6,10.44,13399,Credit_Check,2026-10-05,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR188,E1013,normal,2026-10-12
+LN00272,C0240,Gold Loan,223000,6,13.53,38647,Closed,2024-10-31,,,2024-11-13,2024-12-05,2025-05-05,0,,Registered,Dispatched,0,0,BR188,,normal,2024-11-07
+LN00273,C0241,Personal Loan,518000,48,14.74,14348,Active,2026-03-04,,,2026-03-09,2026-04-05,,460001,2026-11-05,Registered,,1,0,BR060,,normal,2026-03-11
+LN00274,C0242,Home Improvement Loan,569000,36,12.46,19024,Active,2025-09-28,,,2025-10-12,2025-11-05,,402302,2026-11-05,Registered,,0,0,BR138,,normal,2025-10-05
+LN00275,C0243,Business Loan,1244000,24,18.49,62401,Closed,2025-07-06,,,2025-07-11,2025-08-05,2026-09-10,0,,Registered,Dispatched,0,0,BR082,,normal,2025-07-13
+LN00276,C0244,Two-Wheeler Loan,108000,36,12.94,3636,Active,2025-07-19,,,2025-08-02,2025-09-05,,70867,2026-11-05,Registered,,1,0,BR096,,normal,2025-07-26
+LN00277,C0245,Two-Wheeler Loan,76000,36,12.35,2537,Disbursal_Hold,2026-10-08,eMandate not registered,Please complete the auto-debit (eMandate) registration using the link we sent you.,,,,,,,,0,0,BR197,E1008,normal,2026-10-15
+LN00278,C0245,Two-Wheeler Loan,145000,18,12.76,8894,Approved,2026-09-18,,,,,,,,,,0,0,BR197,,normal,2026-09-25
+LN00279,C0246,Business Loan,1462000,36,19.1,53665,Applied,2026-09-19,,,,,,,,,,0,0,BR130,,normal,2026-09-26
+LN00280,C0246,Business Loan,635000,36,15.46,22156,Underwriting,2026-10-03,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR130,E1011,normal,2026-10-10
+LN00281,C0247,Home Improvement Loan,611000,36,14.62,21067,Active,2024-05-07,,,2024-05-15,2024-06-05,,140534,2026-11-05,Registered,,1,0,BR112,,normal,2024-05-14
+LN00282,C0248,Gold Loan,356000,12,10.67,31409,Closed,2024-12-13,,,2024-12-22,2025-01-05,2025-12-05,0,,Registered,Dispatched,0,0,BR119,,normal,2024-12-20
+LN00283,C0249,Home Improvement Loan,515000,60,13.63,11885,Active,2025-01-26,,,2025-02-05,2025-03-05,,380336,2026-11-05,Registered,,0,0,BR043,,normal,2025-02-02
+LN00284,C0250,Home Improvement Loan,788000,24,14.99,38204,Closed,2024-08-23,,,2024-09-04,2024-10-05,2026-09-05,0,,Registered,Dispatched,0,0,BR070,,normal,2024-08-30
+LN00285,C0251,Gold Loan,287000,6,10.28,49278,Underwriting,2026-09-25,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR027,E1013,normal,2026-10-02
+LN00286,C0252,Gold Loan,83000,6,10.08,14243,Approved,2026-09-24,,,,,,,,,,0,0,BR036,,normal,2026-10-01
+LN00287,C0253,Personal Loan,177000,12,15.75,16038,Closed,2025-06-15,,,2025-06-23,2025-07-05,2026-06-05,0,,Registered,Dispatched,0,0,BR140,,normal,2025-06-22
+LN00288,C0254,Personal Loan,137000,24,15.33,6664,Active,2025-08-01,,,2025-08-06,2025-09-05,,62191,2026-11-05,Registered,,0,0,BR024,,normal,2025-08-08
+LN00289,C0255,Personal Loan,260000,12,21.37,24256,Closed,2024-11-21,,,2024-12-05,2025-01-05,2025-12-05,0,,Registered,Dispatched,0,0,BR136,,normal,2024-11-28
+LN00290,C0256,Personal Loan,460000,36,13.92,15704,Active,2025-03-13,,,2025-03-19,2025-04-05,,241026,2026-11-05,Registered,,0,0,BR017,,normal,2025-03-20
+LN00291,C0257,Gold Loan,372000,6,11.44,64085,Credit_Check,2026-09-19,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR020,E1013,normal,2026-09-26
+LN00292,C0258,Gold Loan,136000,12,9.62,11933,Closed,2025-08-12,,,2025-08-19,2025-09-05,2026-08-05,0,,Registered,Dispatched,0,0,BR069,,normal,2025-08-19
+LN00293,C0259,Home Improvement Loan,765000,24,12.42,36161,Active,2026-02-21,,,2026-03-06,2026-04-05,,561052,2026-11-05,Registered,,1,0,BR048,,normal,2026-02-28
+LN00294,C0260,Business Loan,638000,48,17.93,18718,Credit_Check,2026-09-20,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR081,E1013,normal,2026-09-27
+LN00295,C0261,Gold Loan,128000,12,12.24,11387,Closed,2024-05-26,,,2024-06-03,2024-07-05,2025-06-05,0,,Registered,Dispatched,0,0,BR126,,normal,2024-06-02
+LN00296,C0262,Gold Loan,371000,12,11.25,32833,Disbursal_Hold,2026-09-14,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR159,E1009,normal,2026-09-21
+LN00297,C0263,Business Loan,1359000,60,20.1,36081,Underwriting,2026-09-18,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR075,E1013,normal,2026-09-25
+LN00298,C0264,Gold Loan,123000,12,9.94,10810,Active,2025-12-06,,,2025-12-14,2026-01-05,,21358,2026-11-05,Registered,,1,0,BR162,,normal,2025-12-13
+LN00299,C0265,Two-Wheeler Loan,93000,18,15.31,5815,Underwriting,2026-10-03,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR099,E1019,normal,2026-10-10
+LN00300,C0265,Home Improvement Loan,366000,24,12.23,17268,Credit_Check,2026-10-07,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR099,E1013,normal,2026-10-14
+LN00301,C0266,Two-Wheeler Loan,88000,12,12.78,7851,Closed,2025-10-11,,,2025-10-19,2025-11-05,2026-10-05,0,,Registered,Dispatched,0,0,BR029,,normal,2025-10-18
+LN00302,C0267,Personal Loan,254000,36,16.16,8950,Credit_Check,2026-10-12,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR083,E1014,normal,2026-10-19
+LN00303,C0268,Gold Loan,161000,6,11.43,27735,KYC,2026-09-14,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR147,E1009,normal,2026-09-21
+LN00304,C0269,Two-Wheeler Loan,89000,36,13.02,3000,KYC,2026-09-10,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR093,E1018,normal,2026-09-17
+LN00305,C0270,Business Loan,502000,60,19.96,13289,Underwriting,2026-09-27,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR110,E1011,normal,2026-10-04
+LN00306,C0271,Home Improvement Loan,281000,24,14.6,13571,Approved,2026-09-15,,,,,,,,,,0,0,BR185,,normal,2026-09-22
+LN00307,C0271,Personal Loan,763000,36,21.59,28978,Active,2025-09-02,,,2025-09-09,2025-10-05,,541867,2026-11-05,Registered,,0,0,BR185,,normal,2025-09-09
+LN00308,C0272,Personal Loan,770000,36,20.95,28990,Active,2024-08-14,,,2024-08-25,2024-09-05,,263900,2026-11-05,Registered,,0,0,BR144,,normal,2024-08-21
+LN00309,C0273,Business Loan,1248000,60,15.29,29880,Underwriting,2026-10-11,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR078,E1014,normal,2026-10-18
+LN00310,C0274,Business Loan,1123000,36,15.13,39001,Closed,2024-11-08,,,2024-11-16,2024-12-05,2026-09-15,0,,Registered,Dispatched,0,0,BR020,,normal,2024-11-15
+LN00311,C0275,Business Loan,1223000,36,15.27,42558,Credit_Check,2026-09-09,"Bureau score below auto-approve band, manual review",Your application is with our credit team for review.,,,,,,,,0,0,BR024,E1019,normal,2026-09-16
+LN00312,C0276,Home Improvement Loan,481000,60,11.8,10651,Approved,2026-10-13,,,,,,,,,,0,0,BR073,,normal,2026-10-20
+LN00313,C0277,Gold Loan,259000,6,12.22,44718,Approved,2026-09-09,,,,,,,,,,0,0,BR105,,normal,2026-09-16
+LN00314,C0278,Two-Wheeler Loan,53000,24,14.89,2567,Active,2025-11-10,,,2025-11-17,2025-12-05,,30646,2026-11-05,Registered,,2,0,BR153,,normal,2025-11-17
+LN00315,C0279,Two-Wheeler Loan,156000,18,10.66,9416,Active,2025-11-19,,,2025-12-04,2026-01-05,,72410,2026-11-05,Registered,,1,0,BR142,,normal,2025-11-26
+LN00316,C0280,Personal Loan,530000,24,21.84,27454,Closed,2024-05-19,,,2024-05-26,2024-06-05,2026-05-05,0,,Registered,Dispatched,0,0,BR026,,normal,2024-05-26
+LN00317,C0281,Business Loan,1041000,60,18.14,26514,Credit_Check,2026-10-07,"Bureau pull failed (timeout), retry needed",We are completing a routine credit check. No action is needed from you.,,,,,,,,0,0,BR068,E1011,normal,2026-10-14
+LN00318,C0282,Two-Wheeler Loan,83000,12,10.65,7322,KYC,2026-09-24,Address proof does not match Aadhaar address,Your address proof does not match the address on your Aadhaar. Please upload a matching document in the app.,,,,,,,,0,0,BR137,E1009,normal,2026-10-01
+LN00319,C0282,Business Loan,299000,48,19.56,9029,Underwriting,2026-10-06,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR137,E1013,normal,2026-10-13
+LN00320,C0283,Gold Loan,395000,12,9.56,34646,Underwriting,2026-10-09,Co-applicant documents pending,Please upload your co-applicant's KYC documents in the app.,,,,,,,,0,0,BR139,E1019,normal,2026-10-16
+LN00321,C0284,Personal Loan,355000,12,18.87,32694,Active,2026-01-18,,,2026-01-31,2026-02-05,,95071,2026-11-05,Registered,,1,0,BR027,,normal,2026-01-25
+LN00322,C0285,Business Loan,600000,36,16.04,21106,KYC,2026-09-22,Selfie / photo verification pending,We still need your photo verification. Please take a selfie in the app.,,,,,,,,0,0,BR010,E1009,normal,2026-09-29
+LN00323,C0286,Home Improvement Loan,553000,60,12.44,12424,Disbursal_Hold,2026-10-08,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR158,E1007,normal,2026-10-15
+LN00324,C0287,Home Improvement Loan,333000,36,12.38,11121,Approved,2026-09-10,,,,,,,,,,0,0,BR132,,normal,2026-09-17
+LN00325,C0287,Business Loan,1303000,36,19.99,48418,Disbursal_Hold,2026-10-13,Penny-drop failed: bank account name mismatch,We could not verify your bank account. Please share a cancelled cheque.,,,,,,,,0,0,BR132,E1009,normal,2026-10-20
+LN00326,C0288,Personal Loan,574000,12,20.87,53411,Rejected,2026-09-15,FOIR above policy limit,Your current loan repayments are too high compared to your income for this amount. You can apply for a smaller amount.,,,,,,,,0,0,BR041,,normal,2026-09-22
+LN00327,C0289,Business Loan,1352000,36,18.07,48926,Applied,2026-09-25,,,,,,,,,,0,0,BR106,,normal,2026-10-02
+LN00328,C0289,Personal Loan,473000,24,19.33,23919,Approved,2026-10-13,,,,,,,,,,0,0,BR106,,normal,2026-10-20
+LN00329,C0290,Gold Loan,290000,6,12.87,50164,Closed,2025-04-19,,,2025-04-30,2025-05-05,2025-10-05,0,,Registered,Dispatched,0,0,BR082,,normal,2025-04-26
+LN00330,C0291,Two-Wheeler Loan,121000,24,14.49,5838,Underwriting,2026-09-29,Income proof insufficient for requested amount,Please share your last 3 months' bank statements or salary slips.,,,,,,,,0,0,BR104,E1014,normal,2026-10-06
+LN00331,C0292,Gold Loan,290000,6,11.0,49896,Approved,2026-09-25,,,,,,,,,,0,0,BR112,,normal,2026-10-02
+LN00332,C0293,Personal Loan,129000,24,14.18,6205,KYC,2026-10-07,PAN and Aadhaar names differ,The name on your PAN and Aadhaar is different. Please upload an updated PAN or Aadhaar.,,,,,,,,0,0,BR078,E1009,normal,2026-10-14
+LN00333,C0294,Home Improvement Loan,249000,36,12.11,8283,Rejected,2026-10-08,Bureau score below policy minimum,Your application did not meet our credit policy this time. You can apply again after 6 months.,,,,,,,,0,0,BR106,,normal,2026-10-15
+LN00334,C0295,Personal Loan,433000,12,17.06,39504,Rejected,2026-09-26,FOIR above policy limit,Your current loan repayments are too high compared to your income for this amount. You can apply for a smaller amount.,,,,,,,,0,0,BR034,,normal,2026-10-03
+LN00335,C0296,Gold Loan,185000,12,13.01,16525,Approved,2026-09-22,,,,,,,,,,0,0,BR201,,normal,2026-09-29
+LN00336,C0296,Two-Wheeler Loan,159000,36,15.26,5532,Underwriting,2026-10-10,Pending manual underwriter review,Your application is under review by our team.,,,,,,,,0,0,BR201,E1013,normal,2026-10-17
+LN00337,C0297,Personal Loan,630000,48,15.3,17629,Rejected,2026-09-19,FOIR above policy limit,Your current loan repayments are too high compared to your income for this amount. You can apply for a smaller amount.,,,,,,,,0,0,BR148,,normal,2026-09-26
+LN00338,C0298,Two-Wheeler Loan,41000,18,11.49,2491,Closed,2024-06-20,,,2024-07-05,2024-08-05,2026-01-05,0,,Registered,Dispatched,0,0,BR077,,normal,2024-06-27
+LN00339,C0298,Two-Wheeler Loan,135000,24,15.3,6565,Active,2025-02-26,,,2025-03-05,2025-04-05,,31604,2026-11-05,Registered,,1,0,BR077,,normal,2025-03-05
+LN00340,C0299,Home Improvement Loan,600000,24,11.59,28129,Applied,2026-09-24,,,,,,,,,,0,0,BR099,,normal,2026-10-01
+LN00341,C0300,Personal Loan,451000,24,13.67,21584,Closed,2024-10-20,,,2024-10-30,2024-11-05,2026-10-05,0,,Registered,Dispatched,0,0,BR074,,normal,2024-10-27

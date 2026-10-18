@@ -1,0 +1,33 @@
+id: C15
+line: customer
+title: Change address
+language: hi
+persona:
+  customer_id: C0015
+  name: Sunita Yadav
+  name_native: सुनीता यादव
+  dob: '1980-07-15'
+  phone: '8940850733'
+  loan_id: LN00015
+  city: Varanasi
+  state: Uttar Pradesh
+  pincode: '221010'
+goal: You moved house. Update your address.
+hard_variant: Give a pincode that does not match the city you say.
+turns:
+- Ghar shift kiya hai, address badalna hai
+- Sunita Yadav
+- pandrah julai unnees sau assi
+- '{otp}'
+- naya ghar Lucknow mein hai, pincode do do chhah zero zero ek
+expected:
+  entities:
+    customer_id: C0015
+    district: Lucknow|Uttar Pradesh
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - create_service_request
+  outcome: Pincode 226001 is checked against Lucknow; request created with the confirmed address.
+difficulty: medium

@@ -1,0 +1,32 @@
+id: C06
+line: customer
+title: Foreclosure quote
+language: ta
+persona:
+  customer_id: C0022
+  name: Murugan Pillai
+  name_native: முருகன் பிள்ளை
+  dob: '1978-11-11'
+  phone: '7241924590'
+  loan_id: LN00022
+  city: Madurai
+  state: Tamil Nadu
+  pincode: '625012'
+goal: You want to close your loan. Ask how much you must pay.
+hard_variant: Speak in Tamil; STT returns Tamil script.
+turns:
+- என் லோனை க்ளோஸ் பண்ணணும், எவ்வளவு கட்டணும்?
+- முருகன் பிள்ளை
+- பதினொன்னு நவம்பர் ஆயிரத்தி தொள்ளாயிரத்தி எழுபத்தி எட்டு
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0022
+    dob: '1978-11-11'
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_foreclosure_quote
+  outcome: Bot replies in Tamil with principal outstanding plus 4% foreclosure charge (and any overdue).
+difficulty: medium

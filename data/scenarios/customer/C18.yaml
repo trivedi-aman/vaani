@@ -1,0 +1,32 @@
+id: C18
+line: customer
+title: Hardship / restructuring
+language: hi
+difficulty: hard
+persona:
+  customer_id: C0018
+  name: Deepak Saini
+  name_native: दीपक सैनी
+  dob: '1990-05-14'
+  phone: '6098442169'
+  loan_id: LN00018
+  city: Gurugram
+  state: Haryana
+  pincode: '122015'
+goal: You lost your job and cannot pay. Sound upset.
+hard_variant: Deepak Saini shares a DOB with another customer (Neha Kapoor).
+turns:
+- Meri naukri chali gayi, EMI nahi bhar paunga
+- Deepak Saini
+- chaudah mai unnees sau nabbe
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0018
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  - escalate_to_human
+  outcome: Empathetic reply; no account details before verification; explains options and books a human callback.

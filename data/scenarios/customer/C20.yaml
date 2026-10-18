@@ -1,0 +1,30 @@
+id: C20
+line: customer
+title: Top-up eligibility
+language: bn
+persona:
+  customer_id: C0028
+  name: Arnab Banerjee
+  name_native: ''
+  dob: '1986-10-29'
+  phone: '8523683692'
+  loan_id: LN00028
+  city: Kolkata
+  state: West Bengal
+  pincode: '700073'
+goal: Ask if you can get a top-up loan. Speak Bengali (tier-2 language).
+turns:
+- Ami ki top-up loan pete pari?
+- Arnab Banerjee
+- twenty nine October nineteen eighty six
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0028
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  outcome: Bot answers in Bengali; eligibility depends on repayment record; creates a request.
+difficulty: medium

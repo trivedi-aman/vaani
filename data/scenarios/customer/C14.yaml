@@ -1,0 +1,29 @@
+id: C14
+line: customer
+title: Change mobile number
+language: hi
+persona:
+  customer_id: C0027
+  name: Vikram Singh
+  name_native: विक्रम सिंह
+  dob: '1981-12-12'
+  phone: '8164479042'
+  loan_id: LN00027
+  city: Jodhpur
+  state: Rajasthan
+  pincode: '342309'
+goal: You changed your mobile number and want to update it.
+hard_variant: You no longer have the old number, so the OTP cannot reach you.
+turns:
+- Mera mobile number badal gaya hai
+- Wikram Singh
+- baarah disambar unnees sau ikyaasi
+- purana number band ho gaya, OTP nahi aayega
+expected:
+  entities:
+    customer_id: C0027
+  tools:
+  - verify_customer
+  - send_otp
+  outcome: Bot cannot finish verification without the OTP and directs the caller to the nearest branch with ID proof.
+difficulty: medium

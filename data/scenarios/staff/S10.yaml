@@ -1,0 +1,24 @@
+id: S10
+line: staff
+title: Photo verification pending
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1010
+  name: Neeraj Saxena
+  role: ops
+  pin: '5896'
+goal: Nudge Kavita Joshi to finish her selfie.
+hard_variant: Kavita vs Kavitha.
+turns:
+- employee id 1010
+- paanch aath nau chhah
+- Kavita Joshi ka selfie pending dikha raha hai
+expected:
+  entities:
+    customer_id: C0021
+  tools:
+  - verify_staff
+  - lookup_case
+  - create_service_request
+  outcome: Finds Kavita Joshi (Pune), not Kavitha Krishnan; sends a nudge.

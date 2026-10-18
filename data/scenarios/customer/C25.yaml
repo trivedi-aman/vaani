@@ -1,0 +1,32 @@
+id: C25
+line: customer
+title: Failed verification
+language: hi
+difficulty: hard
+persona:
+  customer_id: C0002
+  name: Mohan Verma
+  name_native: मोहन वर्मा
+  dob: '1984-11-02'
+  phone: '8928803211'
+  loan_id: LN00002
+  city: Jaipur
+  state: Rajasthan
+  pincode: '303805'
+goal: Give the wrong DOB twice (you are Mohan Verma, but say Rohan Verma's DOB).
+turns:
+- Mera EMI kitna hai?
+- Mohan Verma
+- chaudah march unnees sau ikyaanave
+- chaudah march unnees sau ikyaanave
+- phir se try karo
+expected:
+  entities: {}
+  tools:
+  - verify_customer
+  outcome: After repeated failures the call is locked; bot offers a callback; never says which factor failed or
+    that Rohan Verma exists.
+  must_not:
+  - Rohan
+  - date of birth galat
+  - DOB is wrong

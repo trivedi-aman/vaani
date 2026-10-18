@@ -1,0 +1,23 @@
+id: S14
+line: staff
+title: eMandate registration failed
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1007
+  name: Vinod Rathore
+  role: ops
+  pin: '2415'
+goal: LN00013 mandate failed. Ask the next step.
+hard_variant: ''
+turns:
+- employee id 1007
+- do chaar ek paanch
+- LN00013 ka mandate register nahi hua
+expected:
+  entities:
+    loan_id: LN00013
+  tools:
+  - verify_staff
+  - diagnose_case
+  outcome: Failure explained; re-registration link to be sent.

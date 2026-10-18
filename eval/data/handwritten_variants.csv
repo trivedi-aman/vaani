@@ -1,0 +1,113 @@
+kind,heard,expected,note
+name,Sooltan Meena,Sultan Meena,STT vowel spelling
+name,Sultan Mina,Sultan Meena,STT vowel spelling
+name,Meena Sultan,Sultan Meena,surname first
+name,Sultaan Meenaa,Sultan Meena,long vowels
+name,Rohan Varma,Rohan Verma,e/a in surname
+name,Verma Rohan,Rohan Verma,surname first
+name,Rohun Verma,Rohan Verma,STT vowel
+name,Mohun Verma,Mohan Verma,STT vowel
+name,Sohan Varma,Sohan Verma,e/a in surname
+name,Ramesh Gupt,Ramesh Gupta,final a dropped
+name,Ramesh Guptha,Ramesh Gupta,th for t
+name,Mahes Gupta,Mahesh Gupta,sh/s
+name,Suresh Gupt,Suresh Gupta,final a dropped
+name,Amit Jayn,Amit Jain,ai/ay
+name,Ameet Jain,Amit Jain,ee for i
+name,Sumeet Jain,Sumit Jain,ee for i
+name,Meena Sarma,Meena Sharma,sh/s
+name,Reena Shrama,Reena Sharma,metathesis
+name,Seema Sharmaa,Seema Sharma,long vowel
+name,Aneeta Yadav,Anita Yadav,ee for i
+name,Sunitha Yadav,Sunita Yadav,th for t
+name,Sunita Jadav,Sunita Yadav,y/j
+name,Deepak Sainee,Deepak Saini,ee for i
+name,Dipak Saini,Deepak Saini,i for ee
+name,Neha Kapur,Neha Kapoor,u for oo
+name,Kavita Krishnan,Kavitha Krishnan,t/th
+name,Kavitha Krishnan,Kavitha Krishnan,exact
+name,Kavitha Joshi,Kavita Joshi,th/t
+name,Muruga Pillai,Murugan Pillai,n dropped
+name,Murugan Pilai,Murugan Pillai,single l
+name,Minakshi Sundaram,Meenakshi Sundaram,i for ee
+name,Meenakshi Sundharam,Meenakshi Sundaram,dh for d
+name,Meenatchi Sundaram,Meenakshi Sundaram,Tamil spelling of ksh
+name,Sarvanan Natarajan,Saravanan Natarajan,dropped a
+name,Saravanan Nataraj,Saravanan Natarajan,short form
+name,Sachin Paatil,Sachin Patil,long a
+name,Sachin Pavar,Sachin Pawar,v/w
+name,Wikram Singh,Vikram Singh,v/w
+name,Vikram Sing,Vikram Singh,h dropped
+name,Arnab Banerji,Arnab Banerjee,i for ee
+name,Ornob Banerjee,Arnab Banerjee,Bengali vowels
+name,Rahul Deshmuk,Rahul Deshmukh,kh/k
+name,Bhavana Rathore,Bhavna Rathore,inserted a
+name,Bhavna Rathod,Bhavna Rathore,d/r flap
+name,Bhavna Rathaur,Bhavna Rathore,au/o
+name,Priya Sarma,Priya Sharma,sh/s
+name,सुल्तान मीणा,Sultan Meena,Devanagari
+name,सुलतान मीना,Sultan Meena,Devanagari variant
+name,रोहन वर्मा,Rohan Verma,Devanagari
+name,मोहन वर्मा,Mohan Verma,Devanagari
+name,रमेश गुप्ता,Ramesh Gupta,Devanagari
+name,महेश गुप्ता,Mahesh Gupta,Devanagari
+name,अमित जैन,Amit Jain,Devanagari
+name,सुमित जैन,Sumit Jain,Devanagari
+name,सचिन पाटील,Sachin Patil,Marathi spelling
+name,कविता जोशी,Kavita Joshi,Devanagari
+name,दीपक सैनी,Deepak Saini,Devanagari
+name,भावना राठौड़,Bhavna Rathore,Devanagari with flap
+name,முருகன் பிள்ளை,Murugan Pillai,Tamil
+name,மீனாட்சி சுந்தரம்,Meenakshi Sundaram,Tamil
+name,சரவணன் நடராஜன்,Saravanan Natarajan,Tamil
+name,கவிதா கிருஷ்ணன்,Kavitha Krishnan,Tamil
+place,Baadmer,Barmer,flap written d
+place,Badmer,Barmer,flap written d
+place,Baarmer,Barmer,long a
+place,बाड़मेर,Barmer,Devanagari
+place,Jaypur,Jaipur,ay/ai
+place,Jaipuur,Jaipur,long u
+place,जयपुर,Jaipur,Devanagari
+place,Jodhpoor,Jodhpur,oo for u
+place,Jodpur,Jodhpur,dh/d
+place,Seekar,Sikar,ee for i
+place,Sikkar,Sikar,doubled k
+place,Saagar,Sagar,long a
+place,Udaypur,Udaipur,ay/ai
+place,Ajmeer,Ajmer,ee for e
+place,Dausaa,Dausa,long a
+place,Lakhnau,Lucknow,Hindi spelling
+place,लखनऊ,Lucknow,Devanagari
+place,Kaanpur,Kanpur Nagar,long a and alias
+place,Banaras,Varanasi,old name
+place,Waranasi,Varanasi,v/w
+place,Patana,Patna,inserted a
+place,Bopal,Bhopal,aspiration dropped
+place,Indaur,Indore,Hindi spelling
+place,Gwaliyar,Gwalior,Hindi spelling
+place,Chenai,Chennai,single n
+place,Chennay,Chennai,ay/ai
+place,சென்னை,Chennai,Tamil
+place,Madurei,Madurai,ei/ai
+place,மதுரை,Madurai,Tamil
+place,Koyambattur,Coimbatore,Tamil spelling
+place,Trichy,Tiruchirappalli,alias
+place,Thiruchi,Tiruchirappalli,alias spelling
+place,Poona,Pune,old name
+place,Puney,Pune,ey ending
+place,पुणे,Pune,Devanagari
+place,Nasik,Nashik,sh/s
+place,Mumbay,Mumbai,ay/ai
+place,Bombay,Mumbai,old name
+place,Bangalore,Bengaluru Urban,alias
+place,Bengaluru,Bengaluru Urban,alias
+place,Kolkatta,Kolkata,doubled t
+place,Calcutta,Kolkata,old name
+place,Gurgaon,Gurugram,old name
+place,Gurugraam,Gurugram,long a
+place,Agraa,Agra,long a
+place,Mysore,Mysuru,old name
+place,Haidrabad,Hyderabad,Hindi spelling
+place,Ahmedabad,Ahmadabad,e/a (India Post spells it Ahmadabad)
+place,Vadodra,Vadodara,dropped a
+place,Surath,Surat,th/t

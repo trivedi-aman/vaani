@@ -1,0 +1,23 @@
+id: S20
+line: staff
+title: Customer's open tickets
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1003
+  name: Farhan Qureshi
+  role: agent
+  pin: '9016'
+goal: List Seema Sharma's open tickets.
+hard_variant: ''
+turns:
+- employee id 1003
+- nau shunya ek chhah
+- Seema Sharma ke open tickets batao
+expected:
+  entities:
+    customer_id: C0013
+  tools:
+  - verify_staff
+  - lookup_case
+  outcome: Lists open tickets including TK100151 (3 follow-ups).

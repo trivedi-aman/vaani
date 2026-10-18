@@ -1,0 +1,34 @@
+id: C01
+line: customer
+title: Loan application status
+language: hi
+persona:
+  customer_id: C0001
+  name: Rohan Verma
+  name_native: रोहन वर्मा
+  dob: '1991-03-14'
+  phone: '7517881309'
+  loan_id: LN00001
+  city: Jaipur
+  state: Rajasthan
+  pincode: '303002'
+goal: Find out where your loan application is.
+hard_variant: Say your name surname-first ('Verma Rohan').
+turns:
+- Mera loan ka status kya hai?
+- Verma Rohan
+- Meri date of birth chaudah march unnees sau ikyaanave
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0001
+    dob: '1991-03-14'
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  outcome: Bot says the application is under review and asks for the last 3 months' bank statements or salary slips.
+  must_not:
+  - Income proof insufficient for requested amount
+difficulty: medium

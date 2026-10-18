@@ -1,0 +1,23 @@
+id: S21
+line: staff
+title: Cases by district
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1015
+  name: Manoj Bishnoi
+  role: supervisor
+  pin: '7865'
+goal: How many cases are pending in Barmer? Say 'Baadmer'.
+hard_variant: '''Baadmer'' for Barmer.'
+turns:
+- employee id 1015
+- saat aath chhah paanch
+- Baadmer ke kitne case pending hain?
+expected:
+  entities:
+    district: Barmer|Rajasthan
+  tools:
+  - verify_staff
+  - count_cases
+  outcome: Counts open applications in Barmer by stage.

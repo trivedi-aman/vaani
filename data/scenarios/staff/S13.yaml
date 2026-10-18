@@ -1,0 +1,23 @@
+id: S13
+line: staff
+title: Disbursement on hold
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1018
+  name: Megha Chauhan
+  role: ops
+  pin: '9474'
+goal: Ask why LN00023 disbursal is on hold.
+hard_variant: ''
+turns:
+- employee id 1018
+- nau chaar saat chaar
+- LN00023 disbursal hold pe kyun hai?
+expected:
+  entities:
+    loan_id: LN00023
+  tools:
+  - verify_staff
+  - diagnose_case
+  outcome: eMandate not registered; owner named.

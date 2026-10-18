@@ -1,0 +1,22 @@
+id: S15
+line: staff
+title: Possible duplicate
+language: hi
+difficulty: hard
+persona:
+  employee_id: E1008
+  name: Shalini Bose
+  role: ops
+  pin: '8472'
+goal: Check whether Priya Sharma has a duplicate application.
+hard_variant: Same name, different people.
+turns:
+- employee id 1008
+- aath chaar saat do
+- Priya Sharma ki do application dikh rahi hain, duplicate hai kya?
+expected:
+  entities: {}
+  tools:
+  - verify_staff
+  - lookup_case
+  outcome: Two different customers (different DOB, phone, city); bot must not call them duplicates.

@@ -1,0 +1,24 @@
+id: S03
+line: staff
+title: Bureau pull failed
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1011
+  name: Ritu Arora
+  role: credit
+  pin: '3347'
+goal: Retry the failed credit bureau pull on LN00005.
+hard_variant: ''
+turns:
+- employee id 1011
+- teen teen chaar saat
+- LN00005 ka bureau pull fail ho raha hai, retry karo
+expected:
+  entities:
+    loan_id: LN00005
+  tools:
+  - verify_staff
+  - lookup_case
+  - retry_bureau_pull
+  outcome: Mock retry runs; result read out.

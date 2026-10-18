@@ -1,0 +1,33 @@
+id: C17
+line: customer
+title: Interest certificate
+language: hi
+persona:
+  customer_id: C0003
+  name: Sohan Verma
+  name_native: सोहन वर्मा
+  dob: '1979-07-21'
+  phone: '7938811701'
+  loan_id: LN00003
+  city: Lucknow
+  state: Uttar Pradesh
+  pincode: '226201'
+goal: Ask for last year's interest certificate for tax.
+hard_variant: '''pichhle saal ka'' has to become financial year 2025-26.'
+turns:
+- Tax ke liye interest certificate chahiye
+- Sohan Verma
+- ikkees julai unnees sau unaasi
+- '{otp}'
+- pichhle saal ka
+expected:
+  entities:
+    customer_id: C0003
+    financial_year: 2025-26
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - create_service_request
+  outcome: Request for FY 2025-26 interest certificate, sent to registered email.
+difficulty: medium

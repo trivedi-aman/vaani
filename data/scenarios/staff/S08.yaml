@@ -1,0 +1,23 @@
+id: S08
+line: staff
+title: KYC re-trigger
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1009
+  name: Karthik Iyer
+  role: ops
+  pin: '6228'
+goal: Re-send the KYC link for LN00008.
+hard_variant: ''
+turns:
+- employee id 1009
+- chhah do do aath
+- LN00008 ke customer ko KYC link dobara bhejo
+expected:
+  entities:
+    loan_id: LN00008
+  tools:
+  - verify_staff
+  - create_service_request
+  outcome: Mock KYC link sent.

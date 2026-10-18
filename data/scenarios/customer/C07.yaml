@@ -1,0 +1,35 @@
+id: C07
+line: customer
+title: Part-prepayment
+language: mr
+persona:
+  customer_id: C0025
+  name: Sachin Patil
+  name_native: सचिन पाटिल
+  dob: '1989-01-19'
+  phone: '6470970287'
+  loan_id: LN00025
+  city: Pune
+  state: Maharashtra
+  pincode: '412106'
+goal: You want to prepay 2.5 lakh. Ask how it changes your EMI.
+hard_variant: Say 'adich lakh' (Marathi for 2.5 lakh).
+turns:
+- Mala loan madhe kahi paise bharaycha aahet
+- Sachin Patil
+- ekonis janvari ekonis she ekonnavvad
+- '{otp}'
+- adich lakh
+expected:
+  entities:
+    customer_id: C0025
+    amount: '250000'
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  - create_service_request
+  outcome: Amount read back as ₹2,50,000; bot explains the reduced EMI or tenure options and creates a prepayment
+    request.
+difficulty: medium

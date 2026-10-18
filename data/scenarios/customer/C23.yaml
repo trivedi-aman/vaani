@@ -1,0 +1,24 @@
+id: C23
+line: customer
+title: Nearest branch
+language: ta
+difficulty: easy
+persona:
+  customer_id: C0024
+  name: Saravanan Natarajan
+  name_native: சரவணன் நடராஜன்
+  dob: '1983-08-08'
+  phone: '9123610853'
+  loan_id: LN00024
+  city: Tiruchirappalli
+  state: Tamil Nadu
+  pincode: '620002'
+goal: Ask for the nearest branch. You say 'Trichy'.
+turns:
+- Trichy-la branch enga irukku?
+expected:
+  entities:
+    district: Tiruchirappalli|Tamil Nadu
+  tools:
+  - find_branch
+  outcome: Bot names the Tiruchirappalli branch and its phone; no verification needed.

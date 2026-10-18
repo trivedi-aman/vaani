@@ -1,0 +1,32 @@
+id: C03
+line: customer
+title: EMI amount and due date
+language: en
+persona:
+  customer_id: C0010
+  name: Sumit Jain
+  name_native: सुमित जैन
+  dob: '1995-02-11'
+  phone: '8103308985'
+  loan_id: LN00010
+  city: Udaipur
+  state: Rajasthan
+  pincode: '313026'
+goal: Ask how much your EMI is and when it is due.
+hard_variant: Say your phone number with 'double' and 'triple'.
+turns:
+- Hi, what is my EMI and when is it due?
+- Sumit Jain
+- my number is eight one zero double three zero eight nine eight five
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0010
+    phone: '8103308985'
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_emi_schedule
+  outcome: EMI ₹18523, next due 2026-11-05.
+difficulty: medium

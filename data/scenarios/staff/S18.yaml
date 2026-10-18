@@ -1,0 +1,23 @@
+id: S18
+line: staff
+title: SLA breach escalation
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1015
+  name: Manoj Bishnoi
+  role: supervisor
+  pin: '7865'
+goal: Escalate LN00011, which is past its SLA.
+hard_variant: ''
+turns:
+- employee id 1015
+- saat aath chhah paanch
+- LN00011 SLA cross kar gaya, escalate karo
+expected:
+  entities:
+    loan_id: LN00011
+  tools:
+  - verify_staff
+  - escalate_case
+  outcome: Escalated to supervisor; SLA date stated.

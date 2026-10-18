@@ -1,0 +1,34 @@
+id: C05
+line: customer
+title: EMI debited twice
+language: hi
+persona:
+  customer_id: C0006
+  name: Ramesh Gupta
+  name_native: रमेश गुप्ता
+  dob: '1975-01-30'
+  phone: '7079330281'
+  loan_id: LN00006
+  city: Kanpur Nagar
+  state: Uttar Pradesh
+  pincode: '208021'
+goal: Your EMI was debited twice. Ask for a refund.
+hard_variant: Say the amount in Hindi words.
+turns:
+- Paisa do baar kat gaya account se
+- Ramesh Gupta
+- date of birth tees ek unnees sau pachhattar
+- '{otp}'
+- chaudah hazaar saath rupaye do baar kate
+expected:
+  entities:
+    customer_id: C0006
+    amount: '14060'
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_emi_schedule
+  - raise_complaint
+  outcome: Amount matches the EMI; bot raises a refund complaint and gives the ticket ID.
+difficulty: medium

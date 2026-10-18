@@ -1,0 +1,23 @@
+id: S07
+line: staff
+title: Prioritise a case
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1015
+  name: Manoj Bishnoi
+  role: supervisor
+  pin: '7865'
+goal: 'Make LN00009 urgent; reason: customer''s shop renovation deadline.'
+hard_variant: ''
+turns:
+- employee id 1015
+- saat aath chhah paanch
+- LN00009 ko urgent kar do, customer ki dukaan ka renovation deadline hai
+expected:
+  entities:
+    loan_id: LN00009
+  tools:
+  - verify_staff
+  - set_priority
+  outcome: Priority set to urgent with the reason captured verbatim in the audit note.

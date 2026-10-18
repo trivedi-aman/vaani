@@ -1,0 +1,23 @@
+id: S11
+line: staff
+title: Income proof short
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1012
+  name: Prakash Reddy
+  role: credit
+  pin: '1300'
+goal: LN00001 income proof is short. Ask the maximum eligible amount.
+hard_variant: ''
+turns:
+- employee id 1012
+- ek teen shunya shunya
+- LN00001 ka income proof kam pad raha hai, kitna max de sakte hain?
+expected:
+  entities:
+    loan_id: LN00001
+  tools:
+  - verify_staff
+  - diagnose_case
+  outcome: Ask for 3 months' statements; states the requested amount for comparison.

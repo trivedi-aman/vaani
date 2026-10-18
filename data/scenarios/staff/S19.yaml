@@ -1,0 +1,23 @@
+id: S19
+line: staff
+title: Pincode serviceability
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1002
+  name: Rakesh Tiwari
+  role: agent
+  pin: '4978'
+goal: Is pincode 344021 serviceable?
+hard_variant: ''
+turns:
+- employee id 1002
+- chaar nau saat aath
+- teen chaar chaar zero do ek serviceable hai?
+expected:
+  entities:
+    pincode: '344021'
+  tools:
+  - verify_staff
+  - find_branch
+  outcome: Yes, Barmer branch.

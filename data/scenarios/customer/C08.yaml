@@ -1,0 +1,32 @@
+id: C08
+line: customer
+title: NOC after closure
+language: hi
+difficulty: hard
+persona:
+  customer_id: C0007
+  name: Mahesh Gupta
+  name_native: महेश गुप्ता
+  dob: '1982-06-18'
+  phone: '9300557319'
+  loan_id: LN00007
+  city: Agra
+  state: Uttar Pradesh
+  pincode: '282003'
+goal: Your loan is closed but you never got the NOC.
+hard_variant: Mahesh Gupta sounds like Ramesh and Suresh Gupta; your DOB is what tells them apart.
+turns:
+- Loan close ho gaya par NOC nahi mila
+- Mahesh Gupta
+- athaarah joon unnees sau bayaasi
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0007
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  - create_service_request
+  outcome: Bot confirms the loan is closed, NOC is pending, raises a request.

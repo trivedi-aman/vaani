@@ -1,0 +1,34 @@
+id: C22
+line: customer
+title: Complaint escalation
+language: hi
+persona:
+  customer_id: C0013
+  name: Seema Sharma
+  name_native: सीमा शर्मा
+  dob: '1992-12-24'
+  phone: '7290909624'
+  loan_id: LN00013
+  city: New Delhi
+  state: Delhi
+  pincode: '110037'
+goal: You complained three times with no reply. Escalate.
+hard_variant: Say the ticket ID with letters and digits mixed.
+turns:
+- Teen baar complain kiya, koi jawab nahi
+- Seema Sharma
+- chaubees disambar unnees sau baanave
+- '{otp}'
+- complaint number tee kay ek zero zero ek paanch ek
+expected:
+  entities:
+    customer_id: C0013
+    ticket_id: TK100151
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - raise_complaint
+  - escalate_to_human
+  outcome: Bot finds TK100151, sees three follow-ups, escalates and gives a reference.
+difficulty: medium

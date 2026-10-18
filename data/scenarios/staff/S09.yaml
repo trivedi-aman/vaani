@@ -1,0 +1,24 @@
+id: S09
+line: staff
+title: PAN-Aadhaar mismatch
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1009
+  name: Karthik Iyer
+  role: ops
+  pin: '6228'
+goal: Ask what to do about LN00008's PAN-Aadhaar mismatch.
+hard_variant: Customer name given in Devanagari.
+turns:
+- employee id 1009
+- chhah do do aath
+- सुरेश गुप्ता का PAN Aadhaar naam match nahi ho raha
+expected:
+  entities:
+    customer_id: C0008
+  tools:
+  - verify_staff
+  - lookup_case
+  - diagnose_case
+  outcome: Manual KYC review steps; request updated PAN/Aadhaar.

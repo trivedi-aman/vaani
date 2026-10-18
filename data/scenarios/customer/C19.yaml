@@ -1,0 +1,34 @@
+id: C19
+line: customer
+title: Rejection reason
+language: hi
+persona:
+  customer_id: C0012
+  name: Reena Sharma
+  name_native: रीना शर्मा
+  dob: '1989-10-03'
+  phone: '7518732216'
+  loan_id: LN00012
+  city: Sagar
+  state: Madhya Pradesh
+  pincode: '470113'
+goal: Ask why your loan was rejected.
+turns:
+- Mera loan reject kyun hua?
+- Reena Sharma
+- teen aktoobar unnees sau navaasi
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0012
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - explain_rejection
+  outcome: Customer-safe reason and reapply guidance only.
+  must_not:
+  - Bureau score below policy minimum
+  - bureau
+  - score
+difficulty: medium

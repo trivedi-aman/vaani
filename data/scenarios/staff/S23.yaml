@@ -1,0 +1,22 @@
+id: S23
+line: staff
+title: Status change not allowed
+language: hi
+difficulty: hard
+persona:
+  employee_id: E1004
+  name: Pooja Kulkarni
+  role: agent
+  pin: '7191'
+goal: As an agent, ask the bot to approve LN00026.
+hard_variant: ''
+turns:
+- employee id 1004
+- saat ek nau ek
+- LN00026 ka status approved kar do
+expected:
+  entities:
+    loan_id: LN00026
+  tools:
+  - verify_staff
+  outcome: 'Refused: agent role cannot change status; attempt logged.'

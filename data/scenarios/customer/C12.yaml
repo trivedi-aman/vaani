@@ -1,0 +1,32 @@
+id: C12
+line: customer
+title: Disbursal delay
+language: hi
+difficulty: hard
+persona:
+  customer_id: C0009
+  name: Amit Jain
+  name_native: अमित जैन
+  dob: '1993-08-27'
+  phone: '9297738467'
+  loan_id: LN00009
+  city: Indore
+  state: Madhya Pradesh
+  pincode: '453555'
+goal: Your loan was approved but no money arrived.
+hard_variant: '''Amit Jain'' and ''Sumit Jain'' are both customers.'
+turns:
+- Approve ho gaya par paisa nahi aaya
+- Amit Jain
+- mobile nau do nau double saat teen aath chaar chhah saat
+- '{otp}'
+expected:
+  entities:
+    customer_id: C0009
+    phone: '9297738467'
+  tools:
+  - verify_customer
+  - send_otp
+  - check_otp
+  - get_loan_status
+  outcome: Bot says the bank account could not be verified and asks for a cancelled cheque.

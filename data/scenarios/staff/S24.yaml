@@ -1,0 +1,23 @@
+id: S24
+line: staff
+title: Unknown loan ID
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1005
+  name: Senthil Kumar
+  role: agent
+  pin: '3991'
+goal: Check LN99999, which does not exist.
+hard_variant: ''
+turns:
+- employee id 1005
+- teen nau nau ek
+- LN99999 check karo
+expected:
+  entities:
+    loan_id: LN99999
+  tools:
+  - verify_staff
+  - lookup_case
+  outcome: Not found; no guess.

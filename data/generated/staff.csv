@@ -1,0 +1,21 @@
+employee_id,name,role,branch_code,pin
+E1001,Anjali Mehta,agent,BR010,4918
+E1002,Rakesh Tiwari,agent,BR101,4978
+E1003,Farhan Qureshi,agent,BR054,9016
+E1004,Pooja Kulkarni,agent,BR004,7191
+E1005,Senthil Kumar,agent,BR127,3991
+E1006,Divya Nair,agent,BR165,8424
+E1007,Vinod Rathore,ops,BR001,2415
+E1008,Shalini Bose,ops,BR164,8472
+E1009,Karthik Iyer,ops,BR074,6228
+E1010,Neeraj Saxena,ops,BR160,5896
+E1011,Ritu Arora,credit,BR150,3347
+E1012,Prakash Reddy,credit,BR167,1300
+E1013,Harish Desai,credit,BR007,3095
+E1014,Usha Pandey,credit,BR032,1965
+E1015,Manoj Bishnoi,supervisor,BR030,7865
+E1016,Lakshmi Natarajan,supervisor,BR095,4931
+E1017,Sagar Jadhav,agent,BR152,0425
+E1018,Megha Chauhan,ops,BR148,9474
+E1019,Arun Pillai,credit,BR068,3668
+E1020,Gaurav Mathur,supervisor,BR145,6174

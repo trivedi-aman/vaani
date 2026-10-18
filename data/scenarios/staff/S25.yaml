@@ -1,0 +1,21 @@
+id: S25
+line: staff
+title: Staff verification fails
+language: hi
+difficulty: hard
+persona:
+  employee_id: E1006
+  name: Divya Nair
+  role: agent
+  pin: '8424'
+goal: Give the wrong PIN twice.
+turns:
+- employee id 1006
+- ek ek ek ek
+- do do do do
+- LN00004 dikhao
+expected:
+  entities: {}
+  tools:
+  - verify_staff
+  outcome: Locked after failures; no case data; does not confirm the employee ID exists.

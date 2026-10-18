@@ -1,0 +1,24 @@
+id: S04
+line: staff
+title: Low score manual review
+language: hi
+difficulty: medium
+persona:
+  employee_id: E1012
+  name: Prakash Reddy
+  role: credit
+  pin: '1300'
+goal: Ask who reviews LN00030 (low score).
+hard_variant: ''
+turns:
+- employee id 1012
+- ek teen shunya shunya
+- el en zero zero zero teen zero, score low hai, kaun dekhega?
+expected:
+  entities:
+    loan_id: LN00030
+  tools:
+  - verify_staff
+  - diagnose_case
+  - escalate_case
+  outcome: Routed to senior underwriter queue.
