@@ -76,6 +76,23 @@ session, never from the model's arguments, so nothing a caller says to the
 model can make it act for someone else. A final check stops internal notes
 from ever being spoken to a customer.
 
+## Making it sound human
+
+- **Pick the voice by ear:** `python -m scripts.try_voices` renders the same
+  Vaani lines in every female voice (`--male` for male) into
+  `var/voices/index.html`. Put your pick in `SARVAM_TTS_VOICE`, and tune
+  `SARVAM_TTS_PACE` and `SARVAM_TTS_TEMPERATURE`.
+- **Gender follows the voice:** the prompt tells Vaani she is a woman (or a
+  man) and how that changes Hindi and Marathi verbs. As a safety net, code
+  corrects first-person forms like "sakta hoon" to "sakti hoon" before speaking.
+- **Conversation, not a form:** Vaani answers what was said first ("haan, awaaz
+  aa rahi hai"), finds out what the caller needs, and asks for verification
+  only when the request needs their account, one detail at a time.
+- **No dead air:** while it looks something up, Vaani says a short filler
+  ("ek second, main dekh rahi hoon"), at most once per turn.
+- **Read-aloud text:** dates come out as "5 November 2026", money as ₹19,499,
+  and markdown and emoji are stripped before speech.
+
 ## What's where
 
 | Folder | Contents |
@@ -124,7 +141,7 @@ SMS), and data written during calls lives in memory until restart.
 ## Testing
 
 ```bash
-python -m pytest                     # 175 tests, ~20 s, no API keys needed
+python -m pytest                     # 188 tests, ~20 s, no API keys needed
 python -m eval.matchers              # matcher comparison -> eval/results/matchers.md
 python -m eval.scenario_entities     # every expected value recoverable from the caller's words?
 python -m eval.run_scenarios         # all 50 scenarios against live Nova (needs AWS)

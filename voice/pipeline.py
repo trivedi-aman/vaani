@@ -47,7 +47,7 @@ from pipecat.transports.smallwebrtc.transport import SmallWebRTCTransport
 from pipecat.workers.runner import WorkerRunner
 
 from agent.graph import Agent
-from agent.prompts import GREETING
+from agent.persona import greeting
 from core.config import Settings
 from core.session import CallSession
 
@@ -81,11 +81,12 @@ class AgentBridge(FrameProcessor):
     pending reply is cancelled.
     """
 
-    def __init__(self, session: CallSession, agent: Agent, tts_language: str = "en-IN"):
+    def __init__(self, session: CallSession, agent: Agent, tts_language: str = "hi-IN"):
         super().__init__()
         self.session, self.agent = session, agent
         self._tts_language = tts_language
         self._task: asyncio.Task | None = None
+        session.on_interim = self._speak          # fillers while a lookup runs
 
     async def process_frame(self, frame: Frame, direction: FrameDirection):
         await super().process_frame(frame, direction)
@@ -104,15 +105,19 @@ class AgentBridge(FrameProcessor):
             await self.cancel_task(self._task)
         self._task = None
 
-    async def _respond(self, text: str):
-        reply = await self.agent.turn(self.session, text)
-        lang = reply_language(reply, self.session.language)
+    async def _speak(self, text: str):
+        """Send text to TTS in its own language (switching the voice's language if needed)."""
+        lang = reply_language(text, self.session.language)
         if lang != self._tts_language:
             self._tts_language = lang
             await self.push_frame(TTSUpdateSettingsFrame(delta=SarvamTTSService.Settings(language=Language(lang))))
         await self.push_frame(LLMFullResponseStartFrame())
-        await self.push_frame(TextFrame(reply))
+        await self.push_frame(TextFrame(text))
         await self.push_frame(LLMFullResponseEndFrame())
+
+    async def _respond(self, text: str):
+        reply = await self.agent.turn(self.session, text)
+        await self._speak(reply)
         if self.session.end_requested:
             await self.push_frame(EndWorkerFrame(reason="agent ended the call"))
 
@@ -151,8 +156,11 @@ def build_worker(session: CallSession, connection: SmallWebRTCConnection, agent:
         params=TransportParams(audio_in_enabled=True, audio_out_enabled=True),
     )
     stt = SarvamSTTService(api_key=key, settings=SarvamSTTService.Settings(model=settings.sarvam_stt_model))
-    tts = SarvamTTSService(api_key=key, settings=SarvamTTSService.Settings(
-        model=settings.sarvam_tts_model, voice=settings.sarvam_tts_voice, language=Language.EN_IN))
+    tts_settings = dict(model=settings.sarvam_tts_model, voice=settings.sarvam_tts_voice,
+                        language=Language.HI_IN, pace=settings.sarvam_tts_pace)
+    if settings.sarvam_tts_model.startswith("bulbul:v3"):
+        tts_settings["temperature"] = settings.sarvam_tts_temperature
+    tts = SarvamTTSService(api_key=key, settings=SarvamTTSService.Settings(**tts_settings))
     context = LLMContext()
     turns = LLMContextAggregatorPair(context, user_params=LLMUserAggregatorParams(
         vad_analyzer=SileroVADAnalyzer(params=VADParams(stop_secs=0.6))))
@@ -170,7 +178,7 @@ def build_worker(session: CallSession, connection: SmallWebRTCConnection, agent:
     @transport.event_handler("on_client_connected")
     async def _connected(_transport, _client):
         session.emit("call", status="connected", mode="voice")
-        await worker.queue_frames([TTSSpeakFrame(GREETING[session.line])])   # already shown in the transcript
+        await worker.queue_frames([TTSSpeakFrame(greeting(session.line, agent.gender))])   # already shown in the transcript
 
     @transport.event_handler("on_client_disconnected")
     async def _disconnected(_transport, _client):

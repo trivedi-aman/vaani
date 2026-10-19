@@ -30,6 +30,8 @@ from identify import ids, resolve
 from identify.dates import financial_year
 from identify.result import HIGH, LOW, EntityResult
 
+from .persona import spoken_date
+
 # ---- context and helpers -----------------------------------------------------
 
 
@@ -56,6 +58,8 @@ class ToolContext:
         d = result.to_dict()
         self.session.emit("entity", field=field_name, **d)
         out = {"heard": result.heard, "value": result.value, "confidence": result.confidence, "action": result.action}
+        if result.value and result.candidates and result.candidates[0].label not in ("", result.value):
+            out["say_as"] = result.candidates[0].label      # "23 April 1987", "₹2,50,000"
         if result.issues:
             out["issues"] = result.issues
         if result.candidates and result.confidence != HIGH:
@@ -112,12 +116,12 @@ def customer_loan_view(loan: dict) -> dict:
         "emi": rupees(loan["emi"]), "tenure_months": int(loan["tenure_months"]),
     }
     if loan["stage"] == "Active":
-        view.update(next_due_date=loan["next_due_date"], outstanding_principal=rupees(loan["outstanding_principal"]),
+        view.update(next_due_date=spoken_date(loan["next_due_date"]), outstanding_principal=rupees(loan["outstanding_principal"]),
                     auto_debit=loan["nach_status"].lower() or "not set up")
         if float(loan["overdue_amount"] or 0) > 0:
             view["overdue"] = rupees(loan["overdue_amount"])
     if loan["stage"] == "Closed":
-        view.update(closed_on=loan["closed_on"], noc=loan["noc_status"].lower())
+        view.update(closed_on=spoken_date(loan["closed_on"]), noc=loan["noc_status"].lower())
     if loan["customer_message"]:
         view["message_for_customer"] = loan["customer_message"]
     return view
@@ -129,7 +133,7 @@ def staff_loan_view(loan: dict, customer: dict) -> dict:
         "city": f"{customer['district']}, {customer['state']}", "dob_year": customer["dob"][:4],
         "phone": mask_phone(customer["phone"]), "product": loan["product"], "amount": rupees(loan["amount"]),
         "stage": loan["stage"], "internal_note": loan["internal_note"] or None, "assigned_to": loan["assigned_to"] or None,
-        "priority": loan["priority"], "sla_due": loan["sla_due"], "branch": loan["branch_code"],
+        "priority": loan["priority"], "sla_due": spoken_date(loan["sla_due"]), "branch": loan["branch_code"],
     }
 
 
@@ -407,10 +411,10 @@ def get_emi_schedule(ctx: ToolContext, a: LoanArgs) -> dict:
     rows = ctx.store.emis.get(loan["loan_id"], [])
     past = [r for r in rows if r["status"] != "upcoming"][-4:]
     return {
-        "emi": rupees(loan["emi"]), "next_due_date": loan["next_due_date"] or None,
+        "emi": rupees(loan["emi"]), "next_due_date": spoken_date(loan["next_due_date"]),
         "overdue": rupees(loan["overdue_amount"]) if float(loan["overdue_amount"] or 0) > 0 else None,
         "auto_debit": loan["nach_status"].lower() or "not set up",
-        "recent": [{"due_date": r["due_date"], "amount": rupees(r["amount"]), "status": r["status"],
+        "recent": [{"due_date": spoken_date(r["due_date"]), "amount": rupees(r["amount"]), "status": r["status"],
                     "bounce_charge": rupees(r["bounce_charge"]) if int(r["bounce_charge"]) else None} for r in past],
         "bounce_charge_rule": "₹500 + 18% GST = ₹590 per bounced EMI",
     }
@@ -427,7 +431,7 @@ def get_foreclosure_quote(ctx: ToolContext, a: LoanArgs) -> dict:
     overdue = float(loan["overdue_amount"] or 0)
     return {"principal_outstanding": rupees(principal), "foreclosure_charge_4_percent": rupees(charge),
             "overdue": rupees(overdue), "total_to_pay": rupees(principal + charge + overdue),
-            "valid_until": ctx.today.replace(day=28).isoformat()}
+            "valid_until": spoken_date(ctx.today.replace(day=28).isoformat())}
 
 
 @tool("list_pending_documents", "customer")
@@ -533,7 +537,7 @@ def check_ticket(ctx: ToolContext, a: TicketArgs) -> dict:
         mine = ctx.store.tickets_of(ctx.session.customer_id)[:3]
         return {"found": False, "heard": r, "your_recent_tickets": [x["ticket_id"] for x in mine]}
     return {"found": True, "ticket_id": t["ticket_id"], "type": t["type"], "status": t["status"],
-            "opened": t["created_on"], "follow_ups": int(t["follow_ups"]),
+            "opened": spoken_date(t["created_on"]), "follow_ups": int(t["follow_ups"]),
             "should_escalate": int(t["follow_ups"]) >= 2 and t["status"] != "resolved"}
 
 
@@ -711,7 +715,7 @@ def queue_status(ctx: ToolContext, a: EmptyArgs) -> dict:
     mine = [l for l in ctx.store.loans.values() if l["assigned_to"] == ctx.session.staff_id and l["stage"] in OPEN_STAGES]
     mine.sort(key=lambda l: l["applied_on"])
     return {"open_cases": len(mine), "oldest": mine[0]["loan_id"] if mine else None,
-            "oldest_since": mine[0]["applied_on"] if mine else None,
+            "oldest_since": spoken_date(mine[0]["applied_on"]) if mine else None,
             "by_stage": {st: sum(1 for l in mine if l["stage"] == st) for st in OPEN_STAGES if any(l["stage"] == st for l in mine)}}
 
 

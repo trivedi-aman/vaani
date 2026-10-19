@@ -47,7 +47,11 @@ class Settings(BaseSettings):
     sarvam_api_key: SecretStr | None = None
     sarvam_stt_model: str = "saaras:v4"
     sarvam_tts_model: str = "bulbul:v3"
-    sarvam_tts_voice: str = "priya"
+    sarvam_tts_voice: str = "ritu"
+    sarvam_tts_pace: float = 1.0               # 0.5-2.0; slightly below 1 sounds calmer
+    sarvam_tts_temperature: float = 0.7        # bulbul:v3 only; higher is more expressive
+    # "female" or "male": how Vaani speaks of herself. Empty: worked out from the voice.
+    assistant_gender: str | None = None
 
     # --- WebRTC ---------------------------------------------------------------
     stun_url: str = "stun:stun.l.google.com:19302"
@@ -78,10 +82,17 @@ class Settings(BaseSettings):
     # The demo data is consistent with this date ("next EMI", "last month"...).
     demo_today: date = date(2026, 10, 18)
 
-    @field_validator("access_code", "sarvam_api_key", "aws_profile", "turn_url", "turn_username", "turn_password", mode="before")
+    @field_validator("access_code", "sarvam_api_key", "aws_profile", "assistant_gender", "turn_url", "turn_username", "turn_password", mode="before")
     @classmethod
     def _blank_is_unset(cls, v):
         return None if isinstance(v, str) and not v.strip() else v
+
+    @field_validator("assistant_gender")
+    @classmethod
+    def _gender(cls, v):
+        if v is not None and v not in ("female", "male"):
+            raise ValueError("ASSISTANT_GENDER must be female or male")
+        return v
 
     @field_validator("environment")
     @classmethod

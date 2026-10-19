@@ -28,6 +28,7 @@ from core.session import CallSession
 from core.store import Store
 
 from . import tools as T
+from .persona import LOOKUP_TOOLS, filler, fix_self_gender, speakable, voice_gender
 from .prompts import system_prompt
 
 log = logging.getLogger("vaani.agent")
@@ -64,6 +65,7 @@ def _lang(session: CallSession) -> str:
 class Agent:
     def __init__(self, model: Any, store: Store, settings: Settings):
         self.model, self.store, self.settings = model, store, settings
+        self.gender = settings.assistant_gender or voice_gender(settings.sarvam_tts_voice)
         g = StateGraph(State)
         g.add_node("gate", self._gate)
         g.add_node("model", self._call_model)
@@ -86,7 +88,7 @@ class Agent:
         session: CallSession = config["configurable"]["session"]
         specs = [T.REGISTRY[n] for n in state["tool_names"]]
         model = self.model.bind_tools([s.schema() for s in specs]) if specs else self.model
-        messages = [SystemMessage(system_prompt(session, self.store))] + [
+        messages = [SystemMessage(system_prompt(session, self.store, self.gender))] + [
             m for m in state["messages"] if not isinstance(m, SystemMessage)]
         started = time.perf_counter()
         response: AIMessage = await model.ainvoke(messages)
@@ -94,7 +96,28 @@ class Agent:
                      tool_calls=[c["name"] for c in response.tool_calls])
         if len(response.tool_calls) > MAX_TOOL_CALLS_PER_STEP:
             response.tool_calls = response.tool_calls[:MAX_TOOL_CALLS_PER_STEP]
+        await self._interim(session, response)
         return {"messages": [response]}
+
+    async def _interim(self, session: CallSession, response: AIMessage) -> None:
+        """
+        While a lookup runs, say something short so the caller isn't left in
+        silence: what the model said alongside its tool call, or a filler.
+        Once per caller turn, and only on a voice call (the hook is set there).
+        """
+        hook = session.on_interim
+        if hook is None or session.interim_said or not response.tool_calls:
+            return
+        if not any(c["name"] in LOOKUP_TOOLS for c in response.tool_calls):
+            return
+        text = speakable(_text_of(response)) or filler(session.language, self.gender)
+        session.interim_said = True
+        text = fix_self_gender(text, self.gender)
+        session.emit("transcript", role="bot", text=text)
+        try:
+            await hook(text)
+        except Exception:                                # never let a filler break the turn
+            log.debug("interim speech failed", exc_info=True)
 
     async def _run_tools(self, state: State, config) -> dict:
         session: CallSession = config["configurable"]["session"]
@@ -119,6 +142,7 @@ class Agent:
         async with session.turn_lock:
             lang = _lang(session)
             session.turns += 1
+            session.interim_said = False
             session.emit("transcript", role="user", text=text, language=session.language)
             if session.turns > self.settings.max_turns_per_call:
                 session.end_requested = True
@@ -140,9 +164,11 @@ class Agent:
             session.history = history + new
             reply = _text_of(new[-1]) if new else ""
             session.emit("latency", agent_ms=round((time.perf_counter() - started) * 1000))
-            return self._say(session, self._guard(session, reply) or FALLBACK.get(lang, FALLBACK["en"]))
+            reply = speakable(self._guard(session, reply))
+            return self._say(session, reply or FALLBACK.get(lang, FALLBACK["en"]))
 
     def _say(self, session: CallSession, text: str) -> str:
+        text = fix_self_gender(text, self.gender)
         session.emit("transcript", role="bot", text=text)
         return text
 
