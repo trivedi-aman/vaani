@@ -28,8 +28,9 @@ from core.session import CallSession
 from core.store import Store
 
 from . import tools as T
-from .persona import LOOKUP_TOOLS, filler, fix_self_gender, speakable, voice_gender
+from .persona import LOOKUP_TOOLS, filler, fix_self_gender, greeting, speakable, voice_gender
 from .prompts import system_prompt
+from voice.language import reply_language
 
 log = logging.getLogger("vaani.agent")
 
@@ -110,7 +111,7 @@ class Agent:
             return
         if not any(c["name"] in LOOKUP_TOOLS for c in response.tool_calls):
             return
-        text = speakable(_text_of(response)) or filler(session.language, self.gender)
+        text = speakable(_text_of(response)) or filler(session.reply_language, self.gender)
         session.interim_said = True
         text = fix_self_gender(text, self.gender)
         session.emit("transcript", role="bot", text=text)
@@ -134,6 +135,21 @@ class Agent:
     def _route(state: State) -> str:
         last = state["messages"][-1]
         return "tools" if isinstance(last, AIMessage) and last.tool_calls else END
+
+    # ---- the call ---------------------------------------------------------------
+
+    def greet(self, session: CallSession) -> str:
+        """
+        Open the call. The greeting goes into the conversation history so the
+        model knows it has already introduced itself and doesn't do it again.
+        """
+        text = greeting(session.line, self.gender)
+        session.greeting = text
+        # Bedrock requires a conversation to start with a user turn.
+        session.history = [HumanMessage("(The call has connected.)"), AIMessage(text)]
+        session.reply_language = "hi-IN"
+        session.emit("transcript", role="bot", text=text)
+        return text
 
     # ---- one caller turn -------------------------------------------------------
 
@@ -164,11 +180,12 @@ class Agent:
             session.history = history + new
             reply = _text_of(new[-1]) if new else ""
             session.emit("latency", agent_ms=round((time.perf_counter() - started) * 1000))
-            reply = speakable(self._guard(session, reply))
+            reply = speakable(_drop_repeated_greeting(self._guard(session, reply), session.greeting))
             return self._say(session, reply or FALLBACK.get(lang, FALLBACK["en"]))
 
     def _say(self, session: CallSession, text: str) -> str:
         text = fix_self_gender(text, self.gender)
+        session.reply_language = reply_language(text, session.language)
         session.emit("transcript", role="bot", text=text)
         return text
 
@@ -182,6 +199,14 @@ class Agent:
             session.emit("guard", blocked="internal note in reply")
             return BLOCKED.get(_lang(session), BLOCKED["en"])
         return reply
+
+
+def _drop_repeated_greeting(reply: str, greeting_text: str) -> str:
+    """Nova sometimes starts its first answer by greeting again; the caller already heard it."""
+    if greeting_text and reply.startswith(greeting_text[:40]):
+        rest = reply[len(greeting_text):] if reply.startswith(greeting_text) else ""
+        return rest.strip() or reply
+    return reply
 
 
 def _text_of(message: AnyMessage) -> str:

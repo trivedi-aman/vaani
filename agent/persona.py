@@ -63,17 +63,35 @@ def fix_self_gender(text: str, gender: str) -> str:
 
 # ---- speaking style -------------------------------------------------------------
 
-_MARKDOWN = re.compile(r"[*_#`>|]+")
+_MARKDOWN = re.compile(r"[*_#`>|~]+")
 _BULLET = re.compile(r"^\s*(?:[-•]|\d+[.)])\s+", re.M)
-_EMOJI = re.compile("[\U0001F300-\U0001FAFF☀-➿️]")
+_EMOJI = re.compile("[\U0001F300-\U0001FAFF\u2600-\u27BF\uFE0F]")
+_BRACKETS = re.compile(r"[()\[\]{}\"“”‘’«»]")
+_DASH = re.compile(r"\s+[-–—]+\s+|\s*[–—]+\s*|\s+-(?=\s*\S)")    # " - " used as a separator, not 2-3 or e-mail
+_SENTENCE = re.compile(r"(?<=[.!?।])\s+")
+_LETTER_OR_DIGIT = re.compile(r"[^\W_]", re.UNICODE)
+# Indian-script digits -> 0-9: the voice reads ASCII digits more reliably
+_DIGITS = str.maketrans({chr(base + i): str(i) for base in (0x0966, 0x09E6, 0x0BE6, 0x0C66, 0x0CE6, 0x0D66, 0x0AE6, 0x0A66, 0x0B66)
+                         for i in range(10)})
 
 
 def speakable(text: str) -> str:
-    """Strip what a voice can't say: markdown, bullets, emoji, line breaks."""
+    """
+    Make text safe and natural to speak: no markdown, bullets, emoji,
+    brackets, quotes or dash separators, and no sentence without a single
+    letter or digit (Sarvam rejects those, and the call hears silence).
+    """
     text = _BULLET.sub("", text)
     text = _MARKDOWN.sub("", text)
     text = _EMOJI.sub("", text)
-    return " ".join(text.split())
+    text = _BRACKETS.sub("", text)
+    text = _DASH.sub(", ", text)
+    text = text.replace(":", ",").translate(_DIGITS)
+    text = re.sub(r"\s*,\s*(,\s*)+", ", ", text)           # ", ," -> ","
+    text = re.sub(r"\s+([,.!?।])", r"\1", text)
+    text = re.sub(r"([.!?।])[\s.!?।]*(?=[.!?।])", "", text)  # "।।" or "। ।" -> "।"
+    sentences = [x.strip(" ,") for x in _SENTENCE.split(" ".join(text.split()))]
+    return " ".join(x for x in sentences if _LETTER_OR_DIGIT.search(x))
 
 
 def spoken_date(iso: str | None) -> str | None:

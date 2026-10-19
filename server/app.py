@@ -25,7 +25,6 @@ from pydantic import BaseModel, Field
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from agent.graph import Agent
-from agent.persona import greeting
 from core import audit
 from core.config import ROOT, Settings, get_settings
 from core.session import CallSession, SessionError, SessionManager
@@ -233,7 +232,7 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
             raise SessionError(503, "Today's demo call budget is used up. Please try again tomorrow.")
         session, token = sessions.create(body.line, ip, body.scenario_id)
         session.emit("call", status="created", line=body.line)
-        session.emit("transcript", role="bot", text=greeting(body.line, agent.gender))
+        agent.greet(session)
         audit.record(session.id, session.line, None, "call_created", {"scenario": body.scenario_id}, "ok")
         return {"call_id": session.id, "token": token, "line": session.line}
 

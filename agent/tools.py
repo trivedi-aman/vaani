@@ -546,14 +546,16 @@ def check_ticket(ctx: ToolContext, a: TicketArgs) -> dict:
 
 class VerifyStaffArgs(BaseModel):
     employee_id_spoken: str = Field(..., max_length=120)
-    pin_spoken: str = Field(..., max_length=120)
+    pin_spoken: str = Field("", max_length=120, description="The PIN as said. Ask for it first if you don't have it.")
 
 
 @tool("verify_staff", "staff_pre")
 def verify_staff(ctx: ToolContext, a: VerifyStaffArgs) -> dict:
-    """Log a staff member in with their employee ID and 4-digit PIN."""
+    """Log a staff member in with their employee ID and 4-digit PIN. Call it only when you have both."""
     import hmac
     s = ctx.session
+    if not any(ch.isalnum() for ch in a.pin_spoken):
+        return {"status": "need_pin", "say": "Ask for their 4-digit PIN, then call verify_staff again with both."}
     emp = ids.employee_id(a.employee_id_spoken, ctx.lang)
     ctx.entity(emp, "employee_id")
     pin = ids.pin(a.pin_spoken, ctx.lang)

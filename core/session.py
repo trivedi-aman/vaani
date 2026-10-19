@@ -66,6 +66,8 @@ class CallSession:
     history: list = field(default_factory=list)   # the agent's conversation so far
     on_interim: Any = None                     # voice calls: async fn(text) to speak while a lookup runs
     interim_said: bool = False
+    greeting: str = ""                          # what Vaani said when the call opened
+    reply_language: str = "hi-IN"               # language of Vaani's last reply
 
     events: deque = field(default_factory=lambda: deque(maxlen=EVENT_BACKLOG))
     _subscribers: set = field(default_factory=set)

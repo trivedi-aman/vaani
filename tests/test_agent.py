@@ -252,3 +252,9 @@ def test_audit_log_masks_secrets_and_pii(store, settings):
     log = (settings.var_dir / "audit.jsonl").read_text()
     assert store.customers["C0004"]["phone"] not in log
     assert otp_of(s) not in log
+
+
+def test_staff_login_without_a_pin_asks_for_it_and_counts_no_failure(store, settings):
+    s = new_session("staff")
+    r = run(T.ToolContext(s, store, settings), "verify_staff", employee_id_spoken="E. 1008", pin_spoken="?")
+    assert r["status"] == "need_pin" and s.verify_failures == 0

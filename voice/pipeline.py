@@ -47,7 +47,6 @@ from pipecat.transports.smallwebrtc.transport import SmallWebRTCTransport
 from pipecat.workers.runner import WorkerRunner
 
 from agent.graph import Agent
-from agent.persona import greeting
 from core.config import Settings
 from core.session import CallSession
 
@@ -178,7 +177,7 @@ def build_worker(session: CallSession, connection: SmallWebRTCConnection, agent:
     @transport.event_handler("on_client_connected")
     async def _connected(_transport, _client):
         session.emit("call", status="connected", mode="voice")
-        await worker.queue_frames([TTSSpeakFrame(greeting(session.line, agent.gender))])   # already shown in the transcript
+        await worker.queue_frames([TTSSpeakFrame(session.greeting or agent.greet(session))])
 
     @transport.event_handler("on_client_disconnected")
     async def _disconnected(_transport, _client):

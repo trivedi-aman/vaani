@@ -42,7 +42,8 @@ def test_greeting_and_prompt_match_the_voice():
     settings = Settings(_env_file=None)
     store = Store.load(settings.data_dir, settings.demo_today)
     prompt = system_prompt(s, store, "female")
-    assert "woman" in prompt and "Listen first" in prompt
+    assert "woman" in prompt and "SHORT" in prompt and "समझ सकती हूँ" in prompt
+    assert "समझ सकता हूँ" in system_prompt(s, store, "male")
 
 
 def test_speakable_and_dates():
@@ -70,3 +71,42 @@ def test_a_lookup_gets_one_filler_and_the_reply_is_gender_fixed(tmp_path):
     reply = asyncio.run(Agent(model, store, settings).turn(s, "Sultan Meena, 23 April 1987"))
     assert len(spoken) == 1                                          # once per turn
     assert reply.endswith("कर रही हूँ।")
+
+
+def test_replies_that_broke_the_voice_are_cleaned():
+    # From a real call: brackets and " - " made Sarvam reject a letterless chunk.
+    reply = ("धन्यवाद, महेश। अब कृपया आपकी जन्म तिथि बताएँ - दिन, महीना और साल। "
+             "(मैं आपके खाते को देखने के लिए यह जानकारी चाहती हूँ।)")
+    out = speakable(reply)
+    assert not any(ch in out for ch in "()-\"")
+    assert speakable("…") == "" and speakable("ठीक है। । ) बाय!") == "ठीक है। बाय!"
+    assert speakable("जैसे १५ जून १९९०") == "जैसे 15 जून 1990"
+
+
+def test_greeting_is_remembered_and_never_repeated(tmp_path):
+    settings = Settings(_env_file=None, var_dir=tmp_path)
+    store = Store.load(settings.data_dir, settings.demo_today)
+    s, _ = SessionManager(5, 5, 60).create("customer", "1.1.1.1", None)
+    agent = Agent(ScriptedModel([lambda msgs, offered: say(s.greeting + " जी हाँ, बताइए।")]), store, settings)
+    hello = agent.greet(s)
+    assert s.history[0].type == "human" and s.history[1].content == hello
+    reply = asyncio.run(agent.turn(s, "हेलो"))
+    assert reply == "जी हाँ, बताइए।"
+
+
+def test_filler_follows_the_language_vaani_last_spoke(tmp_path):
+    settings = Settings(_env_file=None, var_dir=tmp_path)
+    store = Store.load(settings.data_dir, settings.demo_today)
+    s, _ = SessionManager(5, 5, 60).create("staff", "1.1.1.1", None)
+    s.language = "en-IN"                       # STT tagged "E. 1008" as English
+    spoken = []
+
+    async def hook(text):
+        spoken.append(text)
+
+    s.on_interim = hook
+    agent = Agent(ScriptedModel([call("verify_staff", employee_id_spoken="E. 1008", pin_spoken="8472"), say("ठीक है।")]),
+                  store, settings)
+    agent.greet(s)
+    asyncio.run(agent.turn(s, "जी मेरा एम्प्लॉई आईडी है ई। 1008, पिन 8472"))
+    assert spoken and any("\u0900" <= ch <= "\u097F" for ch in spoken[0])
