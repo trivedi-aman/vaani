@@ -39,8 +39,49 @@ def test_access_code_is_required_and_brute_force_is_limited(tmp_path):
     with make(tmp_path, access_code=SecretStr("correct-horse-42"), access_code_attempts_per_15min=3) as c:
         assert c.get("/api/scenarios").status_code == 403
         assert c.post("/api/calls", json={"line": "customer"}).status_code == 403
-        assert c.get("/api/scenarios", headers={"X-Access-Code": "correct-horse-42"}).status_code == 200
-        assert c.get("/api/scenarios", headers={"X-Access-Code": "wrong"}).status_code == 429
+        for guess in ("wrong-1", "wrong-2", "wrong-3"):
+            assert c.get("/api/scenarios", headers={"X-Access-Code": guess}).status_code == 403
+        # once locked out, even the right code waits
+        assert c.get("/api/scenarios", headers={"X-Access-Code": "correct-horse-42"}).status_code == 429
+
+
+def test_the_right_access_code_is_never_rate_limited(tmp_path):
+    with make(tmp_path, access_code=SecretStr("correct-horse-42"), access_code_attempts_per_15min=3,
+              max_sessions_per_ip=50) as c:
+        good = {"X-Access-Code": "correct-horse-42"}
+        for _ in range(10):
+            assert c.get("/api/scenarios", headers=good).status_code == 200
+            assert c.post("/api/calls", json={"line": "customer"}, headers=good).status_code == 200
+
+
+def test_config_says_nothing_without_the_code(tmp_path):
+    with make(tmp_path, access_code=SecretStr("correct-horse-42")) as c:
+        assert c.get("/api/config").json() == {"access_code_required": True}
+        assert c.get("/api/config", headers={"X-Access-Code": "wrong"}).status_code == 403
+        assert "voice_available" in c.get("/api/config", headers={"X-Access-Code": "correct-horse-42"}).json()
+
+
+def test_production_refuses_a_publicly_reachable_app(tmp_path):
+    base = {"_env_file": None, "var_dir": tmp_path, "environment": "production", "allowed_hosts": "demo.example",
+            "access_code": SecretStr("correct-horse-42")}
+    with pytest.raises(RuntimeError, match="HOST must be 127.0.0.1"):
+        create_app(Settings(**base, host="0.0.0.0", trust_proxy=True), model=ScriptedModel([]))
+    with pytest.raises(RuntimeError, match="TRUST_PROXY"):
+        create_app(Settings(**base), model=ScriptedModel([]))
+
+
+def test_event_stream_refuses_other_sites_and_floods(tmp_path):
+    from starlette.websockets import WebSocketDisconnect
+    with make(tmp_path) as c:
+        call, _ = start(c)
+        with pytest.raises(WebSocketDisconnect), c.websocket_connect(f"/api/calls/{call}/events",
+                                                                     headers={"Origin": "https://evil.example"}):
+            pass
+        for _ in range(30):
+            with c.websocket_connect(f"/api/calls/{call}/events") as ws:
+                ws.close()
+        with pytest.raises(WebSocketDisconnect), c.websocket_connect(f"/api/calls/{call}/events"):
+            pass
 
 
 def test_calls_need_their_own_token(tmp_path):

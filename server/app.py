@@ -17,6 +17,7 @@ import hmac
 import logging
 from contextlib import asynccontextmanager
 from typing import Any
+from urllib.parse import urlsplit
 
 import yaml
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
@@ -89,7 +90,8 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
 
     per_ip = SlidingWindow(settings.requests_per_minute_per_ip, 60)
     new_calls = SlidingWindow(settings.calls_per_ip_per_hour, 3600)
-    code_attempts = SlidingWindow(settings.access_code_attempts_per_15min, 900)
+    code_failures = SlidingWindow(settings.access_code_attempts_per_15min, 900)
+    event_streams = SlidingWindow(30, 60)       # WebSocket opens per IP; the HTTP limit doesn't cover them
     text_turns = SlidingWindow(settings.text_turns_per_minute, 60)
     offers = SlidingWindow(10, 60)
     budget = DailyBudget(settings.daily_call_budget)
@@ -152,11 +154,17 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
         return sessions.authenticate(call_id, token)
 
     def check_access_code(request: Request) -> None:
+        """Only wrong codes count towards the limit, so testers with the right one are never locked out."""
         if settings.access_code is None:
             return
-        limited(code_attempts, client_ip(request), "access code attempts")
+        ip = client_ip(request)
+        wait = code_failures.blocked(ip)
+        if wait is not None:
+            raise SessionError(429, f"Too many wrong access codes. Please wait {wait} seconds.", wait)
         given = request.headers.get("x-access-code", "")
         if not hmac.compare_digest(given.encode(), settings.access_code.get_secret_value().encode()):
+            if given:                                   # no code at all is a first visit, not a guess
+                code_failures.hit(ip)
             raise SessionError(403, "Access code required.")
 
     async def end_call(session: CallSession, reason: str) -> None:
@@ -211,7 +219,11 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
         return {"ok": True}
 
     @app.get("/api/config")
-    async def config():
+    async def config(request: Request):
+        # Without the code a visitor learns only that one is needed.
+        if settings.access_code is not None and not request.headers.get("x-access-code"):
+            return {"access_code_required": True}
+        check_access_code(request)
         return {"access_code_required": settings.access_code is not None, "voice_available": settings.voice_available,
                 "demo_today": settings.demo_today.isoformat(), "max_call_seconds": settings.call_max_seconds,
                 "max_text_chars": settings.max_text_chars, "ice_servers": [{"urls": settings.stun_url}]}
@@ -261,6 +273,14 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
 
     @app.websocket("/api/calls/{call_id}/events")
     async def events(ws: WebSocket, call_id: str):
+        # Refused before the handshake completes: other sites' pages, and floods from one address.
+        origin = ws.headers.get("origin")
+        if origin and "*" not in settings.hosts and urlsplit(origin).hostname not in settings.hosts:
+            await ws.close(code=1008)
+            return
+        if event_streams.hit(client_ip(ws)) is not None:
+            await ws.close(code=1008)
+            return
         await ws.accept()
         try:
             # The token comes in the first message, not the URL, so it never lands in access logs.

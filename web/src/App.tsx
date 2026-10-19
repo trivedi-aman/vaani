@@ -12,7 +12,7 @@ type View = "scenario" | "phone" | "inside";
 export function App() {
   const [config, setConfig] = useState<Config | null>(null);
   const [needCode, setNeedCode] = useState(false);
-  const [codeRejected, setCodeRejected] = useState(false);
+  const [codeRejected, setCodeRejected] = useState("");
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [loadError, setLoadError] = useState("");
@@ -37,20 +37,20 @@ export function App() {
   const load = useCallback(async () => {
     try {
       const cfg = await api.config();
-      setConfig(cfg);
       if (cfg.access_code_required && !accessCode.get()) {
         setNeedCode(true);
         return;
       }
+      setConfig(cfg);                                   // the full config comes only with a valid code
       setScenarios(await api.scenarios());
       setNeedCode(false);
-      setCodeRejected(false);
+      setCodeRejected("");
     } catch (e) {
       if (e instanceof ApiError && (e.status === 403 || e.status === 429)) {
         const tried = !!accessCode.get();
         accessCode.clear();
         setNeedCode(true);
-        setCodeRejected(tried);
+        setCodeRejected(e.status === 429 ? e.message : tried ? "That code was not accepted. Check it and try again." : "");
       } else {
         setLoadError(e instanceof Error ? e.message : "Could not reach the server.");
       }
@@ -213,7 +213,7 @@ export function App() {
   );
 }
 
-function AccessGate({ onDone, rejected }: { onDone: () => void; rejected: boolean }) {
+function AccessGate({ onDone, rejected }: { onDone: () => void; rejected: string }) {
   const [code, setCode] = useState("");
   return (
     <main className="gate">
@@ -224,7 +224,7 @@ function AccessGate({ onDone, rejected }: { onDone: () => void; rejected: boolea
         <input id="code" value={code} onChange={(e) => setCode(e.target.value)} autoComplete="off" autoFocus />
         <button type="submit" disabled={!code.trim()}>Continue</button>
       </form>
-      {rejected && <p className="gate-error" role="alert">That code was not accepted. Check it and try again.</p>}
+      {rejected && <p className="gate-error" role="alert">{rejected}</p>}
     </main>
   );
 }

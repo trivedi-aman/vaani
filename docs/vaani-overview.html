@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vaani</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Vaani is a multilingual voice agent for Indian lending. This overview explains its architecture and its phoneme-weighted name matcher.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Devanagari:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+Tamil:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column (~42rem) with figures that widen to 66rem; the phoneme alignment is the hero. */
+:root {
+  --paper: #F6F8F7;
+  --surface: #FFFFFF;
+  --ink: #17232C;
+  --muted: #536369;
+  --rule: #D3DDDA;
+  --accent: #0E7560;
+  --accent-soft: #DDEFE9;
+  --amber: #8A5D00;
+  --amber-soft: #F6EBD2;
+  --red: #A93226;
+  --red-soft: #F7E1DE;
+  --logo: #1C2733;
+
+  --sans: "IBM Plex Sans", "IBM Plex Sans Devanagari", "Noto Sans Tamil", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", "IBM Plex Sans Devanagari", "Noto Sans Tamil", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --step--1: 0.84rem;
+  --step-0: 1.02rem;
+  --step-1: 1.22rem;
+  --step-2: 1.6rem;
+  --step-3: 2.3rem;
+  --step-4: 3.4rem;
+
+  --col: 42rem;
+  --wide: 66rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0E161B;
+    --surface: #152129;
+    --ink: #E2EBE9;
+    --muted: #94A6A9;
+    --rule: #283840;
+    --accent: #45C3A1;
+    --accent-soft: #143A31;
+    --amber: #E3B456;
+    --amber-soft: #3A2F16;
+    --red: #F08376;
+    --red-soft: #3D1F1B;
+    --logo: #2A3A48;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0E161B;
+  --surface: #152129;
+  --ink: #E2EBE9;
+  --muted: #94A6A9;
+  --rule: #283840;
+  --accent: #45C3A1;
+  --accent-soft: #143A31;
+  --amber: #E3B456;
+  --amber-soft: #3A2F16;
+  --red: #F08376;
+  --red-soft: #3D1F1B;
+  --logo: #2A3A48;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.62;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 4rem;
+  -webkit-font-smoothing: antialiased;
+}
+.page { max-width: var(--wide); margin: 0 auto; }
+.prose { max-width: var(--col); }
+h1, h2, h3 { text-wrap: balance; line-height: 1.15; margin: 0; }
+h2 { font-size: var(--step-3); font-weight: 600; letter-spacing: -0.015em; }
+h3 { font-size: var(--step-1); font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+code, .mono { font-family: var(--mono); font-size: 0.92em; }
+code { background: var(--accent-soft); padding: 0.05em 0.35em; border-radius: 4px; }
+.flow { display: flex; flex-direction: column; gap: 1rem; }
+.eyebrow {
+  font-family: var(--mono); font-size: var(--step--1); letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.dev { font-family: "IBM Plex Sans Devanagari", var(--sans); }
+.tam { font-family: "Noto Sans Tamil", var(--sans); }
+
+/* ---- header ---- */
+.masthead {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding-block: 1.5rem; border-bottom: 1px solid var(--rule);
+}
+.logo {
+  width: 2rem; height: 2rem; border-radius: 7px; background: var(--logo);
+  display: grid; place-items: center; flex: none;
+}
+.masthead .name { font-weight: 600; }
+.masthead .eyebrow { margin-left: auto; }
+
+.intro { padding-block: 3.5rem 2.5rem; display: grid; gap: 1.25rem; }
+.intro h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.03em; }
+.intro h1 span { color: var(--accent); }
+.lede { font-size: var(--step-1); line-height: 1.5; max-width: 40rem; color: var(--ink); }
+.facts {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 0; padding: 0; list-style: none;
+  font-size: var(--step--1); color: var(--muted);
+}
+.facts strong { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---- hero: two alignments ---- */
+.hero {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 1.75rem; display: grid; gap: 1.5rem;
+}
+.hero-head { display: grid; gap: 0.35rem; }
+.hero-head h2 { font-size: var(--step-2); }
+.pairs { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 1.5rem; }
+.pair { display: grid; gap: 0.85rem; align-content: start; }
+.pair-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.75rem; }
+.pair-title b { font-size: var(--step-1); font-weight: 600; }
+.verdict { font-size: var(--step--1); font-weight: 600; padding: 0.1rem 0.55rem; border-radius: 99px; }
+.verdict.same { background: var(--accent-soft); color: var(--accent); }
+.verdict.diff { background: var(--red-soft); color: var(--red); }
+.align-wrap { overflow-x: auto; }
+.align {
+  display: grid; grid-template-columns: 4.2rem repeat(var(--n), minmax(2.6rem, 1fr));
+  font-family: var(--mono); font-size: 0.95rem; min-width: min-content;
+}
+.align > div { padding: 0.4rem 0.3rem; text-align: center; border-bottom: 1px solid var(--rule); }
+.align .lab {
+  text-align: left; color: var(--muted); font-family: var(--sans); font-size: var(--step--1);
+  letter-spacing: 0.04em;
+}
+.align .cost { color: var(--muted); font-variant-numeric: tabular-nums; border-bottom: 0; font-size: 0.85rem; }
+.align .hit { background: var(--amber-soft); color: var(--amber); font-weight: 500; }
+.align .gap { color: var(--muted); }
+.align .cost.hit { background: none; color: var(--amber); font-weight: 500; }
+.scores { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: var(--step--1); }
+.scores div { display: grid; }
+.scores span { color: var(--muted); }
+.scores strong { font-family: var(--mono); font-size: var(--step-1); font-weight: 500; font-variant-numeric: tabular-nums; }
+.scores .good { color: var(--accent); }
+.scores .bad { color: var(--red); }
+.hero-foot { font-size: var(--step--1); color: var(--muted); max-width: var(--col); }
+
+/* ---- sections ---- */
+section { padding-top: 4.5rem; display: grid; gap: 1.5rem; }
+.section-head { display: grid; gap: 0.6rem; max-width: var(--col); }
+.section-head p { color: var(--muted); font-size: var(--step-1); line-height: 1.45; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; counter-reset: step; }
+.steps > li {
+  counter-increment: step; display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 1rem;
+  padding-block: 1.5rem; border-top: 1px solid var(--rule);
+}
+.steps > li::before {
+  content: counter(step); font-family: var(--mono); font-size: var(--step-1); color: var(--accent);
+  font-weight: 500; line-height: 1.3;
+}
+.steps .body { display: grid; gap: 0.75rem; max-width: var(--col); }
+.example {
+  font-family: var(--mono); font-size: 0.9rem; background: var(--surface); border: 1px solid var(--rule);
+  border-radius: 8px; padding: 0.75rem 1rem; display: grid; gap: 0.3rem; overflow-x: auto;
+}
+.example div { white-space: nowrap; }
+.example .arrow { color: var(--muted); padding-inline: 0.4rem; }
+.example .note { color: var(--muted); font-family: var(--sans); font-size: var(--step--1); padding-left: 0.6rem; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; }
+th, td { text-align: left; padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th {
+  font-weight: 600; font-size: var(--step--1); color: var(--muted); letter-spacing: 0.03em;
+  background: var(--paper); white-space: nowrap;
+}
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.best { color: var(--accent); font-weight: 600; }
+td.mono, td .mono { font-family: var(--mono); font-size: 0.88rem; }
+.pill { display: inline-block; font-size: 0.78rem; font-weight: 600; padding: 0.05rem 0.5rem; border-radius: 99px; white-space: nowrap; }
+.pill.high { background: var(--accent-soft); color: var(--accent); }
+.pill.medium { background: var(--amber-soft); color: var(--amber); }
+.pill.low { background: var(--red-soft); color: var(--red); }
+
+figure { margin: 0; display: grid; gap: 0.75rem; }
+figcaption { font-size: var(--step--1); color: var(--muted); max-width: var(--col); }
+.svg-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 1rem; }
+svg { display: block; max-width: 100%; height: auto; color: var(--ink); }
+.svg-wide { min-width: 46rem; }
+svg text { font-family: var(--sans); fill: currentColor; }
+svg .small { font-size: 12px; fill: var(--muted); }
+svg .label { font-size: 14px; font-weight: 600; }
+svg .mono-t { font-family: var(--mono); font-size: 12px; }
+svg .box { fill: var(--paper); stroke: var(--rule); stroke-width: 1.5; }
+svg .box-key { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+svg .line { stroke: currentColor; stroke-width: 1.4; fill: none; }
+svg .line-accent { stroke: var(--accent); stroke-width: 1.6; fill: none; }
+svg .dash { stroke-dasharray: 5 4; }
+svg .head { fill: currentColor; }
+svg .head-accent { fill: var(--accent); }
+svg .z-high { fill: var(--accent-soft); }
+svg .z-med { fill: var(--amber-soft); }
+svg .z-low { fill: var(--red-soft); }
+svg .t-high { fill: var(--accent); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; }
+svg .t-med { fill: var(--amber); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; }
+svg .t-low { fill: var(--red); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; }
+svg .dot { fill: var(--ink); }
+svg .thr { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+
+.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1.5rem 2.5rem; }
+.split > div { display: grid; gap: 0.6rem; align-content: start; }
+.split h3 { font-size: var(--step-0); }
+.split p, .split li { color: var(--ink); font-size: 0.97rem; }
+ul.plain { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.4rem; }
+
+.gate {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0;
+  border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); overflow: hidden;
+}
+.gate > div { padding: 1.1rem 1.2rem; display: grid; gap: 0.35rem; align-content: start; border-right: 1px solid var(--rule); }
+.gate > div:last-child { border-right: 0; }
+.gate .eyebrow { color: var(--accent); }
+.gate b { font-weight: 600; }
+.gate p { font-size: 0.93rem; color: var(--muted); }
+
+.callout {
+  border-left: 3px solid var(--amber); background: var(--amber-soft); color: var(--ink);
+  padding: 1rem 1.2rem; border-radius: 0 8px 8px 0; max-width: var(--col); display: grid; gap: 0.4rem;
+}
+.callout b { color: var(--amber); }
+
+footer { margin-top: 5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: var(--step--1); display: grid; gap: 0.4rem; }
+
+@media (max-width: 640px) {
+  .intro h1 { font-size: 2.6rem; }
+  h2 { font-size: 1.85rem; }
+  .hero { padding: 1.1rem; }
+  .steps > li { grid-template-columns: 1.75rem 1fr; }
+  .masthead .eyebrow { display: none; }
+  .gate > div { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .gate > div:last-child { border-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <span class="logo" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="22" height="22"><path d="M9 10l7 13 7-13" stroke="#3DBB9A" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+    <span class="name">Vaani</span>
+    <span class="eyebrow">Product overview · October 2026</span>
+  </header>
+
+  <div class="intro">
+    <p class="eyebrow">Multilingual voice agent for Indian lending</p>
+    <h1>A voice agent that gets <span>names</span> right.</h1>
+    <p class="lede">Vaani answers the phone for a lending company (an NBFC). Callers speak Hindi, Hinglish, Marathi, Tamil or Indian English. Before Vaani can help, it has to hear a name, a date of birth, a loan ID or a city correctly through noisy speech recognition. This overview covers the whole system and spends most of its length on the hardest part: matching a spoken name to the right record.</p>
+    <ul class="facts">
+      <li><strong>2</strong> helplines: customers and staff</li>
+      <li><strong>25</strong> agent tools with access rules</li>
+      <li><strong>50</strong> test scenarios</li>
+      <li><strong>982</strong> matcher test items</li>
+      <li><strong>201</strong> automated tests</li>
+    </ul>
+  </div>
+
+  <div class="hero" aria-labelledby="hero-title">
+    <div class="hero-head">
+      <p class="eyebrow">Why letter matching fails</p>
+      <h2 id="hero-title">Two letters apart can be the same place. One letter apart can be a different person.</h2>
+    </div>
+    <div class="pairs">
+      <div class="pair">
+        <div class="pair-title"><b>Baadmer → Barmer</b><span class="verdict same">Same district</span></div>
+        <div class="align-wrap">
+          <div class="align" style="--n: 6" role="table" aria-label="Sound-by-sound alignment of Baadmer and Barmer">
+            <div class="lab">heard</div><div>b</div><div class="hit">aa</div><div class="hit">d</div><div>m</div><div>e</div><div>r</div>
+            <div class="lab">record</div><div>b</div><div class="hit">a</div><div class="hit">r</div><div>m</div><div>e</div><div>r</div>
+            <div class="lab">cost</div><div class="cost">0</div><div class="cost hit">0.25</div><div class="cost hit">0.35</div><div class="cost">0</div><div class="cost">0</div><div class="cost">0</div>
+          </div>
+        </div>
+        <div class="scores">
+          <div><span>Letter edits</span><strong class="bad">2</strong></div>
+          <div><span>Vaani's sound distance</span><strong class="good">0.60</strong></div>
+        </div>
+        <p class="hero-foot">Vowel length (aa/a) is a small change. The retroflex flap <span class="dev">ड़</span> is heard as r and written as d, a known confusion that costs 0.35.</p>
+      </div>
+      <div class="pair">
+        <div class="pair-title"><b>Mohan → Rohan</b><span class="verdict diff">Different people</span></div>
+        <div class="align-wrap">
+          <div class="align" style="--n: 6" role="table" aria-label="Sound-by-sound alignment of Mohan and Rohan">
+            <div class="lab">heard</div><div class="hit">m</div><div class="gap">·</div><div>o</div><div>h</div><div>a</div><div>n</div>
+            <div class="lab">record</div><div class="gap">·</div><div class="hit">r</div><div>o</div><div>h</div><div>a</div><div>n</div>
+            <div class="lab">cost</div><div class="cost hit">0.85</div><div class="cost hit">0.85</div><div class="cost">0</div><div class="cost">0</div><div class="cost">0</div><div class="cost">0</div>
+          </div>
+        </div>
+        <div class="scores">
+          <div><span>Letter edits</span><strong class="bad">1</strong></div>
+          <div><span>Vaani's sound distance</span><strong class="good">1.70</strong></div>
+        </div>
+        <p class="hero-foot">m is made with the lips, r with the tongue tip. They share nothing, so the cheapest path drops one sound and adds the other.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================== problem -->
+  <section id="problem" aria-labelledby="problem-title">
+    <div class="section-head">
+      <p class="eyebrow">The core task</p>
+      <h2 id="problem-title">One person, many spellings</h2>
+    </div>
+    <div class="prose flow">
+      <p>Speech recognition returns Hindi and Marathi in Devanagari, Tamil in Tamil script, and English in whatever Roman spelling the model guesses. Customer records are stored in Roman letters. So the same customer can reach the system as <b>Sultan Meena</b>, <span class="dev">सुल्तान मीणा</span>, or <b>Meena Sultan</b>, and the same district as <b>Barmer</b>, <b>Baadmer</b> or <span class="dev">बाड़मेर</span>.</p>
+      <p>The usual tool for fuzzy matching is letter edit distance (Levenshtein). It treats every letter change as equally bad. That is wrong for speech in both directions, as the two examples above show. English phonetic codes such as Metaphone don't help much either, because their rules were written for English spelling.</p>
+      <p>Vaani compares <em>sounds</em> instead of letters. It converts every input into one phonetic alphabet, splits it into sounds, and prices each difference by how alike the two sounds are when spoken.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================== how it works -->
+  <section id="matcher" aria-labelledby="matcher-title">
+    <div class="section-head">
+      <p class="eyebrow">How the matcher works</p>
+      <h2 id="matcher-title">From what was heard to a scored match, in five steps</h2>
+      <p>Each step runs in plain Python in <code>identify/</code>. No model is involved, so the same input always gives the same answer.</p>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <div class="body">
+          <h3>Convert every script into one phonetic alphabet</h3>
+          <p>Devanagari and Tamil are converted to lowercase Roman with long vowels doubled (aa, ee, oo) and retroflex consonants marked (ṭ ḍ ṇ ḷ ṛ). Two language rules matter most. Hindi drops the silent inherent vowel (schwa deletion), so <span class="dev">मोहन</span> becomes <i>mohan</i>, not <i>mohana</i>. Tamil voices a stop between vowels or after a nasal, so <span class="tam">முருகன்</span> becomes <i>murugan</i>, not <i>murukan</i>.</p>
+          <div class="example" aria-label="Transliteration examples">
+            <div><span class="dev">बाड़मेर</span><span class="arrow">→</span>baaṛmer</div>
+            <div><span class="dev">सुल्तान मीणा</span><span class="arrow">→</span>sultaan meeṇaa</div>
+            <div><span class="tam">முருகன்</span><span class="arrow">→</span>murugan</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="body">
+          <h3>Fold English-style spellings</h3>
+          <p>Roman spellings of Indian names follow English habits that hide the sound. A short list of rewrites removes them: <i>ck</i> and <i>q</i> become k, a final <i>-ey</i> becomes e (Pandey, Dubey), <i>ay</i> before a consonant becomes ai (Sanjay, Jaipur), and doubled consonants collapse (Pillai and Pilai).</p>
+          <div class="example" aria-label="Spelling folding examples">
+            <div>Pandey<span class="arrow">→</span>pande<span class="note">distance to Pande: 0.00</span></div>
+            <div>Sanjay<span class="arrow">→</span>sanjai<span class="note">distance to <span class="dev">संजय</span>: 0.00</span></div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="body">
+          <h3>Split into sounds</h3>
+          <p>The folded text is cut into sounds by greedy longest match against an inventory of 37 consonants and 10 vowels. Aspirates such as <i>kh</i> and <i>bh</i> count as one sound, not two letters.</p>
+          <div class="example" aria-label="Tokenisation examples">
+            <div>baaṛmer<span class="arrow">→</span>b · aa · ṛ · m · e · r</div>
+            <div>shrivastav<span class="arrow">→</span>sh · r · i · v · a · s · t · a · v</div>
+            <div>lakhnau<span class="arrow">→</span>l · a · kh · n · au</div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="body">
+          <h3>Price each difference by how the sounds are made</h3>
+          <p>Every consonant is described by where it is made in the mouth, how it is made, whether it is voiced, and whether it is aspirated. Every vowel is described by height, front-to-back position and length. Swapping one sound for another costs the weighted difference of those features. Missing or extra sounds have their own costs, cheaper for sounds that spelling often adds or drops.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Feature</th><th>Values</th><th class="num">Weight</th></tr></thead>
+              <tbody>
+                <tr><td>Place (consonants)</td><td>lips, teeth, tongue curled back (retroflex), palate, soft palate, throat</td><td class="num">0.45</td></tr>
+                <tr><td>Manner (consonants)</td><td>stop, nasal, fricative, approximant, flap, affricate</td><td class="num">0.45</td></tr>
+                <tr><td>Voicing</td><td>p / b, t / d, k / g</td><td class="num">0.25</td></tr>
+                <tr><td>Aspiration</td><td>k / kh, b / bh</td><td class="num">0.15</td></tr>
+                <tr><td>Vowel height and position</td><td>i / e / a, u / o</td><td class="num">0.35 each</td></tr>
+                <tr><td>Vowel length</td><td>a / aa, i / ee</td><td class="num">0.25</td></tr>
+                <tr><td>Missing or extra sound</td><td>silent a or h: 0.40, y: 0.50, other vowels: 0.60, consonants: 0.85</td><td class="num">n/a</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Features alone don't capture how Indian languages are actually written in Roman script. A table of 20 known confusions, each with a reason, overrides the feature cost:</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Sounds</th><th class="num">Cost</th><th>Why</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">r / ṛ</td><td class="num">0.15</td><td>The flap <span class="dev">ड़</span> is heard and written as r (Baadmer / Barmer)</td></tr>
+                <tr><td class="mono">t / ṭ, d / ḍ</td><td class="num">0.20</td><td>Roman script has no dental / retroflex distinction</td></tr>
+                <tr><td class="mono">v / w</td><td class="num">0.15</td><td>No v / w contrast in most Indian languages</td></tr>
+                <tr><td class="mono">sh / s</td><td class="num">0.30</td><td>sh and s merge in many dialects and in Tamil</td></tr>
+                <tr><td class="mono">k / g, p / b</td><td class="num">0.25</td><td>Tamil writes each pair with one letter</td></tr>
+                <tr><td class="mono">zh / l</td><td class="num">0.30</td><td>Tamil <span class="tam">ழ</span> is often written l (Ilango)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Names with two words are compared in both orders, with a 0.20 penalty for the swap, because callers often give the surname first. <b>Meena Sultan</b> scores 0.20 against <b>Sultan Meena</b>, where letter distance gives 10.</p>
+        </div>
+      </li>
+      <li>
+        <div class="body">
+          <h3>Rank, then decide how sure to be</h3>
+          <p>The heard name is scored against every candidate. Confidence depends on two numbers: the best distance, and how far ahead it is of the runner-up. A close second candidate lowers confidence even when the best match is good. Confidence decides what the agent does next.</p>
+        </div>
+      </li>
+    </ol>
+
+    <figure>
+      <div class="svg-wrap">
+        <svg class="svg-wide" viewBox="0 0 960 180" role="img" aria-label="Name distance scale from 0 to 3. Up to 0.8 is high confidence and accepted, up to 1.8 is medium and read back, beyond that is low and asked again. Example scores are plotted.">
+          <rect class="z-high" x="60" y="74" width="224" height="36"/>
+          <rect class="z-med" x="284" y="74" width="280" height="36"/>
+          <rect class="z-low" x="564" y="74" width="336" height="36"/>
+          <text class="t-high" x="66" y="30">HIGH · ACCEPT</text>
+          <text class="t-med" x="290" y="30">MEDIUM · READ BACK</text>
+          <text class="t-low" x="570" y="30">LOW · ASK AGAIN</text>
+          <line class="thr" x1="284" y1="38" x2="284" y2="110"/>
+          <line class="thr" x1="564" y1="38" x2="564" y2="110"/>
+          <line class="line" x1="60" y1="110" x2="900" y2="110"/>
+          <g class="small" text-anchor="middle">
+            <line class="line" x1="60" y1="110" x2="60" y2="116"/><text x="60" y="130">0</text>
+            <line class="line" x1="200" y1="110" x2="200" y2="116"/><text x="200" y="130">0.5</text>
+            <line class="line" x1="340" y1="110" x2="340" y2="116"/><text x="340" y="130">1.0</text>
+            <line class="line" x1="480" y1="110" x2="480" y2="116"/><text x="480" y="130">1.5</text>
+            <line class="line" x1="620" y1="110" x2="620" y2="116"/><text x="620" y="130">2.0</text>
+            <line class="line" x1="760" y1="110" x2="760" y2="116"/><text x="760" y="130">2.5</text>
+            <line class="line" x1="900" y1="110" x2="900" y2="116"/><text x="900" y="130">3.0</text>
+          </g>
+          <circle class="dot" cx="130" cy="92" r="5"/>
+          <line class="line" x1="130" y1="68" x2="130" y2="86"/>
+          <text class="small" x="130" y="62" text-anchor="middle">Deepak Sainee → Deepak Saini · 0.25</text>
+          <circle class="dot" cx="242" cy="92" r="5"/>
+          <line class="line" x1="242" y1="98" x2="242" y2="146"/>
+          <text class="small" x="242" y="162" text-anchor="middle">सुल्तान मीणा → Sultan Meena · 0.65</text>
+          <circle class="dot" cx="536" cy="92" r="5"/>
+          <line class="line" x1="536" y1="68" x2="536" y2="86"/>
+          <text class="small" x="552" y="62" text-anchor="end">Mohan vs Rohan · 1.70</text>
+          <circle class="dot" cx="746" cy="92" r="5"/>
+          <line class="line" x1="746" y1="98" x2="746" y2="146"/>
+          <text class="small" x="746" y="162" text-anchor="middle">runner-up for Sultan Meena: Sohan Meena · 2.45</text>
+        </svg>
+      </div>
+      <figcaption>Name distance thresholds, drawn to scale. High also needs a lead of at least 1.0 over the runner-up, and medium a lead of 0.4. Places use slightly tighter bands (0.8 and 1.6).</figcaption>
+    </figure>
+  </section>
+
+  <!-- ===================================================== verification -->
+  <section id="verification" aria-labelledby="verify-title">
+    <div class="section-head">
+      <p class="eyebrow">Where the matcher sits</p>
+      <h2 id="verify-title">The model finds the words. Code decides the match.</h2>
+      <p>The language model (Amazon Nova 2 Lite) never decides that a name or a date matched.</p>
+    </div>
+    <div class="prose flow">
+      <p>When a caller says <i>“teis April unnees sau sattaasi”</i>, the model's only job is to pass those exact words to a tool. The tool normalises them (1987-04-23), matches them against the records, scores the result and tells the agent what to do: accept, read the value back (“Maine suna 23 April 1987, sahi hai?”), or ask again. The same pattern covers dates, amounts, loan IDs, pincodes and districts, and spoken numbers in English, Hindi, Marathi and Tamil.</p>
+      <p>A name is a consistency check, not the security gate. Different people can sound almost the same: Anil Patel and Anil Patil are 0.35 apart. So a customer is verified in three layers:</p>
+    </div>
+    <div class="gate">
+      <div><span class="eyebrow">1 · Narrow</span><b>An exact identifier</b><p>Date of birth, registered mobile or loan ID cuts the pool of candidates to one or a few records.</p></div>
+      <div><span class="eyebrow">2 · Check</span><b>The name, by sound</b><p>The spoken name must be within 2.0 of someone in that small pool. Other customers' names are never shown.</p></div>
+      <div><span class="eyebrow">3 · Prove</span><b>A one-time password</b><p>For the registered mobile. In the demo it arrives as an SMS on the simulated phone. Only then do account tools appear for the model to use.</p></div>
+    </div>
+    <div class="prose flow">
+      <p>Places use the same matcher against all 745 Indian districts plus common city names. A pincode, when given, cross-checks the district. <b>Bangalore</b> matches Bengaluru Urban exactly, but Mangalore is only 0.45 away, so Vaani reads it back before acting.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================== results -->
+  <section id="results" aria-labelledby="results-title">
+    <div class="section-head">
+      <p class="eyebrow">Evaluation</p>
+      <h2 id="results-title">How it compares</h2>
+      <p>982 test items. Names are matched against all 300 customers, places against 745 districts and their aliases. All three matchers get the same romanised input, so the comparison measures matching, not transliteration.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Test set</th><th class="num">Items</th><th class="num">Levenshtein</th><th class="num">Metaphone</th><th class="num">Vaani (sounds)</th></tr></thead>
+        <tbody>
+          <tr><td>Hand-written names: STT spellings, surname first, native script</td><td class="num">62</td><td class="num">96.8%</td><td class="num">96.8%</td><td class="num best">100%</td></tr>
+          <tr><td>Hand-written places: Baadmer, Lakhnau, Koyambattur, old names</td><td class="num">50</td><td class="num">92.0%</td><td class="num">74.0%</td><td class="num best">100%</td></tr>
+          <tr><td>Customer names written in Devanagari or Tamil script</td><td class="num">254</td><td class="num">97.6%</td><td class="num">97.6%</td><td class="num best">100%</td></tr>
+          <tr><td>Rule-made spelling variants, names</td><td class="num">246</td><td class="num">99.6%</td><td class="num">96.3%</td><td class="num best">100%</td></tr>
+          <tr><td>Rule-made spelling variants, places</td><td class="num">170</td><td class="num">97.6%</td><td class="num">90.0%</td><td class="num best">100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="prose" style="color: var(--muted); font-size: var(--step--1);">Top-1 accuracy: the right record ranked first.</p>
+
+    <div class="split">
+      <div>
+        <h3>Confidence is calibrated</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Confidence</th><th class="num">Names</th><th class="num">Places</th><th class="num">Correct</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pill high">high · accept</span></td><td class="num">425</td><td class="num">195</td><td class="num">100%</td></tr>
+              <tr><td><span class="pill medium">medium · read back</span></td><td class="num">108</td><td class="num">17</td><td class="num">100%</td></tr>
+              <tr><td><span class="pill low">low · ask again</span></td><td class="num">29</td><td class="num">8</td><td class="num">100%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3>Callers who are not customers</h3>
+        <p>200 made-up full names built from the same name lists, none of them a customer. Anything except a confident match is the right outcome.</p>
+        <div class="table-wrap">
+          <table>
+            <tbody>
+              <tr><td><span class="pill low">asked again</span></td><td class="num">194</td></tr>
+              <tr><td><span class="pill medium">read back for confirmation</span></td><td class="num">5</td></tr>
+              <tr><td><span class="pill high">wrongly high</span> Raman Patil → Raman Patel</td><td class="num">1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <b>How to read these numbers</b>
+      <p>The rule-made variants use the same confusions the matcher was designed around, so that set flatters it. Two misses on the hand-written set were fixed after the first run, so it is not fully held out. All items are text, not recordings of real callers. The one wrong high match is why the name alone never verifies anyone.</p>
+    </div>
+  </section>
+
+  <!-- ===================================================== architecture -->
+  <section id="architecture" aria-labelledby="arch-title">
+    <div class="section-head">
+      <p class="eyebrow">System architecture</p>
+      <h2 id="arch-title">How a call flows</h2>
+      <p>A browser-based phone simulator calls the server over WebRTC. Speech goes in, the agent decides what to look up, the identification core checks what was heard, and the reply is spoken back.</p>
+    </div>
+    <figure>
+      <div class="svg-wrap">
+        <svg class="svg-wide" viewBox="0 0 1090 330" role="img" aria-label="Architecture: the browser reaches the app through Caddy for HTTPS and sends audio over WebRTC directly to the voice pipeline. The pipeline uses Sarvam for speech, passes transcripts to the LangGraph agent, which reads identity from the call session and sends the caller's exact words to the identification core, which matches them against the data store and returns a value with a confidence.">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+            <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head-accent" d="M0,0 L10,5 L0,10 z"/></marker>
+          </defs>
+
+          <!-- UDP audio arc -->
+          <path class="line dash" d="M95,90 V48 H545 V90" marker-start="url(#ah)" marker-end="url(#ah)"/>
+          <text class="small" x="320" y="40" text-anchor="middle">WebRTC audio (UDP), straight to the app</text>
+
+          <!-- top row -->
+          <rect class="box" x="20" y="90" width="150" height="64" rx="8"/>
+          <text class="label" x="95" y="117" text-anchor="middle">Browser</text>
+          <text class="small" x="95" y="136" text-anchor="middle">phone · live panel</text>
+
+          <rect class="box" x="245" y="90" width="150" height="64" rx="8"/>
+          <text class="label" x="320" y="117" text-anchor="middle">Caddy</text>
+          <text class="small" x="320" y="136" text-anchor="middle">HTTPS · the only way in</text>
+
+          <rect class="box" x="470" y="90" width="150" height="64" rx="8"/>
+          <text class="label" x="545" y="117" text-anchor="middle">Voice pipeline</text>
+          <text class="small" x="545" y="136" text-anchor="middle">Pipecat · Silero VAD</text>
+
+          <rect class="box" x="695" y="90" width="150" height="64" rx="8"/>
+          <text class="label" x="770" y="117" text-anchor="middle">Agent</text>
+          <text class="small" x="770" y="136" text-anchor="middle">LangGraph · Nova 2 Lite</text>
+
+          <rect class="box-key" x="920" y="90" width="150" height="64" rx="8"/>
+          <text class="label" x="995" y="117" text-anchor="middle">Identification</text>
+          <text class="small" x="995" y="136" text-anchor="middle">transliterate · match</text>
+
+          <!-- top row arrows -->
+          <line class="line" x1="170" y1="122" x2="243" y2="122" marker-end="url(#ah)"/>
+          <text class="small" x="207" y="114" text-anchor="middle">HTTPS</text>
+          <line class="line" x1="395" y1="122" x2="468" y2="122" marker-end="url(#ah)"/>
+          <text class="small" x="432" y="114" text-anchor="middle">localhost</text>
+          <line class="line" x1="620" y1="122" x2="693" y2="122" marker-end="url(#ah)"/>
+          <text class="small" x="657" y="114" text-anchor="middle">transcript</text>
+          <line class="line-accent" x1="845" y1="110" x2="918" y2="110" marker-end="url(#ahg)"/>
+          <text class="small" x="882" y="102" text-anchor="middle">exact words</text>
+          <line class="line-accent" x1="918" y1="138" x2="847" y2="138" marker-end="url(#ahg)"/>
+          <text class="small" x="882" y="174" text-anchor="middle">value + confidence</text>
+
+          <!-- bottom row -->
+          <rect class="box" x="470" y="240" width="150" height="64" rx="8"/>
+          <text class="label" x="545" y="267" text-anchor="middle">Sarvam</text>
+          <text class="small" x="545" y="286" text-anchor="middle">Saaras STT · Bulbul TTS</text>
+
+          <rect class="box" x="695" y="240" width="150" height="64" rx="8"/>
+          <text class="label" x="770" y="267" text-anchor="middle">Call session</text>
+          <text class="small" x="770" y="286" text-anchor="middle">proven identity</text>
+
+          <rect class="box" x="920" y="240" width="150" height="64" rx="8"/>
+          <text class="label" x="995" y="267" text-anchor="middle">Data store</text>
+          <text class="small" x="995" y="286" text-anchor="middle">customers · loans</text>
+
+          <!-- vertical arrows -->
+          <line class="line" x1="525" y1="154" x2="525" y2="238" marker-end="url(#ah)"/>
+          <text class="small" x="518" y="200" text-anchor="end">audio, reply text</text>
+          <line class="line" x1="565" y1="240" x2="565" y2="156" marker-end="url(#ah)"/>
+          <text class="small" x="572" y="200">words, speech</text>
+          <line class="line" x1="770" y1="240" x2="770" y2="156" marker-end="url(#ah)"/>
+          <text class="small" x="777" y="200">decides allowed tools</text>
+          <line class="line" x1="995" y1="156" x2="995" y2="238" marker-start="url(#ah)" marker-end="url(#ah)"/>
+          <text class="small" x="1002" y="200">records</text>
+        </svg>
+      </div>
+      <figcaption>Requests and call setup pass through Caddy; the app itself listens only on localhost. Audio travels over WebRTC straight to the voice pipeline. The green path is the part this document is about: the agent hands over the caller's exact words, and code returns a checked value.</figcaption>
+    </figure>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Part</th><th>Built with</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td>Speech to text, text to speech</td><td>Sarvam Saaras v4, Bulbul v3</td><td>10 Indian languages plus English, including code-mixed speech</td></tr>
+          <tr><td>Real-time voice</td><td>Pipecat over WebRTC, Silero VAD</td><td>Turn-taking, barge-in, a short filler while a lookup runs</td></tr>
+          <tr><td>Agent</td><td>LangGraph tool loop on Amazon Nova 2 Lite (Bedrock)</td><td>Understands the request and picks a tool; a gate refreshes which tools are allowed at every step</td></tr>
+          <tr><td>Identification core</td><td>Own Python code, <code>identify/</code></td><td>Transliteration, sound matching, spoken numbers and dates, IDs, confidence</td></tr>
+          <tr><td>Frontend</td><td>React and Vite</td><td>Phone simulator, 50 scenarios, and a live panel showing each value as it is heard, normalised, matched and scored</td></tr>
+          <tr><td>Hosting</td><td>Docker, Caddy</td><td>Automatic HTTPS; the app is never exposed directly</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================================================== security -->
+  <section id="security" aria-labelledby="sec-title">
+    <div class="section-head">
+      <p class="eyebrow">Security</p>
+      <h2 id="sec-title">What a caller can and cannot make it do</h2>
+      <p>Who may see what is decided in code. Nothing a caller says to the model can widen it.</p>
+    </div>
+    <div class="split">
+      <div>
+        <h3>Identity lives in the session</h3>
+        <ul class="plain">
+          <li>Tools read who the caller is from the call session, never from the model's arguments.</li>
+          <li>Before verification a customer can only verify, find a branch, report fraud or ask for a callback. Account tools appear only after the OTP.</li>
+          <li>Staff log in with employee ID and PIN; their role decides their tools.</li>
+          <li>A last check stops internal case notes from ever being spoken to a customer.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>The server is closed by default</h3>
+        <ul class="plain">
+          <li>The app listens only on localhost behind Caddy, and refuses to start in production otherwise.</li>
+          <li>Nothing past the login screen works without the access code; wrong guesses are rate-limited per address.</li>
+          <li>Each call has its own bearer token, kept out of URLs; the voice connection and event stream are bound to it.</li>
+          <li>Strict content security policy and headers, request size limits, no stack traces in responses.</li>
+          <li>The container runs read-only, as a non-root user, with every Linux capability dropped.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Costs and data are capped</h3>
+        <ul class="plain">
+          <li>Limits on concurrent voice calls, calls per address per hour, a daily call budget, call length, silence, turns and agent steps per turn.</li>
+          <li>Phone numbers, dates of birth, OTPs and PINs are masked in logs and in the audit trail.</li>
+          <li>No AWS keys in the app's configuration: Bedrock access comes from the server's IAM role. The Sarvam key is the only secret in the server's environment file.</li>
+          <li>All customer data is synthetic.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== production -->
+  <section id="production" aria-labelledby="prod-title">
+    <div class="section-head">
+      <p class="eyebrow">In production</p>
+      <h2 id="prod-title">What changes for a real lender</h2>
+      <p>The demo runs on one server with 300 synthetic customers. This is the plan for millions of customers and real phone lines.</p>
+    </div>
+    <div class="split">
+      <div>
+        <h3>Matching at scale</h3>
+        <p>Customer verification already scales, because the exact identifier narrows the pool to a handful of records before any name is compared. Its cost stays flat as the customer base grows.</p>
+        <p>Staff name search across millions of records needs a two-stage search. Each record's sound sequence is computed once, when the record is written, and indexed by a coarse phonetic key that merges confusable sounds (d, ḍ, ṛ and r share one class). A search fetches the few hundred records that share the key, then ranks them with the full weighted distance. With about ten sounds per name, that distance is cheap.</p>
+      </div>
+      <div>
+        <h3>Learning from read-backs</h3>
+        <p>Every read-back produces a labelled pair: what speech recognition heard, and what the caller confirmed. Logged with consent, these pairs tune the confusion costs for each language and each speech model, and refit the thresholds on a held-out set.</p>
+        <p>The share of read-backs that callers reject is the live quality measure. If it rises after a speech model update, thresholds are too loose.</p>
+      </div>
+      <div>
+        <h3>Real phone lines</h3>
+        <p>WebRTC in the browser is replaced by a telephony provider over SIP. Phone audio is narrowband (8 kHz), which makes recognition worse, so thresholds are retuned on phone recordings and more values get read back. OTPs go out through a registered SMS provider, which in India means DLT template registration.</p>
+      </div>
+      <div>
+        <h3>More than one server</h3>
+        <p>Sessions and rate limits move from process memory to Redis, and records to a database, behind the same interfaces the code already uses. Application servers become stateless and sit behind a load balancer, with a TURN relay for callers on networks that block UDP.</p>
+      </div>
+      <div>
+        <h3>More scripts</h3>
+        <p>Transliteration covers Devanagari and Tamil today. Bengali, Telugu, Kannada, Malayalam and Gujarati each need their own script rules, written the same way and tested with every customer name in that script.</p>
+      </div>
+      <div>
+        <h3>Data protection</h3>
+        <p>Consent, purpose limits and retention periods under India's Digital Personal Data Protection Act. Masking in logs, an audit trail of every tool call and session-bound access already follow that model. In production the audit trail moves from a rotating log file to tamper-evident storage.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== gaps -->
+  <section id="gaps" aria-labelledby="gaps-title">
+    <div class="section-head">
+      <p class="eyebrow">Known gaps</p>
+      <h2 id="gaps-title">What is not proven yet</h2>
+    </div>
+    <ul class="plain prose">
+      <li>The matcher is measured on text, not on recordings of real callers.</li>
+      <li>Marathi number words need checking by a native speaker.</li>
+      <li>Sound-alike names (Anil Patel, Anil Patil) cannot be told apart by sound alone. The design relies on the exact identifier and the OTP for that.</li>
+      <li>One server process: sessions, rate limits and records created during calls live in memory until restart.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Vaani · multilingual voice agent for NBFC support</p>
+    <p>Matcher: <code>identify/phonetic.py</code>, <code>identify/translit.py</code> · Evaluation: <code>eval/matchers.py</code></p>
+  </footer>
+</div>
+
+</body>
+</html>

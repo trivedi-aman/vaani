@@ -277,3 +277,26 @@ def test_common_stt_spellings_of_digits_are_certain():
     for said in ["92, 97, 73. 8 4. छः सात", "naw do naw saat saat teen aath chaar chhah saat"]:
         r = ids.phone(said, "hi")
         assert (r.value, r.confidence) == ("9297738467", "high"), said
+
+
+def test_an_unknown_pincode_is_handled_not_a_crash(store, settings):
+    ctx = T.ToolContext(new_session(), store, settings)
+    r = run(ctx, "find_branch", place_spoken="999999")
+    assert r["branch"] is None and "error" not in r
+
+
+def test_a_failing_tool_does_not_end_the_turn(store, settings, monkeypatch):
+    ctx = T.ToolContext(new_session(), store, settings)
+    monkeypatch.setattr(T.REGISTRY["find_branch"], "handler", lambda c, a: 1 / 0)
+    assert "error" in run(ctx, "find_branch", place_spoken="Barmer")
+
+
+def test_verification_never_shows_another_customers_name(store, settings):
+    s = new_session()
+    shared = next(dob for dob in {c["dob"] for c in store.customers.values()}
+                  if len(store.customers_with("dob", dob)) > 1)
+    names = [c["full_name"] for c in store.customers_with("dob", shared)]
+    run(T.ToolContext(s, store, settings), "verify_customer", name_spoken="Ramesh", id_type="dob",
+        id_spoken=shared, confirmed=True)
+    panel = json.dumps(list(s.events), ensure_ascii=False)
+    assert not any(n in panel for n in names)

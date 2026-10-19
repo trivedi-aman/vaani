@@ -32,6 +32,17 @@ class SlidingWindow:
                     del self._hits[k]
             return None
 
+    def blocked(self, key: str) -> int | None:
+        """Like hit(), but only looks: None if a hit would be allowed, else seconds to wait."""
+        now = time.monotonic()
+        with self._lock:
+            q = self._hits.get(key)
+            while q and now - q[0] > self.window:
+                q.popleft()
+            if q and len(q) >= self.limit:
+                return max(1, int(self.window - (now - q[0])) + 1)
+            return None
+
 
 class DailyBudget:
     def __init__(self, limit: int):

@@ -120,6 +120,10 @@ class Settings(BaseSettings):
             problems.append("ALLOWED_HOSTS must list real host names, not *")
         if self.access_code is None or len(self.access_code.get_secret_value()) < 8:
             problems.append("ACCESS_CODE must be set (8+ characters) so strangers cannot run up your API bills")
+        if self.host not in ("127.0.0.1", "localhost", "::1"):
+            problems.append("HOST must be 127.0.0.1 so only the reverse proxy (Caddy) can reach the app")
+        if not self.trust_proxy:
+            problems.append("TRUST_PROXY must be true: in production the app runs behind Caddy")
         return problems
 
 

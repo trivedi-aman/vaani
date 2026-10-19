@@ -8,3 +8,4 @@ var/
 web/node_modules/
 web/dist/
 *.tar.gz
+web/tsconfig.tsbuildinfo

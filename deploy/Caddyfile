@@ -15,6 +15,10 @@
 		-Server
 	}
 
+	# Internal-only paths never leave the box (Docker's health check calls the app directly).
+	@internal path /healthz /docs /docs/* /openapi.json
+	respond @internal 404
+
 	# Caddy appends the real client IP to X-Forwarded-For; the app reads the
 	# right-most entry, so a spoofed header from the client is ignored.
 	reverse_proxy 127.0.0.1:7860 {

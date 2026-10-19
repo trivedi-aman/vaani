@@ -42,6 +42,10 @@ forwards `/api` to the Python server).
 To host it for an interviewer, see [deploy/EC2.md](deploy/EC2.md): one EC2
 instance, Docker, Caddy for HTTPS on a free `sslip.io` hostname.
 
+For a written overview of the system and the name matcher, see
+[docs/vaani-overview.html](docs/vaani-overview.html) (also as
+[a Word document](docs/vaani-overview.docx)).
+
 ## How it works
 
 ```
@@ -111,11 +115,16 @@ from ever being spoken to a customer.
 
 All on by default. Settings are in `.env.example`.
 
-- **Access:** an access code is needed to start calls. Production refuses to
-  start without one (8+ characters) and without real host names.
+- **Access:** an access code is needed for everything past the login screen;
+  only wrong codes count towards the attempt limit. Production refuses to
+  start without one (8+ characters), without real host names, or unless the
+  app listens only on localhost behind the proxy (`HOST=127.0.0.1`,
+  `TRUST_PROXY=true`). Caddy also blocks `/healthz` and the API docs from
+  outside.
 - **Per-call tokens:** each call gets a random bearer token. The WebRTC
   connection, its ICE updates and the event stream are bound to the call
-  that created them.
+  that created them. The event stream refuses other sites' pages and is
+  rate-limited per IP.
 - **Verification:** OTPs are random, stored only as salted hashes, expire in
   5 minutes, and allow 3 tries. Three failed verifications lock the call.
   At most 3 OTPs are sent per call. Failure messages never say which detail
@@ -141,7 +150,7 @@ SMS), and data written during calls lives in memory until restart.
 ## Testing
 
 ```bash
-python -m pytest                     # 188 tests, ~20 s, no API keys needed
+python -m pytest                     # 201 tests, ~15 s, no API keys needed
 python -m eval.matchers              # matcher comparison -> eval/results/matchers.md
 python -m eval.scenario_entities     # every expected value recoverable from the caller's words?
 python -m eval.run_scenarios         # all 50 scenarios against live Nova (needs AWS)

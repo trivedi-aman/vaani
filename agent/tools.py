@@ -13,6 +13,7 @@ Rules every tool follows:
      executor checks again before running one.
   4. Customers get customer wording; internal notes exist only in staff tools.
 """
+import logging
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -32,6 +33,7 @@ from identify.result import HIGH, LOW, EntityResult
 
 from .persona import spoken_date
 
+log = logging.getLogger("vaani.tools")
 # ---- context and helpers -----------------------------------------------------
 
 
@@ -218,6 +220,10 @@ def execute(ctx: ToolContext, name: str, raw_args: dict) -> dict:
         except ToolError as e:
             result = {"error": str(e)}
             outcome = "refused"
+        except Exception:                               # a bug in one tool must not end the caller's turn
+            log.exception("tool %s failed", name)
+            result = {"error": "That did not work. Apologise and offer a human callback."}
+            outcome = "error"
     ms = round((time.perf_counter() - started) * 1000)
     audit.record(s.id, s.line, s.actor, name, raw_args or {}, outcome, result)
     s.emit("tool", name=name, args=strip_secrets(raw_args or {}), outcome=outcome, result=strip_secrets(result), ms=ms)
@@ -260,6 +266,9 @@ class PlaceArgs(BaseModel):
 def find_branch(ctx: ToolContext, a: PlaceArgs) -> dict:
     """Find the branch serving a city, district or pincode. No verification needed."""
     pin = resolve.pincode(a.place_spoken, ctx.lang)
+    if pin.value and pin.value not in resolve.pincodes():
+        return {"place": ctx.entity(pin, "pincode"), "branch": None,
+                "say": "That pincode is not in our list. Ask for the city or district instead."}
     if pin.value:
         ctx.entity(pin, "pincode")
         district, state = resolve.pincodes()[pin.value]
@@ -352,7 +361,8 @@ def verify_customer(ctx: ToolContext, a: VerifyCustomerArgs) -> dict:
                action="accept" if (pool or a.confirmed) else None)
     match = resolve.name(a.name_spoken, [(c["customer_id"], c["full_name"]) for c in pool]) if pool else None
     if match is not None:
-        ctx.session.emit("entity", field="name", **{**match.to_dict(), "candidates": []})   # never show other customers
+        # never show other customers: their names are in the candidates and in issues ("close to X too")
+        ctx.session.emit("entity", field="name", **{**match.to_dict(), "candidates": [], "issues": []})
     close_enough = match is not None and match.value is not None and match.candidates[0].distance <= VERIFY_NAME_MAX
     if not close_enough or match.confidence == LOW:
         s.record_failure()
