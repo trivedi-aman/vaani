@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     sarvam_api_key: SecretStr | None = None
     sarvam_stt_model: str = "saaras:v4"
     sarvam_tts_model: str = "bulbul:v3"
-    sarvam_tts_voice: str = "ritu"
+    sarvam_tts_voice: str = "roopa"
     sarvam_tts_pace: float = 1.0               # 0.5-2.0; slightly below 1 sounds calmer
     sarvam_tts_temperature: float = 0.7        # bulbul:v3 only; higher is more expressive
     # "female" or "male": how Vaani speaks of herself. Empty: worked out from the voice.
