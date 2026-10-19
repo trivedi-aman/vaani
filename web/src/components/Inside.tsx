@@ -15,7 +15,7 @@ export function readable(field: string, value: string | null): string {
 }
 
 const ACTIONS: Record<EntityEvent["action"], string> = {
-  accept: "Accepted", read_back: "Read back to confirm", ask_again: "Asked again",
+  accept: "Accepted", read_back: "Needs a read-back", ask_again: "Needs asking again",
 };
 
 type Tab = "understood" | "conversation" | "steps" | "check";
@@ -85,6 +85,7 @@ function Understood({ entities, callActive }: { entities: EntityEvent[]; callAct
             <div className="step verdict">
               <span className="step-label">{e.confidence[0].toUpperCase() + e.confidence.slice(1)} confidence</span>
               <span className="step-value">{ACTIONS[e.action]}</span>
+              {e.checked && <span className="step-note">{e.checked}</span>}
             </div>
           </div>
           {e.candidates.length > 1 && (

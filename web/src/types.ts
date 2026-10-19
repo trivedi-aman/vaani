@@ -64,6 +64,7 @@ export type CallEvent = { ts: number } & (
       candidates: Candidate[];
       issues: string[];
       action: "accept" | "read_back" | "ask_again";
+      checked?: string;
     }
   | { type: "tool"; name: string; args: Record<string, unknown>; outcome: string; result: unknown; ms: number }
   | { type: "node"; name: string; ms?: number; tools?: string[]; tool_calls?: string[] }

@@ -53,9 +53,18 @@ class ToolContext:
     def lang(self) -> str:
         return (self.session.language or "")[:2]
 
-    def entity(self, result: EntityResult, field_name: str) -> dict:
-        """Report what was heard and understood to the browser panel; return a compact copy for the model."""
+    def entity(self, result: EntityResult, field_name: str, checked: str | None = None, action: str | None = None) -> dict:
+        """
+        Report what was heard and understood to the browser panel; return a
+        compact copy for the model. `checked` and `action` record what the tool
+        finally did with the value (e.g. it matched a customer record, so no
+        read-back was needed), so the panel shows the outcome, not just the guess.
+        """
         d = result.to_dict()
+        if action:
+            d["action"] = action
+        if checked:
+            d["checked"] = checked
         self.session.emit("entity", field=field_name, **d)
         out = {"heard": result.heard, "value": result.value, "confidence": result.confidence, "action": result.action}
         if result.value and result.candidates and result.candidates[0].label not in ("", result.value):
@@ -303,6 +312,7 @@ class VerifyCustomerArgs(BaseModel):
     name_spoken: str = Field(..., max_length=120, description="The caller's full name as they said it")
     id_type: Literal["dob", "phone", "loan_id"] = Field(..., description="Which second identifier the caller gave")
     id_spoken: str = Field(..., max_length=200, description="The caller's exact words for that identifier")
+    confirmed: bool = Field(False, description="True only after you read the identifier back and the caller said it is right")
 
 
 @tool("verify_customer", "customer_pre")
@@ -313,15 +323,33 @@ def verify_customer(ctx: ToolContext, a: VerifyCustomerArgs) -> dict:
               "phone": lambda: ids.phone(a.id_spoken, ctx.lang),
               "loan_id": lambda: ids.loan_id(a.id_spoken, ctx.lang)}[a.id_type]
     factor = reader()
-    seen = ctx.entity(factor, a.id_type)
+    what = {"dob": ("जन्मतिथि", "date of birth"), "phone": ("मोबाइल नंबर", "mobile number"),
+            "loan_id": ("लोन आईडी", "loan ID")}[a.id_type]
     if factor.value is None:
         # Not understood is not the same as wrong: ask again, no failure counted.
-        return {"status": "unclear", "identifier": seen, "say": "Ask the caller to repeat it, slowly."}
+        seen = ctx.entity(factor, a.id_type)
+        hi = (s.reply_language or "").startswith(("hi", "mr"))
+        return {"status": "unclear", "identifier": seen,
+                "say": (f"Say exactly this and wait: {what[0]} ठीक से समझ नहीं आया, एक-एक करके धीरे से दोबारा बता दीजिए।"
+                        if hi else f"Say exactly this and wait: Sorry, I didn't catch your {what[1]}. "
+                                   "Could you say it again slowly, one digit at a time?")}
+    if factor.confidence != HIGH and not a.confirmed:
+        # Not sure we heard it right: the caller confirms before anything is checked or sent.
+        ctx.entity(factor, a.id_type)
+        spoken = factor.candidates[0].label if factor.candidates else factor.value
+        return {"status": "confirm_first", "read_back": spoken,
+                "say": f"Read this back to the caller and ask if it is right: {spoken}. If they say yes, call "
+                       "verify_customer again with the same words and confirmed=true. If no, ask them to say it again."}
     if a.id_type == "loan_id":
         loan = ctx.store.loans.get(factor.value)
         pool = [ctx.store.customers[loan["customer_id"]]] if loan else []
     else:
         pool = ctx.store.customers_with(a.id_type, factor.value)
+    # An exact match against the records confirms what was heard: no read-back needed.
+    # (Shown only to this caller's own panel; the reply to the model doesn't say whether it matched.)
+    note = "Confirmed by the caller. " if a.confirmed and factor.confidence != HIGH else ""
+    ctx.entity(factor, a.id_type, checked=note + ("Matches a customer record" if pool else "No customer record has this"),
+               action="accept" if (pool or a.confirmed) else None)
     match = resolve.name(a.name_spoken, [(c["customer_id"], c["full_name"]) for c in pool]) if pool else None
     if match is not None:
         ctx.session.emit("entity", field="name", **{**match.to_dict(), "candidates": []})   # never show other customers

@@ -258,3 +258,22 @@ def test_staff_login_without_a_pin_asks_for_it_and_counts_no_failure(store, sett
     s = new_session("staff")
     r = run(T.ToolContext(s, store, settings), "verify_staff", employee_id_spoken="E. 1008", pin_spoken="?")
     assert r["status"] == "need_pin" and s.verify_failures == 0
+
+
+def test_an_unsure_identifier_is_read_back_before_anything_is_checked(store, settings):
+    # From a live call: the panel said "read back" but the OTP went out without one.
+    s = new_session()
+    ctx = T.ToolContext(s, store, settings)
+    said = "six two one nine jero nine jero five eight one"            # "jero" is a fuzzy zero
+    r = run(ctx, "verify_customer", name_spoken="Sultan Meena", id_type="phone", id_spoken=said)
+    assert r["status"] == "confirm_first" and r["read_back"] == "6 2 1 9 0 9 0 5 8 1"
+    assert s.otp_hash is None and s.verify_failures == 0
+    r = run(ctx, "verify_customer", name_spoken="Sultan Meena", id_type="phone", id_spoken=said, confirmed=True)
+    assert r["status"] == "otp_sent"
+
+
+def test_common_stt_spellings_of_digits_are_certain():
+    from identify import ids
+    for said in ["92, 97, 73. 8 4. छः सात", "naw do naw saat saat teen aath chaar chhah saat"]:
+        r = ids.phone(said, "hi")
+        assert (r.value, r.confidence) == ("9297738467", "high"), said

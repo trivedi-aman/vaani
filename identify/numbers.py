@@ -35,10 +35,10 @@ _HI = """
 3 teen tin
 4 chaar char
 5 paanch panch
-6 chhah chhe chah che chheh
+6 chhah chhe chah che chheh chha chhai
 7 saat sat
 8 aath ath
-9 nau
+9 nau nao naw nav
 10 das dus
 11 gyaarah gyarah gyara
 12 baarah barah bara
