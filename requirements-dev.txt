@@ -1,4 +1,6 @@
 -r requirements.txt
+# lets boto3 use credentials from `aws login` (the AWS CLI's browser sign-in) on your laptop
+botocore[crt]==1.43.114
 pytest==9.1.1
 pytest-asyncio==1.4.0
 httpx==0.28.1

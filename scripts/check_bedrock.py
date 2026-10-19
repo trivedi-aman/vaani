@@ -19,7 +19,9 @@ def main() -> int:
     except Exception as e:  # report every failure in plain words
         name, text = type(e).__name__, str(e)
         print(f"\nFailed: {name}: {text[:300]}")
-        if "ProfileNotFound" in name or "could not be found" in text:
+        if "login credential provider" in text:
+            print('Fix: your AWS profile uses `aws login`. Run: pip install "botocore[crt]==1.43.114"')
+        elif "ProfileNotFound" in name or "could not be found" in text:
             print("Fix: run `aws configure --profile <name>` and set AWS_PROFILE to that name in .env.")
         elif "NoCredentials" in name or "Unable to locate credentials" in text:
             print("Fix: set AWS_PROFILE in .env, or run `aws configure`.")
