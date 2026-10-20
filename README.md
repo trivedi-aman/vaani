@@ -205,8 +205,6 @@ customer "Raman Patel").
 
 ## Known gaps
 
-- Not yet tested with live Bedrock and Sarvam keys, or with real recordings
-  of callers. The voice pipeline is built and wired, but not heard end to end.
 - The Marathi number words need checking by a native speaker.
 - One server process: sessions, rate limits and call-created records live in
   memory. More than one instance would need Redis and a database behind the
