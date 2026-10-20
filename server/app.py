@@ -3,7 +3,8 @@ The web server: call sessions, WebRTC signalling, text mode, the live event
 stream, scenarios, and the built frontend.
 
 Security and cost controls, all on by default:
-  - optional access code for starting calls (required in production)
+  - sign-in with a user ID and password from server/users.py; every API call
+    needs it, and each call belongs to the user who started it
   - per-call bearer tokens; the WebRTC peer is bound to the call that created it
   - rate limits per IP and per call, caps on open calls, concurrent voice
     calls, and a daily call budget
@@ -13,7 +14,6 @@ Security and cost controls, all on by default:
 """
 import asyncio
 import contextlib
-import hmac
 import logging
 from contextlib import asynccontextmanager
 from typing import Any
@@ -21,7 +21,7 @@ from urllib.parse import urlsplit
 
 import yaml
 from fastapi import FastAPI, HTTPException, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from pydantic import BaseModel, Field
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
@@ -32,13 +32,20 @@ from core.session import CallSession, SessionError, SessionManager
 from core.store import Store
 
 from . import logs
+from .auth import COOKIE, LoginSessions
 from .ratelimit import DailyBudget, SlidingWindow
+from .users import USERS, verify
 
 log = logging.getLogger("vaani.server")
 WEB_DIST = ROOT / "web" / "dist"
 
 
 # ---- request bodies --------------------------------------------------------------
+
+class Login(BaseModel):
+    user_id: str = Field(..., min_length=1, max_length=40)
+    password: str = Field(..., min_length=1, max_length=200)
+
 
 class NewCall(BaseModel):
     line: str = Field(..., pattern="^(customer|staff)$")
@@ -70,12 +77,16 @@ class CandidatePatch(BaseModel):
 
 # ---- the app -----------------------------------------------------------------------
 
-def create_app(settings: Settings | None = None, model: Any = None, store: Store | None = None) -> FastAPI:
-    """`model` and `store` are injectable so tests run without AWS."""
+def create_app(settings: Settings | None = None, model: Any = None, store: Store | None = None,
+               users: dict[str, str] | None = None) -> FastAPI:
+    """`model`, `store` and `users` are injectable so tests run without AWS or real accounts."""
     settings = settings or get_settings()
+    users = USERS if users is None else users
     logs.configure(settings.log_level)
     if settings.production:
         problems = settings.check_production()
+        if not users:
+            problems.append("add at least one user to server/users.py (python -m server.users <user_id>)")
         if problems:
             raise RuntimeError("Refusing to start in production: " + "; ".join(problems))
     audit.configure(settings.var_dir)
@@ -90,7 +101,9 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
 
     per_ip = SlidingWindow(settings.requests_per_minute_per_ip, 60)
     new_calls = SlidingWindow(settings.calls_per_ip_per_hour, 3600)
-    code_failures = SlidingWindow(settings.access_code_attempts_per_15min, 900)
+    login_failures_ip = SlidingWindow(settings.login_failures_per_15min, 900)
+    login_failures_user = SlidingWindow(settings.login_failures_per_15min * 3, 900)   # guesses spread over many IPs
+    logins = LoginSessions(settings.login_ttl_seconds)
     event_streams = SlidingWindow(30, 60)       # WebSocket opens per IP; the HTTP limit doesn't cover them
     text_turns = SlidingWindow(settings.text_turns_per_minute, 60)
     offers = SlidingWindow(10, 60)
@@ -148,24 +161,24 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
         if wait is not None:
             raise SessionError(429, f"Too many {what}. Please wait {wait} seconds.", wait)
 
+    def current_user(request: Request | WebSocket) -> str | None:
+        return logins.user(request.cookies.get(COOKIE), users)
+
+    def require_user(request: Request) -> str:
+        user = current_user(request)
+        if user is None:
+            raise SessionError(401, "Please sign in.")
+        return user
+
     def call_for(request: Request, call_id: str) -> CallSession:
+        """The call, if the bearer token is right and it belongs to the signed-in user."""
+        user = require_user(request)
         auth = request.headers.get("authorization", "")
         token = auth[7:] if auth.lower().startswith("bearer ") else None
-        return sessions.authenticate(call_id, token)
-
-    def check_access_code(request: Request) -> None:
-        """Only wrong codes count towards the limit, so testers with the right one are never locked out."""
-        if settings.access_code is None:
-            return
-        ip = client_ip(request)
-        wait = code_failures.blocked(ip)
-        if wait is not None:
-            raise SessionError(429, f"Too many wrong access codes. Please wait {wait} seconds.", wait)
-        given = request.headers.get("x-access-code", "")
-        if not hmac.compare_digest(given.encode(), settings.access_code.get_secret_value().encode()):
-            if given:                                   # no code at all is a first visit, not a guess
-                code_failures.hit(ip)
-            raise SessionError(403, "Access code required.")
+        session = sessions.authenticate(call_id, token)
+        if session.owner != user:
+            raise SessionError(401, "Call not found or already ended.")
+        return session
 
     async def end_call(session: CallSession, reason: str) -> None:
         sessions.end(session, reason)
@@ -218,34 +231,60 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
     async def health():
         return {"ok": True}
 
+    @app.post("/api/login")
+    async def login(body: Login, request: Request, response: Response):
+        """Only wrong passwords count towards the limits, so someone with the right one is never locked out."""
+        ip, uid = client_ip(request), body.user_id.strip().lower()
+        wait = login_failures_ip.blocked(ip) or login_failures_user.blocked(uid)
+        if wait is not None:
+            raise SessionError(429, f"Too many failed sign-ins. Please wait {wait} seconds.", wait)
+        user = await asyncio.to_thread(verify, users, uid, body.password)     # slow hash: keep the loop free
+        if user is None:
+            login_failures_ip.hit(ip)
+            login_failures_user.hit(uid)
+            audit.record("-", "-", None, "login", {"user_id": uid}, "denied")
+            raise SessionError(401, "Wrong user ID or password.")
+        logins.revoke(request.cookies.get(COOKIE))
+        response.set_cookie(COOKIE, logins.create(user), max_age=settings.login_ttl_seconds, path="/",
+                            httponly=True, samesite="strict", secure=settings.production)
+        audit.record("-", "-", user, "login", {"user_id": user}, "ok")
+        return {"user": user}
+
+    @app.post("/api/logout")
+    async def logout(request: Request, response: Response):
+        logins.revoke(request.cookies.get(COOKIE))
+        response.delete_cookie(COOKIE, path="/", httponly=True, samesite="strict", secure=settings.production)
+        return {"signed_in": False}
+
     @app.get("/api/config")
     async def config(request: Request):
-        # Without the code a visitor learns only that one is needed.
-        if settings.access_code is not None and not request.headers.get("x-access-code"):
-            return {"access_code_required": True}
-        check_access_code(request)
-        return {"access_code_required": settings.access_code is not None, "voice_available": settings.voice_available,
+        # Before sign-in a visitor learns nothing about the server.
+        user = current_user(request)
+        if user is None:
+            return {"signed_in": False}
+        return {"signed_in": True, "user": user, "voice_available": settings.voice_available,
                 "demo_today": settings.demo_today.isoformat(), "max_call_seconds": settings.call_max_seconds,
                 "max_text_chars": settings.max_text_chars, "ice_servers": [{"urls": settings.stun_url}]}
 
     @app.get("/api/scenarios")
     async def list_scenarios(request: Request):
-        check_access_code(request)
+        require_user(request)
         return {"scenarios": scenarios}
 
     # ---- calls ---------------------------------------------------------------------
 
     @app.post("/api/calls")
     async def create_call(body: NewCall, request: Request):
-        check_access_code(request)
+        user = require_user(request)
         ip = client_ip(request)
         limited(new_calls, ip, "new calls from your network this hour")
         if not budget.take():
             raise SessionError(503, "Today's demo call budget is used up. Please try again tomorrow.")
         session, token = sessions.create(body.line, ip, body.scenario_id)
+        session.owner = user
         session.emit("call", status="created", line=body.line)
         agent.greet(session)
-        audit.record(session.id, session.line, None, "call_created", {"scenario": body.scenario_id}, "ok")
+        audit.record(session.id, session.line, None, "call_created", {"scenario": body.scenario_id, "by": user}, "ok")
         return {"call_id": session.id, "token": token, "line": session.line}
 
     @app.post("/api/calls/{call_id}/turn")
@@ -278,7 +317,7 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
         if origin and "*" not in settings.hosts and urlsplit(origin).hostname not in settings.hosts:
             await ws.close(code=1008)
             return
-        if event_streams.hit(client_ip(ws)) is not None:
+        if event_streams.hit(client_ip(ws)) is not None or (user := current_user(ws)) is None:
             await ws.close(code=1008)
             return
         await ws.accept()
@@ -286,7 +325,9 @@ def create_app(settings: Settings | None = None, model: Any = None, store: Store
             # The token comes in the first message, not the URL, so it never lands in access logs.
             first = await asyncio.wait_for(ws.receive_json(), timeout=5)
             session = sessions.authenticate(call_id, str(first.get("token", ""))[:100])
-        except Exception:                               # bad JSON, timeout, wrong token
+            if session.owner != user:
+                raise SessionError(401, "not this user's call")
+        except Exception:                               # bad JSON, timeout, wrong token, someone else's call
             await ws.close(code=4401)
             return
         queue = session.subscribe()

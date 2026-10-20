@@ -1,18 +1,80 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { accessCode, api, ApiError, streamEvents, type CallHandle } from "./api";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import { api, ApiError, streamEvents, whenSignedOut, type CallHandle } from "./api";
 import { Inside } from "./components/Inside";
 import { Phone, type Bubble, type Mode, type Phase } from "./components/Phone";
 import { ScenarioDrawer } from "./components/ScenarioDrawer";
 import { spokenDigits } from "./score";
-import type { CallEvent, Config, Line, Scenario } from "./types";
+import type { CallEvent, Line, Scenario, SignedInConfig } from "./types";
 import type { VoiceCall } from "./voice";
 
 type View = "scenario" | "phone" | "inside";
 
+const RELOADED_KEY = "vaani-reloaded-for-new-build";
+
+/**
+ * The WebRTC client loads only for voice calls. If a new build was deployed
+ * while this tab was open, the old file name is gone: reload once to pick up
+ * the new build instead of failing the call.
+ */
+async function loadVoice() {
+  try {
+    const mod = await import("./voice");
+    sessionStorage.removeItem(RELOADED_KEY);
+    return mod;
+  } catch (e) {
+    if (!sessionStorage.getItem(RELOADED_KEY)) {
+      sessionStorage.setItem(RELOADED_KEY, "1");
+      location.reload();
+      return new Promise<never>(() => undefined);      // the page is going away
+    }
+    throw e;
+  }
+}
+
+const THEME_KEY = "vaani-theme";
+type Theme = "light" | "dark";
+
+function storedTheme(): Theme | null {
+  try {
+    const t = localStorage.getItem(THEME_KEY);
+    return t === "light" || t === "dark" ? t : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Light, dark, or (until the viewer picks) whatever the system prefers. */
+function useTheme(): [Theme, () => void] {
+  const system = () => (window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const [chosen, setChosen] = useState<Theme | null>(storedTheme);
+  const current = chosen ?? system();
+  useEffect(() => {
+    if (chosen) document.documentElement.dataset.theme = chosen;
+    else delete document.documentElement.dataset.theme;
+  }, [chosen]);
+  const toggle = () => {
+    const next: Theme = current === "dark" ? "light" : "dark";
+    setChosen(next);
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch {
+      /* private window: the choice lasts for this page only */
+    }
+  };
+  return [current, toggle];
+}
+
+function ThemeToggle({ theme, onToggle }: { theme: Theme; onToggle: () => void }) {
+  const next = theme === "dark" ? "light" : "dark";
+  return (
+    <button className="theme-toggle" onClick={onToggle} aria-label={`Switch to ${next} theme`}>{next}</button>
+  );
+}
+
 export function App() {
-  const [config, setConfig] = useState<Config | null>(null);
-  const [needCode, setNeedCode] = useState(false);
-  const [codeRejected, setCodeRejected] = useState("");
+  const [theme, toggleTheme] = useTheme();
+  const [config, setConfig] = useState<SignedInConfig | null>(null);
+  const [signedOut, setSignedOut] = useState(false);
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [scenario, setScenario] = useState<Scenario | null>(null);
   const [loadError, setLoadError] = useState("");
@@ -37,27 +99,26 @@ export function App() {
   const load = useCallback(async () => {
     try {
       const cfg = await api.config();
-      if (cfg.access_code_required && !accessCode.get()) {
-        setNeedCode(true);
+      if (!cfg.signed_in) {
+        setSignedOut(true);
         return;
       }
-      setConfig(cfg);                                   // the full config comes only with a valid code
+      setConfig(cfg);
       setScenarios(await api.scenarios());
-      setNeedCode(false);
-      setCodeRejected("");
+      setSignedOut(false);
+      setLoadError("");
     } catch (e) {
-      if (e instanceof ApiError && (e.status === 403 || e.status === 429)) {
-        const tried = !!accessCode.get();
-        accessCode.clear();
-        setNeedCode(true);
-        setCodeRejected(e.status === 429 ? e.message : tried ? "That code was not accepted. Check it and try again." : "");
-      } else {
+      if (!(e instanceof ApiError && e.status === 401)) {
         setLoadError(e instanceof Error ? e.message : "Could not reach the server.");
       }
     }
   }, []);
 
   useEffect(() => {
+    whenSignedOut(() => {
+      setSignedOut(true);
+      setConfig(null);
+    });
     void load();
   }, [load]);
 
@@ -89,12 +150,13 @@ export function App() {
     setMode(m);
     setPhase("connecting");
     try {
+      // Load the voice code before starting the call, so a reload for a new build leaves no call open.
+      const voiceModule = m === "voice" ? await loadVoice() : null;
       const handle = await api.startCall(l, scenario?.line === l ? scenario.id : undefined);
       call.current = handle;
       closeStream.current = streamEvents(handle, onEvent, () => undefined);
-      if (m === "voice") {
-        const { startVoice } = await import("./voice");   // the WebRTC client loads only for voice calls
-        voice.current = await startVoice(handle, config?.ice_servers ?? [], {
+      if (voiceModule) {
+        voice.current = await voiceModule.startVoice(handle, config?.ice_servers ?? [], {
           onSpeaking: setSpeaking,
           onEnded: () => setPhase("ended"),
           onError: setStatus,
@@ -105,10 +167,6 @@ export function App() {
       }
     } catch (e) {
       setPhase("ended");
-      if (e instanceof ApiError && e.status === 403) {
-        accessCode.clear();
-        setNeedCode(true);
-      }
       const msg = e instanceof Error ? e.message : String(e);
       setStatus(/permission|NotAllowed/i.test(msg) ? "Microphone access was blocked. Allow it in the browser, or call by typing." : msg);
     }
@@ -162,7 +220,19 @@ export function App() {
     closeStream.current?.();
   }, []);
 
-  if (needCode) return <AccessGate onDone={load} rejected={codeRejected} />;
+  const signOut = async () => {
+    await hangUp().catch(() => undefined);
+    reset();
+    await api.logout().catch(() => undefined);
+    setConfig(null);
+    setSignedOut(true);
+  };
+
+  if (signedOut || !config) {
+    return signedOut
+      ? <SignIn onDone={load} theme={theme} onToggleTheme={toggleTheme} />
+      : <div className="loading" aria-busy="true">{loadError || "Loading…"}</div>;
+  }
 
   const bubbles: Bubble[] = events.flatMap((e) => (e.type === "transcript" ? [{ role: e.role, text: e.text }] : []));
   const quickLines = scenario && line === scenario.line
@@ -170,61 +240,109 @@ export function App() {
     : [];
   const inCall = phase === "connecting" || phase === "incall";
 
+  const demoDate = new Date(config.demo_today).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  const views: [View, string][] = [["scenario", "scenario"], ["phone", "phone"], ["inside", "under the hood"]];
+
   return (
-    <div className="app">
-      <header className="masthead">
-        <div className="brand">
-          <span className="logo" aria-hidden="true">V</span>
-          <div>
-            <h1>Vaani test bench</h1>
-            <p>A voice agent for loan customers and staff that has to get names, dates and numbers right in Indian languages.</p>
+    <>
+      <a className="skip-link" href="#main">Skip to content</a>
+      <header className="site-header">
+        <div className="shell">
+          <a className="wordmark" href="/">Vaani<span className="dot">.</span></a>
+          <div className="header-tools">
+            <span className="signed-in">{config.user}</span>
+            <button className="text-btn" onClick={signOut}>sign out</button>
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </div>
         </div>
-        {config && <p className="demo-date">Demo data is as of {new Date(config.demo_today).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</p>}
       </header>
-      {loadError && <p className="banner" role="alert">{loadError} <button className="link" onClick={() => { setLoadError(""); void load(); }}>Try again</button></p>}
 
-      <nav className="views" aria-label="Sections">
-        {(["scenario", "phone", "inside"] as View[]).map((v) => (
-          <button key={v} aria-current={view === v} onClick={() => setView(v)}>
-            {v === "scenario" ? "Scenario" : v === "phone" ? "Phone" : "Under the hood"}
-          </button>
-        ))}
-      </nav>
+      <main id="main" className="shell" tabIndex={-1}>
+        <section className="intro">
+          <p className="kicker">voice agent / nbfc support / demo data as of {demoDate}</p>
+          <p className="tagline">A voice agent for loan customers and staff that has to get names, dates and numbers right in Indian languages.</p>
+        </section>
+        {loadError && <p className="banner" role="alert">{loadError} <button className="text-btn" onClick={() => { setLoadError(""); void load(); }}>try again</button></p>}
 
-      <main className="bench" data-view={view}>
-        <div className="col col-scenario">
-          <ScenarioDrawer scenarios={scenarios} selected={scenario} onSelect={setScenario} disabled={inCall} />
-        </div>
-        <div className="col col-phone">
-          <Phone
-            phase={phase} line={line} mode={mode} voiceAvailable={!!config?.voice_available} bubbles={bubbles}
-            otp={otp} speaking={speaking} muted={muted} status={status} quickLines={quickLines} busy={busy}
-            maxChars={config?.max_text_chars ?? 500} startedAt={startedAt}
-            onDial={dial} onHangUp={hangUp} onSend={send} onReset={reset} onDismissOtp={() => setOtp(null)}
-            onMute={() => { const m = !muted; setMuted(m); voice.current?.setMuted(m); }}
-          />
-        </div>
-        <div className="col col-inside">
-          <Inside events={events} scenario={scenario} callActive={inCall} />
+        <nav className="views primary-nav" aria-label="Sections">
+          {views.map(([v, label], i) => (
+            <span key={v}>
+              {i > 0 && <span className="sep" aria-hidden="true">·</span>}
+              <button aria-current={view === v ? "page" : undefined} onClick={() => setView(v)}>{label}</button>
+            </span>
+          ))}
+        </nav>
+
+        <div className="bench" data-view={view}>
+          <div className="col col-scenario">
+            <ScenarioDrawer scenarios={scenarios} selected={scenario} onSelect={setScenario} disabled={inCall} />
+          </div>
+          <div className="col col-phone">
+            <Phone
+              phase={phase} line={line} mode={mode} voiceAvailable={config.voice_available} bubbles={bubbles}
+              otp={otp} speaking={speaking} muted={muted} status={status} quickLines={quickLines} busy={busy}
+              maxChars={config.max_text_chars} startedAt={startedAt}
+              onDial={dial} onHangUp={hangUp} onSend={send} onReset={reset} onDismissOtp={() => setOtp(null)}
+              onMute={() => { const m = !muted; setMuted(m); voice.current?.setMuted(m); }}
+            />
+          </div>
+          <div className="col col-inside">
+            <Inside events={events} scenario={scenario} callActive={inCall} />
+          </div>
         </div>
       </main>
-    </div>
+
+      <footer className="site-footer">
+        <div className="shell">
+          <span>Vaani. All names, loans and numbers are invented; nothing here dials a real phone.</span>
+          <span className="foot-links"><a href="https://www.amantrivedi.com">amantrivedi.com</a></span>
+        </div>
+      </footer>
+    </>
   );
 }
 
-function AccessGate({ onDone, rejected }: { onDone: () => void; rejected: string }) {
-  const [code, setCode] = useState("");
+function SignIn({ onDone, theme, onToggleTheme }: { onDone: () => void; theme: Theme; onToggleTheme: () => void }) {
+  const [userId, setUserId] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      await api.login(userId.trim(), password);
+      setPassword("");
+      onDone();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not sign in.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   return (
-    <main className="gate">
-      <h1>Vaani test bench</h1>
-      <p>Enter the access code you were given.</p>
-      <form onSubmit={(e) => { e.preventDefault(); accessCode.set(code.trim()); onDone(); }}>
-        <label className="sr-only" htmlFor="code">Access code</label>
-        <input id="code" value={code} onChange={(e) => setCode(e.target.value)} autoComplete="off" autoFocus />
-        <button type="submit" disabled={!code.trim()}>Continue</button>
-      </form>
-      {rejected && <p className="gate-error" role="alert">{rejected}</p>}
-    </main>
+    <>
+      <div className="signin-tools"><ThemeToggle theme={theme} onToggle={onToggleTheme} /></div>
+      <main className="signin" id="main">
+        <p className="root-mark">Vaani<span className="dot">.</span></p>
+        <p className="root-note">a voice agent for Indian lending / by invitation</p>
+        <form className="signin-form" onSubmit={submit}>
+          <label htmlFor="user-id">user id</label>
+          <input id="user-id" value={userId} onChange={(e) => setUserId(e.target.value)} autoComplete="username"
+                 autoCapitalize="none" spellCheck={false} autoFocus required maxLength={40} />
+          <label htmlFor="password">password</label>
+          <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                 autoComplete="current-password" required maxLength={200} />
+          <button type="submit" className="button-link" disabled={busy || !userId.trim() || !password}>
+            {busy ? "signing in…" : "sign in"}
+          </button>
+          {error && <p className="form-error" role="alert">{error}</p>}
+        </form>
+        <p className="signin-note">Access is by invitation. If you were sent here without an account, ask Aman for one.</p>
+      </main>
+    </>
   );
 }

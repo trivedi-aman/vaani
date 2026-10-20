@@ -11,7 +11,7 @@ from typing import Any
 _PHONE = re.compile(r"(?<!\d)([6-9]\d{5})(\d{4})(?!\d)")
 _ISO_DATE = re.compile(r"\b(19|20)(\d{2})-(\d{2})-(\d{2})\b")
 
-SECRET_KEYS = {"otp", "otp_spoken", "pin", "pin_spoken", "token", "access_code", "code"}
+SECRET_KEYS = {"otp", "otp_spoken", "pin", "pin_spoken", "token", "access_code", "code", "password"}
 PII_KEYS = {"dob", "phone", "id_spoken", "phone_spoken", "dob_spoken"}
 
 

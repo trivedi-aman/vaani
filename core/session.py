@@ -46,6 +46,7 @@ class CallSession:
     writes: int = 0
     voice_active: bool = False
     pc_id: str | None = None                   # the WebRTC peer bound to this call
+    owner: str | None = None                   # the signed-in user who started the call
 
     # customer identity
     customer_id: str | None = None             # set only after the OTP is checked

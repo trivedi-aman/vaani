@@ -650,7 +650,7 @@ footer { margin-top: 5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule
         <h3>The server is closed by default</h3>
         <ul class="plain">
           <li>The app listens only on localhost behind Caddy, and refuses to start in production otherwise.</li>
-          <li>Nothing past the login screen works without the access code; wrong guesses are rate-limited per address.</li>
+          <li>Everyone signs in with a user ID and password; there is no sign-up, and access is granted by invitation. Wrong guesses are rate-limited.</li>
           <li>Each call has its own bearer token, kept out of URLs; the voice connection and event stream are bound to it.</li>
           <li>Strict content security policy and headers, request size limits, no stack traces in responses.</li>
           <li>The container runs read-only, as a non-root user, with every Linux capability dropped.</li>

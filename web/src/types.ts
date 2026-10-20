@@ -1,13 +1,18 @@
 export type Line = "customer" | "staff";
 
-export interface Config {
-  access_code_required: boolean;
-  voice_available: boolean;
-  demo_today: string;
-  max_call_seconds: number;
-  max_text_chars: number;
-  ice_servers: RTCIceServer[];
-}
+/** Before sign-in the server says only `signed_in: false`. */
+export type Config =
+  | { signed_in: false }
+  | {
+      signed_in: true;
+      user: string;
+      voice_available: boolean;
+      demo_today: string;
+      max_call_seconds: number;
+      max_text_chars: number;
+      ice_servers: RTCIceServer[];
+    };
+export type SignedInConfig = Extract<Config, { signed_in: true }>;
 
 export interface Persona {
   customer_id?: string;

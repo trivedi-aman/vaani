@@ -62,7 +62,7 @@ function StatusBar() {
   return (
     <div className="statusbar" aria-hidden="true">
       <span>{now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
-      <span>Demo network</span>
+      <span>demo network</span>
     </div>
   );
 }
@@ -71,7 +71,7 @@ function Dialer({ voiceAvailable, onDial }: Props) {
   const [mode, setMode] = useState<"voice" | "text">(voiceAvailable ? "voice" : "text");
   return (
     <div className="dialer">
-      <h2>Contacts</h2>
+      <h2>contacts</h2>
       <ul className="contacts">
         {CONTACTS.map((c) => (
           <li key={c.line}>
@@ -80,20 +80,20 @@ function Dialer({ voiceAvailable, onDial }: Props) {
               <span className="contact-note">{c.note}</span>
             </div>
             <button className="dial" onClick={() => onDial(c.line, mode)} aria-label={`Call ${c.name}`}>
-              Call
+              call
             </button>
           </li>
         ))}
       </ul>
       <fieldset className="mode">
-        <legend>Talk by</legend>
+        <legend>talk by</legend>
         <label>
           <input type="radio" name="mode" checked={mode === "voice"} disabled={!voiceAvailable} onChange={() => setMode("voice")} />
-          Voice
+          voice
         </label>
         <label>
           <input type="radio" name="mode" checked={mode === "text"} onChange={() => setMode("text")} />
-          Typing
+          typing
         </label>
       </fieldset>
       {!voiceAvailable && <p className="hint">Voice is switched off on this server, so calls use typing.</p>}
@@ -127,14 +127,14 @@ function InCall(props: Props) {
       {status && <p className="phone-status" role="status">{status}</p>}
       {phase === "ended" ? (
         <div className="call-actions">
-          <button className="secondary" onClick={props.onReset}>Back to contacts</button>
+          <button className="secondary" onClick={props.onReset}>back to contacts</button>
         </div>
       ) : mode === "text" ? (
         <Composer {...props} />
       ) : (
         <div className="call-actions">
-          <button className="secondary" onClick={props.onMute} aria-pressed={muted}>{muted ? "Unmute" : "Mute"}</button>
-          <button className="hangup" onClick={props.onHangUp}>End call</button>
+          <button className="secondary" onClick={props.onMute} aria-pressed={muted}>{muted ? "unmute" : "mute"}</button>
+          <button className="hangup" onClick={props.onHangUp}>end call</button>
         </div>
       )}
     </div>
@@ -163,9 +163,9 @@ function Composer({ onSend, onHangUp, busy, quickLines, maxChars, phase }: Props
         <label className="sr-only" htmlFor="say">What you say</label>
         <input id="say" value={text} maxLength={maxChars} onChange={(e) => setText(e.target.value)}
                placeholder={busy ? "Vaani is answering…" : "Type what you would say"} disabled={phase !== "incall"} autoComplete="off" />
-        <button type="submit" disabled={busy || !text.trim()}>Say</button>
+        <button type="submit" disabled={busy || !text.trim()}>say</button>
       </form>
-      <button className="hangup small" onClick={onHangUp}>End call</button>
+      <button className="hangup small" onClick={onHangUp}>end call</button>
     </div>
   );
 }

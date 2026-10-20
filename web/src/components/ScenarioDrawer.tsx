@@ -29,14 +29,14 @@ export function ScenarioDrawer({ scenarios, selected, onSelect, disabled }: Prop
       <div className="segmented" role="tablist" aria-label="Line">
         {(["customer", "staff"] as Line[]).map((l) => (
           <button key={l} role="tab" aria-selected={line === l} onClick={() => setLine(l)}>
-            {l === "customer" ? "Customer care" : "Staff helpdesk"}
+            {l === "customer" ? "customer care" : "staff helpdesk"}
           </button>
         ))}
       </div>
       <label className="field-inline">
-        Language
+        language
         <select value={language} onChange={(e) => setLanguage(e.target.value)}>
-          <option value="all">All</option>
+          <option value="all">all</option>
           {languages.map((l) => (
             <option key={l} value={l}>{LANGUAGE_NAMES[l] ?? l}</option>
           ))}
@@ -67,7 +67,7 @@ function Persona({ scenario, onBack, disabled }: { scenario: Scenario; onBack: (
     : [["Name", p.name], ["Employee ID", p.employee_id], ["PIN", p.pin], ["Role", p.role]];
   return (
     <section className="drawer" aria-label="Your identity">
-      <button className="link" onClick={onBack} disabled={disabled}>All scenarios</button>
+      <button className="link" onClick={onBack} disabled={disabled}>← all scenarios</button>
       <h2>{scenario.title}</h2>
       <p className="goal">{scenario.goal}</p>
       <dl className="id-card">

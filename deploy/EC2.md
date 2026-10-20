@@ -68,7 +68,6 @@ In `.env` set at least:
 ```
 ENVIRONMENT=production
 ALLOWED_HOSTS=13-234-56-78.sslip.io        # your Elastic IP with dashes
-ACCESS_CODE=<a long random code you give the interviewer>
 AWS_REGION=ap-south-1
 SARVAM_API_KEY=<your key>
 ```
@@ -80,7 +79,12 @@ DOMAIN=13-234-56-78.sslip.io docker compose up -d --build
 docker compose logs -f vaani      # "Vaani started (production); voice on"
 ```
 
-Open `https://13-234-56-78.sslip.io`, enter the access code, and make a call.
+Before the first start, give yourself (and anyone you invite) a sign-in. On your
+laptop, run `python -m server.users <user_id>` for each person, paste the printed
+lines into `USERS` in `server/users.py`, commit and pull on the server. The hashes
+are safe to commit; the passwords never leave your laptop.
+
+Open `https://13-234-56-78.sslip.io`, sign in, and make a call.
 
 ## 5. Day to day
 
@@ -97,7 +101,7 @@ Open `https://13-234-56-78.sslip.io`, enter the access code, and make a call.
 
 | Limit | Default | Setting |
 | --- | --- | --- |
-| Access code for every new call | required in production | `ACCESS_CODE` |
+| Sign-in for everything | required in production | `server/users.py` |
 | Voice calls at the same time | 3 | `MAX_CONCURRENT_VOICE_CALLS` |
 | New calls per network per hour | 12 | `CALLS_PER_IP_PER_HOUR` |
 | Calls per day, everyone together | 150 | `DAILY_CALL_BUDGET` |

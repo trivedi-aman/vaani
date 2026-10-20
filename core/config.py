@@ -30,8 +30,8 @@ class Settings(BaseSettings):
     trust_proxy: bool = False
 
     # --- access ---------------------------------------------------------------
-    # When set, every new call needs this code. Share it only with testers.
-    access_code: SecretStr | None = None
+    # Who may sign in is decided in server/users.py, not here.
+    login_ttl_seconds: int = 43_200            # a sign-in lasts 12 hours (or until the server restarts)
 
     # --- LLM: Amazon Nova on Bedrock -----------------------------------------
     # A named profile from ~/.aws/credentials (local testing). Leave empty on
@@ -67,7 +67,7 @@ class Settings(BaseSettings):
     daily_call_budget: int = 150              # across everyone; resets at midnight UTC
     text_turns_per_minute: int = 20           # per call
     requests_per_minute_per_ip: int = 120
-    access_code_attempts_per_15min: int = 8
+    login_failures_per_15min: int = 8         # per IP; three times this per user ID
     call_max_seconds: int = 600
     call_idle_seconds: int = 90
     session_ttl_seconds: int = 1800
@@ -82,7 +82,7 @@ class Settings(BaseSettings):
     # The demo data is consistent with this date ("next EMI", "last month"...).
     demo_today: date = date(2026, 10, 18)
 
-    @field_validator("access_code", "sarvam_api_key", "aws_profile", "assistant_gender", "turn_url", "turn_username", "turn_password", mode="before")
+    @field_validator("sarvam_api_key", "aws_profile", "assistant_gender", "turn_url", "turn_username", "turn_password", mode="before")
     @classmethod
     def _blank_is_unset(cls, v):
         return None if isinstance(v, str) and not v.strip() else v
@@ -118,8 +118,6 @@ class Settings(BaseSettings):
         problems = []
         if "*" in self.hosts:
             problems.append("ALLOWED_HOSTS must list real host names, not *")
-        if self.access_code is None or len(self.access_code.get_secret_value()) < 8:
-            problems.append("ACCESS_CODE must be set (8+ characters) so strangers cannot run up your API bills")
         if self.host not in ("127.0.0.1", "localhost", "::1"):
             problems.append("HOST must be 127.0.0.1 so only the reverse proxy (Caddy) can reach the app")
         if not self.trust_proxy:

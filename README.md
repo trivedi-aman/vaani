@@ -31,6 +31,7 @@ this project), set `AWS_PROFILE=vaani` in `.env`, then check access with
 python -m venv .venv && . .venv/bin/activate
 pip install -r requirements-dev.txt
 cp .env.example .env              # add SARVAM_API_KEY for voice; leave it empty for typing-only
+python -m server.users yourname   # make a sign-in; paste the printed line into server/users.py
 cd web && npm ci && npm run build && cd ..
 python -m server                  # http://localhost:7860
 ```
@@ -44,7 +45,9 @@ instance, Docker, Caddy for HTTPS on a free `sslip.io` hostname.
 
 For a written overview of the system and the name matcher, see
 [docs/vaani-overview.html](docs/vaani-overview.html) (also as
-[a Word document](docs/vaani-overview.docx)).
+[a Word document](docs/vaani-overview.docx)). For the technical side
+(architecture, backend, agent, voice, data, frontend, security, deployment),
+see [tech-readme.md](tech-readme.md).
 
 ## How it works
 
@@ -115,12 +118,16 @@ from ever being spoken to a customer.
 
 All on by default. Settings are in `.env.example`.
 
-- **Access:** an access code is needed for everything past the login screen;
-  only wrong codes count towards the attempt limit. Production refuses to
-  start without one (8+ characters), without real host names, or unless the
-  app listens only on localhost behind the proxy (`HOST=127.0.0.1`,
-  `TRUST_PROXY=true`). Caddy also blocks `/healthz` and the API docs from
-  outside.
+- **Access:** everyone signs in with a user ID and password. There is no
+  sign-up: you give people access by adding them to
+  [server/users.py](server/users.py) (passwords stored as salted PBKDF2
+  hashes; `python -m server.users <user_id>` makes the line). The sign-in is
+  an HttpOnly, SameSite=Strict cookie; each call belongs to the user who
+  started it. Only wrong passwords count towards the limit (per IP and per
+  user ID). Production refuses to start without users, without real host
+  names, or unless the app listens only on localhost behind the proxy
+  (`HOST=127.0.0.1`, `TRUST_PROXY=true`). Caddy also blocks `/healthz` and
+  the API docs from outside.
 - **Per-call tokens:** each call gets a random bearer token. The WebRTC
   connection, its ICE updates and the event stream are bound to the call
   that created them. The event stream refuses other sites' pages and is
@@ -130,7 +137,7 @@ All on by default. Settings are in `.env.example`.
   At most 3 OTPs are sent per call. Failure messages never say which detail
   was wrong.
 - **Rate limits:** requests per IP, new calls per IP per hour, open calls per
-  IP, access-code attempts, typed messages per call, WebRTC offers. There
+  IP, failed sign-ins, typed messages per call, WebRTC offers. There
   is also a daily call budget for everyone.
 - **Cost caps:** concurrent voice calls (also keeps within Sarvam limits),
   call length, silence timeout, turns per call, agent steps per turn,

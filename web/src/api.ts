@@ -1,28 +1,28 @@
 import type { CallEvent, Config, Line, Scenario } from "./types";
 
-const CODE_KEY = "vaani-access-code";
-
 export class ApiError extends Error {
   constructor(public status: number, message: string) {
     super(message);
   }
 }
 
-export const accessCode = {
-  get: () => sessionStorage.getItem(CODE_KEY) ?? "",
-  set: (code: string) => sessionStorage.setItem(CODE_KEY, code),
-  clear: () => sessionStorage.removeItem(CODE_KEY),
-};
+/** Called when the server says the sign-in is gone (expired, signed out, or access removed). */
+let onSignedOut: () => void = () => undefined;
+export function whenSignedOut(fn: () => void) {
+  onSignedOut = fn;
+}
 
+// The sign-in lives in an HttpOnly cookie the browser sends by itself; scripts never see it.
 async function request<T>(path: string, init: RequestInit = {}, token?: string): Promise<T> {
   const headers = new Headers(init.headers);
   headers.set("Content-Type", "application/json");
-  const code = accessCode.get();
-  if (code) headers.set("X-Access-Code", code);
   if (token) headers.set("Authorization", `Bearer ${token}`);
-  const res = await fetch(path, { ...init, headers });
+  const res = await fetch(path, { ...init, headers, credentials: "same-origin" });
   const body = await res.json().catch(() => ({}));
-  if (!res.ok) throw new ApiError(res.status, body.error ?? `Request failed (${res.status})`);
+  if (!res.ok) {
+    if (res.status === 401 && path !== "/api/login") onSignedOut();
+    throw new ApiError(res.status, body.error ?? `Request failed (${res.status})`);
+  }
   return body as T;
 }
 
@@ -34,6 +34,9 @@ export interface CallHandle {
 
 export const api = {
   config: () => request<Config>("/api/config"),
+  login: (userId: string, password: string) =>
+    request<{ user: string }>("/api/login", { method: "POST", body: JSON.stringify({ user_id: userId, password }) }),
+  logout: () => request("/api/logout", { method: "POST" }),
   scenarios: () => request<{ scenarios: Scenario[] }>("/api/scenarios").then((r) => r.scenarios),
   startCall: (line: Line, scenarioId?: string) =>
     request<CallHandle>("/api/calls", { method: "POST", body: JSON.stringify({ line, scenario_id: scenarioId ?? null }) }),
