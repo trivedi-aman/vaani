@@ -13,6 +13,7 @@ line for someone with:
 
 It asks for the password (without showing it) and prints the line to paste.
 """
+
 import getpass
 import hashlib
 import hmac
@@ -25,13 +26,17 @@ USER_ID = re.compile(r"^[a-z0-9._-]{3,40}$")
 
 # user_id -> password hash. Lowercase user IDs: 3-40 letters, digits, . _ -
 USERS: dict[str, str] = {
-    # "interviewer": "pbkdf2_sha256$600000$<salt>$<hash>",
+    "aman": "pbkdf2_sha256$600000$4bd19a2067435862451beeec6fef4b4e$a135d494ec2513a880ea798ea3691a7ae6696ff11f36d424fd03276a281bb983"
 }
 
 
-def hash_password(password: str, salt: str | None = None, iterations: int = ITERATIONS) -> str:
+def hash_password(
+    password: str, salt: str | None = None, iterations: int = ITERATIONS
+) -> str:
     salt = salt or secrets.token_hex(16)
-    digest = hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), iterations).hex()
+    digest = hashlib.pbkdf2_hmac(
+        "sha256", password.encode(), salt.encode(), iterations
+    ).hex()
     return f"pbkdf2_sha256${iterations}${salt}${digest}"
 
 
@@ -60,7 +65,9 @@ def verify(users: dict[str, str], user_id: str, password: str) -> str | None:
 
 def main() -> None:
     if len(sys.argv) != 2 or not USER_ID.match(sys.argv[1].lower()):
-        sys.exit("usage: python -m server.users <user_id>   (3-40 characters: a-z 0-9 . _ -)")
+        sys.exit(
+            "usage: python -m server.users <user_id>   (3-40 characters: a-z 0-9 . _ -)"
+        )
     uid = sys.argv[1].lower()
     password = getpass.getpass(f"Password for {uid}: ")
     if len(password) < 10:

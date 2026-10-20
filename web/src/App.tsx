@@ -341,7 +341,7 @@ function SignIn({ onDone, theme, onToggleTheme }: { onDone: () => void; theme: T
           </button>
           {error && <p className="form-error" role="alert">{error}</p>}
         </form>
-        <p className="signin-note">Access is by invitation. If you were sent here without an account, ask Aman for one.</p>
+        <p className="signin-note">Access is by invitation. If you were sent here without an account, mail hey@amantrivedi.com.</p>
       </main>
     </>
   );
