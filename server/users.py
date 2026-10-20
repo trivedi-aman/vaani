@@ -26,7 +26,8 @@ USER_ID = re.compile(r"^[a-z0-9._-]{3,40}$")
 
 # user_id -> password hash. Lowercase user IDs: 3-40 letters, digits, . _ -
 USERS: dict[str, str] = {
-    "aman": "pbkdf2_sha256$600000$4bd19a2067435862451beeec6fef4b4e$a135d494ec2513a880ea798ea3691a7ae6696ff11f36d424fd03276a281bb983"
+    "aman": "pbkdf2_sha256$600000$4bd19a2067435862451beeec6fef4b4e$a135d494ec2513a880ea798ea3691a7ae6696ff11f36d424fd03276a281bb983",
+    "demo": "pbkdf2_sha256$600000$e78565eb529f4ff0bb06ac2bdf06d743$0ae2ccdefe269b9ff42bbd5d78cb91389f60b0252f8477cfdab3a44e6b11f45b",
 }
 
 
