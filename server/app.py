@@ -437,8 +437,13 @@ def _load_scenarios() -> list[dict]:
 def _security_headers(response, settings: Settings) -> None:
     h = response.headers
     h["Content-Security-Policy"] = (
-        "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; "
-        "media-src 'self' blob: mediastream:; connect-src 'self'; font-src 'self'; object-src 'none'; "
+                # The WebRTC transport gets the microphone through daily-js, which downloads its
+        # call-machine bundle from Daily's CDN and runs it with Function(): hence the
+        # three Daily hosts and 'unsafe-eval'. Nothing else is allowed off-site.
+        "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self'; img-src 'self' data:; "
+        "media-src 'self' blob: mediastream:; "
+        "connect-src 'self' https://c.daily.co https://c.dailywebrtc.com https://c.dailywebrtc.net; "
+        "font-src 'self'; object-src 'none'; "
         "base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
     )
     h["X-Content-Type-Options"] = "nosniff"
